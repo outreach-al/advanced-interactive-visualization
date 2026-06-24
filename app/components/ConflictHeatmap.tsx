@@ -1,36 +1,37 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { interpolateLab } from 'd3';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { regionColor } from '../lib/palette';
+import { conflictColor as color, type ConflictFile } from '../lib/conflict';
 import { Tooltip, type TooltipData } from './Tooltip';
 
-interface ConflictCountry {
-  iso3: string;
-  country: string;
-  region: string;
-  scores: Record<string, number>;
-  latest: number;
-  delta: number;
-}
-interface ConflictFile {
-  years: number[];
-  countries: ConflictCountry[];
-}
+const LABEL_W = 220;
+const ROW_H = 20;
+const DELTA_W = 72;
+const MIN_CELL = 40;
 
-// Sequential paper → deep-red ramp, matching the app's warm palette.
-const ramp = (t: number) => interpolateLab('#efe8da', '#6d1410')(Math.max(0, Math.min(1, t)));
-const color = (score: number) => ramp(score / 10);
-
-const LABEL_W = 168;
-const CELL_W = 40;
-const ROW_H = 17;
-const DELTA_W = 64;
-
-export function ConflictHeatmap({ data }: { data: ConflictFile }) {
+export function ConflictHeatmap({
+  data,
+  hovered,
+  onHover,
+}: {
+  data: ConflictFile;
+  hovered?: string | null;
+  onHover?: (iso: string | null) => void;
+}) {
   const [sortBy, setSortBy] = useState<'delta' | 'latest'>('delta');
   const [query, setQuery] = useState('');
   const [tip, setTip] = useState<TooltipData | null>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(900);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([e]) => setWidth(e.contentRect.width));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -39,11 +40,14 @@ export function ConflictHeatmap({ data }: { data: ConflictFile }) {
       .sort((a, b) => (sortBy === 'delta' ? b.delta - a.delta : b.latest - a.latest));
   }, [data.countries, sortBy, query]);
 
-  const gridW = LABEL_W + data.years.length * CELL_W + DELTA_W;
+  // Cells stretch to fill the container width (min cell keeps it readable).
+  const w = Math.floor(width);
+  const CELL_W = Math.max(MIN_CELL, (w - LABEL_W - DELTA_W) / data.years.length);
+  const gridW = Math.max(w, LABEL_W + data.years.length * MIN_CELL + DELTA_W);
   const bodyH = rows.length * ROW_H;
 
   return (
-    <div>
+    <div ref={wrapRef}>
       {/* controls */}
       <div className="mb-3 flex items-center gap-2">
         <span className="text-xs text-faint">Sort by</span>
@@ -92,7 +96,8 @@ export function ConflictHeatmap({ data }: { data: ConflictFile }) {
       </div>
       {query && rows.length === 0 && <p className="py-6 text-center text-sm text-faint">No countries match “{query}”.</p>}
 
-      {/* sticky year header */}
+      {/* year header — sticks to the top as the page scrolls */}
+      <div className="sticky top-0 z-10 bg-paper">
       <svg width={gridW} height={22} className="block">
         {data.years.map((y, j) => (
           <text
@@ -111,15 +116,22 @@ export function ConflictHeatmap({ data }: { data: ConflictFile }) {
           Δ
         </text>
       </svg>
+      </div>
 
-      {/* scrollable heatmap body */}
-      <div className="fp-scroll max-h-[calc(100vh-260px)] overflow-y-auto">
+      {/* heatmap body — flows with the page (no nested scroll) */}
+      <div>
         <svg width={gridW} height={bodyH} className="block">
           {rows.map((c, i) => {
             const y = i * ROW_H;
-            const name = c.country.length > 19 ? c.country.slice(0, 18) + '…' : c.country;
+            const name = c.country.length > 28 ? c.country.slice(0, 27) + '…' : c.country;
             return (
-              <g key={c.iso3} transform={`translate(0,${y})`}>
+              <g
+                key={c.iso3}
+                transform={`translate(0,${y})`}
+                onMouseEnter={() => onHover?.(c.iso3)}
+                onMouseLeave={() => onHover?.(null)}
+              >
+                {hovered === c.iso3 && <rect x={0} y={0} width={gridW} height={ROW_H} fill="#14161b" opacity={0.06} />}
                 <circle cx={6} cy={ROW_H / 2} r={3} fill={regionColor(c.region)} />
                 <text x={15} y={ROW_H / 2} dominantBaseline="central" fontSize={10} fontFamily="var(--font-mono)" fontWeight={600} fill="#14161b">
                   {c.iso3}
