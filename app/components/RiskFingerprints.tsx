@@ -12,6 +12,7 @@ import { Scatter } from './Scatter';
 import { Timeline } from './Timeline';
 import { RegionResiduals, HazardLegend, HazardFilter } from './Legends';
 import { FingerprintDetail, CompareBar } from './Compare';
+import { ProjectAbout } from './ProjectAbout';
 import { Streamgraph, StreamLegend } from './Streamgraph';
 import { recomputeForWindow } from '../lib/recompute';
 import { maxHazardLogDeaths } from '../lib/glyph';
@@ -338,6 +339,7 @@ export function RiskFingerprints() {
           >
             Conflict ↗
           </Link>
+          <ProjectAbout />
           <About />
           {hasFocus && (
             <button

@@ -2,16 +2,14 @@
 
 *Where the INFORM Risk Index misses.*
 
-An interactive visualization (JKU Linz, Interactive Visualization — Assignment 3)
-that puts a model's **prediction** and the world's **observed reality** on the
-same screen. The [INFORM Risk Index](https://drmkc.jrc.ec.europa.eu/inform-index)
-forecasts each country's disaster risk; [EM-DAT](https://www.emdat.be/) records
-the deaths that actually happened (1995–2025). The gap between the two — the
-**signed residual** — is the finding, and it is the principle the whole page is
-sorted by.
+An interactive visualization that puts a model's **prediction** and the world's
+**observed reality** on the same screen. The
+[INFORM Risk Index](https://drmkc.jrc.ec.europa.eu/inform-index) forecasts each
+country's disaster risk; [EM-DAT](https://www.emdat.be/) records the deaths that
+actually happened (1995-2025). The gap between the two, the **signed residual**,
+is the finding, and it is the principle the whole page is sorted by.
 
-> Built on the data from Assignment 2 (a Power BI dashboard). This is a custom,
-> hand-built SVG/D3 visualization — no chart libraries.
+> A custom, hand-built SVG/D3 visualization. No chart libraries.
 
 ## The three views
 
@@ -105,9 +103,9 @@ be misattributed to the earthquake petal.
 
 ## Data pipeline
 
-Two source CSVs (carried over from A2, in `data/`) are preprocessed at build time
-by [`scripts/build-data.mjs`](scripts/build-data.mjs) into two JSON files the
-client fetches:
+Two source CSVs in `data/` are preprocessed at build time by
+[`scripts/build-data.mjs`](scripts/build-data.mjs) into two JSON files the client
+fetches:
 
 ```
 data/joined_summary.csv   ┐                       ┌─ public/data/countries.json
