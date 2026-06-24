@@ -172,7 +172,7 @@ export function ConflictMap({ data, geo, hovered, onHover }: ConflictMapProps) {
         </svg>
       </div>
       <p className="mt-1 text-[11px] text-faint">
-        Drag to pan · scroll or +/− to zoom · slider/play to watch 2017–2026 · grey = no INFORM score (mostly microstates)
+        Drag to pan · scroll or +/- to zoom · slider/play to watch 2017-2026 · grey = no INFORM score (mostly microstates)
       </p>
       <Tooltip data={tip} />
     </div>

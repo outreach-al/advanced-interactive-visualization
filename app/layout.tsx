@@ -15,7 +15,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Risk Fingerprints — where the model misses',
+  title: 'Risk Fingerprints: where the model misses',
   description:
     'A residual-sorted grid of country disaster fingerprints, comparing INFORM predicted risk against three decades of observed EM-DAT losses.',
 };

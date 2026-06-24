@@ -26,7 +26,7 @@ export default function GlyphTest() {
         The hazard fingerprint
       </h1>
 
-      {loading && <p className="mt-8 text-faint">Loading data…</p>}
+      {loading && <p className="mt-8 text-faint">Loading data...</p>}
       {error && <p className="mt-8 text-[#b0463b]">Failed to load: {error}</p>}
 
       {country && (
@@ -43,7 +43,7 @@ export default function GlyphTest() {
             >
               {countries.map((c) => (
                 <option key={c.iso3} value={c.iso3}>
-                  {c.iso3} — {c.country}
+                  {c.iso3} · {c.country}
                 </option>
               ))}
             </select>
@@ -75,7 +75,7 @@ export default function GlyphTest() {
             INFORM predicts high risk for that hazard but EM-DAT recorded few
             deaths; a <em>short, deep</em> petal means the opposite. Coastal flood
             and tsunami are split out of EM-DAT&apos;s Flood and Earthquake types
-            by subtype, so for coastal nations those petals can light up — the
+            by subtype, so for coastal nations those petals can light up. The
             2004 Indian Ocean tsunami, for instance, surfaces on the tsunami
             petal rather than hiding inside earthquake.
           </p>

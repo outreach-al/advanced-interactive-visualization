@@ -306,7 +306,7 @@ export function RiskFingerprints() {
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
           <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-rule border-t-ink" />
-          <p className="mt-4 font-mono text-xs uppercase tracking-[0.2em] text-faint">Loading fingerprints…</p>
+          <p className="mt-4 font-mono text-xs uppercase tracking-[0.2em] text-faint">Loading fingerprints...</p>
         </div>
       </div>
     );
@@ -370,7 +370,7 @@ export function RiskFingerprints() {
               type="text"
               value={query}
               onChange={(e) => onSearch(e.target.value)}
-              placeholder="Search a country…"
+              placeholder="Search a country..."
               aria-label="Search countries"
               className="h-9 w-64 rounded-full border border-ink/20 bg-white pl-9 pr-12 text-sm shadow-sm outline-none transition-colors placeholder:text-faint focus:border-ink/50 focus:ring-2 focus:ring-ink/10"
             />
@@ -541,10 +541,10 @@ export function RiskFingerprints() {
         <div className="shrink-0 border-t border-rule bg-paper/95 px-5 py-2 backdrop-blur-sm">
           <div className="flex items-center justify-between gap-3">
             <h2 className="text-xs font-semibold tracking-tight">
-              Deaths by hazard, 1995–2025
+              Deaths by hazard, 1995-2025
               <span className="ml-2 font-normal text-faint">
                 {yearRange
-                  ? `· residuals recomputed for ${yearRange[0]}–${yearRange[1]}`
+                  ? `· residuals recomputed for ${yearRange[0]}-${yearRange[1]}`
                   : '· brush a range to focus the model error on an era'}
               </span>
             </h2>

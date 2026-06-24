@@ -84,7 +84,7 @@ export function FingerprintDetail({
           ].join(' ')}
           title={isPinned ? 'Remove from compare' : canPin ? 'Pin to compare' : 'Compare tray is full'}
         >
-          {isPinned ? '📌 Pinned' : '📌 Pin to compare'}
+          {isPinned ? 'Pinned' : 'Pin to compare'}
         </button>
       </div>
     </div>

@@ -60,7 +60,7 @@ export function GlyphLegend() {
           <div>
             <dt className="font-semibold">Petal length → predicted risk</dt>
             <dd className="text-ink/70">
-              The hazard's INFORM risk score (0–10). Longer = the model expects
+              The hazard's INFORM risk score (0-10). Longer = the model expects
               more risk.
             </dd>
           </div>

@@ -61,20 +61,20 @@ export function About() {
               </p>
               <p>
                 <strong className="text-ink">Focus a hazard</strong> (the chips by the scatter) to
-                re-sort the grid and the scatter by that single hazard's model error — the same
+                re-sort the grid and the scatter by that single hazard's model error, the same
                 residual analysis, run per hazard. The <strong className="text-ink">sticks</strong> on
                 the scatter draw each country's residual: its vertical distance from the expected line.
               </p>
               <p>
                 The <strong className="text-ink">shaded band</strong> on the scatter is ±1σ and ±2σ of
                 the residuals around the OLS line. A country whose stick reaches past the band is a
-                <em> statistically real</em> model miss, not just noise — the caption counts how many
+                <em> statistically real</em> model miss, not just noise. The caption counts how many
                 fall beyond ±2σ.
               </p>
               <p>
                 The <strong className="text-ink">streamgraph</strong> at the bottom is disaster deaths by
-                hazard per year (1995–2025). <strong className="text-ink">Brush a year range</strong> and
-                the entire grid + scatter recompute their residuals for just that era — so you can see
+                hazard per year (1995-2025). <strong className="text-ink">Brush a year range</strong> and
+                the entire grid + scatter recompute their residuals for just that era, so you can see
                 that a country is a model miss only because of one event (e.g. brush 2004 to surface the
                 tsunami nations). Click its legend to show/hide individual hazard bands.
               </p>
@@ -94,7 +94,7 @@ export function About() {
                 Coastal flood and tsunami are split out of EM-DAT&apos;s Flood and Earthquake types
                 by subtype, so those petals carry real deaths (notably ~253k tsunami deaths that
                 would otherwise hide in the earthquake petal). Hazard types with no INFORM petal
-                appear in the timeline as “Other.”
+                appear in the timeline as "Other."
               </p>
             </div>
           </div>

@@ -53,7 +53,7 @@ export function ConflictHeatmap({
         <span className="text-xs text-faint">Sort by</span>
         {(
           [
-            ['delta', 'Biggest rise 2017→2026'],
+            ['delta', 'Biggest rise 2017-2026'],
             ['latest', 'Highest 2026 risk'],
           ] as const
         ).map(([k, label]) => (
@@ -73,7 +73,7 @@ export function ConflictHeatmap({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search country…"
+            placeholder="Search country..."
             aria-label="Search countries"
             className="h-8 w-44 rounded-full border border-ink/20 bg-white pl-3 pr-7 text-xs shadow-sm outline-none placeholder:text-faint focus:border-ink/50"
           />
@@ -94,7 +94,7 @@ export function ConflictHeatmap({
           <span>10 · conflict probability</span>
         </div>
       </div>
-      {query && rows.length === 0 && <p className="py-6 text-center text-sm text-faint">No countries match “{query}”.</p>}
+      {query && rows.length === 0 && <p className="py-6 text-center text-sm text-faint">No countries match "{query}".</p>}
 
       {/* year header — sticks to the top as the page scrolls */}
       <div className="sticky top-0 z-10 bg-paper">
@@ -123,7 +123,7 @@ export function ConflictHeatmap({
         <svg width={gridW} height={bodyH} className="block">
           {rows.map((c, i) => {
             const y = i * ROW_H;
-            const name = c.country.length > 28 ? c.country.slice(0, 27) + '…' : c.country;
+            const name = c.country.length > 28 ? c.country.slice(0, 27) + '...' : c.country;
             return (
               <g
                 key={c.iso3}
