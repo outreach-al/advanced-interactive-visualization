@@ -1,0 +1,13 @@
+# Production image — multi-stage build, Next.js standalone runtime.
+#   docker compose -f docker-compose.prod.yml up --build
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+    restart: unless-stopped

@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.DS_Store
+npm-debug.log*
+# Raw A2 inputs — large xlsx/zip, not needed in the image (CSVs in data/ are).
+raw
+out
+*.xlsx
+*.zip
+disasters_project_starter.zip

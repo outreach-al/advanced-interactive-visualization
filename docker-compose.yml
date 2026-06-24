@@ -1,0 +1,22 @@
+# Local development with hot-reload.
+#   docker compose up
+# Source is bind-mounted; node_modules and .next stay in the container
+# (named/anonymous volumes) so host and container don't fight over them.
+services:
+  web:
+    image: node:20-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - '3000:3000'
+    environment:
+      - NEXT_TELEMETRY_DISABLED=1
+      - WATCHPACK_POLLING=true # reliable file-watching across the bind mount
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+      - next_cache:/app/.next
+
+volumes:
+  node_modules:
+  next_cache:
