@@ -63,7 +63,14 @@ export function Scatter({
       { x: x(0), y: y(clampY(fit(0))) },
       { x: x(xmax), y: y(clampY(fit(xmax))) },
     ];
-    return { x, y, r, xVal, yVal, resid, sizeVal, reg, fit, clampY, outliers, linePts, ymax };
+
+    // Residual spread → prediction band. Countries beyond ±2σ are the genuine
+    // anomalies (model error larger than the normal scatter), not just noise.
+    const resids = countries.map(resid);
+    const sigma = resids.length ? Math.sqrt(resids.reduce((s, r) => s + r * r, 0) / resids.length) : 0;
+    const beyond2 = countries.filter((c) => Math.abs(resid(c)) > 2 * sigma).length;
+
+    return { x, y, r, xVal, yVal, resid, sizeVal, reg, fit, clampY, outliers, linePts, ymax, xmax, sigma, beyond2 };
   }, [countries, regression, hazardRegression, activeHazard]);
 
   // d3-brush beneath the dots, so dot hover/click still work on top.
@@ -118,6 +125,31 @@ export function Scatter({
             </text>
           </g>
         ))}
+
+        {/* prediction band: ±1σ / ±2σ of residuals around the OLS line.
+            Clipped to the plot; outside ±2σ = a statistically real model miss. */}
+        {m.sigma > 0 && (
+          <g clipPath="url(#fp-plot-clip)">
+            {[2, 1].map((k) => {
+              const f0 = m.fit(0);
+              const f1 = m.fit(m.xmax);
+              const pts = [
+                [x(0), y(f0 + k * m.sigma)],
+                [x(m.xmax), y(f1 + k * m.sigma)],
+                [x(m.xmax), y(f1 - k * m.sigma)],
+                [x(0), y(f0 - k * m.sigma)],
+              ]
+                .map((p) => p.join(','))
+                .join(' ');
+              return <polygon key={k} points={pts} fill="#14161b" fillOpacity={k === 2 ? 0.04 : 0.05} />;
+            })}
+          </g>
+        )}
+        <defs>
+          <clipPath id="fp-plot-clip">
+            <rect x={0} y={0} width={IW} height={IH} />
+          </clipPath>
+        </defs>
 
         {/* brush layer (below everything interactive) */}
         <g ref={brushRef} />
@@ -199,6 +231,13 @@ export function Scatter({
             {c.iso3}
           </text>
         ))}
+
+        {/* anomaly count — how many sit beyond the normal residual scatter */}
+        {m.sigma > 0 && (
+          <text x={2} y={2} dominantBaseline="hanging" fontSize={9} fontFamily="var(--font-mono)" fill="#8a8780">
+            {m.beyond2} {m.beyond2 === 1 ? 'country' : 'countries'} beyond ±2σ
+          </text>
+        )}
 
         {/* axis titles */}
         <text x={IW / 2} y={IH + 32} textAnchor="middle" fontSize={11} fill="#14161b">

@@ -4,12 +4,16 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Country, Selection } from '../lib/types';
 import { useCountries, useEvents } from '../lib/useData';
 import { useResizableSidebar } from '../lib/useResizable';
+import { parseUrlState, buildUrlSearch } from '../lib/urlState';
 import { regionColor } from '../lib/palette';
 import { Grid } from './Grid';
 import { Scatter } from './Scatter';
 import { Timeline } from './Timeline';
 import { RegionResiduals, HazardLegend, HazardFilter } from './Legends';
 import { FingerprintDetail, CompareBar } from './Compare';
+import { Streamgraph, StreamLegend } from './Streamgraph';
+import { recomputeForWindow } from '../lib/recompute';
+import { maxHazardLogDeaths } from '../lib/glyph';
 import { HAZARD_LABELS, HAZARD_COLORS } from '../lib/palette';
 import { About } from './About';
 import { Tooltip, type TooltipData } from './Tooltip';
@@ -69,7 +73,7 @@ function countryTip(c: Country, activeHazard: string | null): React.ReactNode {
 }
 
 export function RiskFingerprints() {
-  const { file, maxLogDeaths, loading, error } = useCountries();
+  const { file, loading, error } = useCountries();
   const events = useEvents();
 
   const [selection, setSelection] = useState<Selection>({
@@ -83,17 +87,29 @@ export function RiskFingerprints() {
   const [timelineHazards, setTimelineHazards] = useState<Set<string>>(new Set());
   const [query, setQuery] = useState('');
   const [pinned, setPinned] = useState<string[]>([]);
+  const [yearRange, setYearRange] = useState<[number, number] | null>(null);
   const [tip, setTip] = useState<TooltipData | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const restoredRef = useRef(false);
   const sidebar = useResizableSidebar();
 
   const MAX_PINS = 8;
 
+  // The active dataset: all-time by default, or residuals recomputed for the
+  // brushed year window. Everything downstream reads from this.
+  const activeData = useMemo(() => {
+    if (!file) return null;
+    if (yearRange && events) return recomputeForWindow(file.countries, events, yearRange[0], yearRange[1]);
+    return { countries: file.countries, regression: file.regression, hazardRegression: file.hazardRegression };
+  }, [file, events, yearRange]);
+
+  const activeMaxLog = useMemo(() => (activeData ? maxHazardLogDeaths(activeData.countries) : 0), [activeData]);
+
   const byIso = useMemo(() => {
     const m = new Map<string, Country>();
-    file?.countries.forEach((c) => m.set(c.iso3, c));
+    activeData?.countries.forEach((c) => m.set(c.iso3, c));
     return m;
-  }, [file]);
+  }, [activeData]);
 
   // hover drives cross-view highlight AND the country tooltip
   const onHover = useCallback(
@@ -143,23 +159,23 @@ export function RiskFingerprints() {
     });
   }, []);
 
-  // Search by country name or ISO3 → a set of matching iso3 folded into dimming.
-  const onSearch = useCallback(
-    (q: string) => {
-      setQuery(q);
-      const norm = q.trim().toLowerCase();
-      if (!norm) {
-        setSelection((s) => ({ ...s, search: null }));
-        return;
-      }
-      const hits = new Set<string>();
-      for (const c of file?.countries ?? []) {
-        if (c.country.toLowerCase().includes(norm) || c.iso3.toLowerCase().includes(norm)) hits.add(c.iso3);
-      }
-      setSelection((s) => ({ ...s, search: hits }));
-    },
-    [file],
-  );
+  // Search by country name or ISO3. The matching set is derived from the query
+  // (below), so onSearch just updates the text — this also makes a restored
+  // ?q= from the URL resolve once data has loaded.
+  const onSearch = useCallback((q: string) => setQuery(q), []);
+
+  useEffect(() => {
+    const norm = query.trim().toLowerCase();
+    if (!norm || !file) {
+      setSelection((s) => (s.search ? { ...s, search: null } : s));
+      return;
+    }
+    const hits = new Set<string>();
+    for (const c of file.countries) {
+      if (c.country.toLowerCase().includes(norm) || c.iso3.toLowerCase().includes(norm)) hits.add(c.iso3);
+    }
+    setSelection((s) => ({ ...s, search: hits }));
+  }, [query, file]);
 
   // Pins are a curated comparison set — deliberately NOT wiped by Esc/Clear
   // (which reset transient filters); they have their own "Clear pins".
@@ -173,6 +189,7 @@ export function RiskFingerprints() {
     setActiveHazard(null);
     setTimelineHazards(new Set());
     setQuery('');
+    setYearRange(null);
     setTip(null);
   }, []);
 
@@ -223,6 +240,44 @@ export function RiskFingerprints() {
     return () => cancelAnimationFrame(raf);
   }, [selectedIso]);
 
+  // Restore view state from the URL once data is loaded (validated against it).
+  useEffect(() => {
+    if (!file || restoredRef.current) return;
+    restoredRef.current = true;
+    const us = parseUrlState(window.location.search);
+    const petalKeys = new Set(file.petals.map((p) => p.key));
+    const validRegions = new Set(file.countries.map((c) => c.region));
+    if (us.hazard && petalKeys.has(us.hazard)) setActiveHazard(us.hazard);
+    const regions = new Set(us.regions.filter((r) => validRegions.has(r)));
+    const sel = us.sel && byIso.has(us.sel) ? us.sel : null;
+    setSelection((s) => ({ ...s, selected: sel, regions }));
+    if (us.q) setQuery(us.q);
+    const pins = us.pins.filter((i) => byIso.has(i)).slice(0, MAX_PINS);
+    if (pins.length) setPinned(pins);
+    const thaz = us.thaz.filter((k) => petalKeys.has(k) || k === 'other');
+    if (thaz.length) setTimelineHazards(new Set(thaz));
+    if (us.years) {
+      const a = Math.max(1995, Math.min(2025, us.years[0]));
+      const b = Math.max(1995, Math.min(2025, us.years[1]));
+      if (!(a <= 1995 && b >= 2025)) setYearRange([Math.min(a, b), Math.max(a, b)]);
+    }
+  }, [file, byIso]);
+
+  // Mirror view state back into the URL (replaceState — no history spam).
+  useEffect(() => {
+    if (!restoredRef.current) return;
+    const search = buildUrlSearch({
+      hazard: activeHazard,
+      sel: selection.selected,
+      regions: [...selection.regions],
+      q: query,
+      pins: pinned,
+      thaz: [...timelineHazards],
+      years: yearRange,
+    });
+    window.history.replaceState(null, '', window.location.pathname + search);
+  }, [activeHazard, selection.selected, selection.regions, query, pinned, timelineHazards, yearRange]);
+
   const selectedCountry = selection.selected ? byIso.get(selection.selected) ?? null : null;
   const pinnedCountries = pinned.map((iso) => byIso.get(iso)).filter((c): c is Country => !!c);
   const hasFocus =
@@ -231,7 +286,8 @@ export function RiskFingerprints() {
     !!activeHazard ||
     selection.regions.size > 0 ||
     timelineHazards.size > 0 ||
-    !!selection.search;
+    !!selection.search ||
+    !!yearRange;
 
   if (loading) {
     return (
@@ -243,7 +299,7 @@ export function RiskFingerprints() {
       </div>
     );
   }
-  if (error || !file) {
+  if (error || !file || !activeData) {
     return (
       <div className="flex h-screen items-center justify-center">
         <p className="text-[#b0463b]">Failed to load data: {error ?? 'unknown error'}</p>
@@ -325,8 +381,8 @@ export function RiskFingerprints() {
       <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
         <section className="min-h-0 flex-1 border-b border-rule lg:border-b-0">
           <Grid
-            countries={file.countries}
-            maxLogDeaths={maxLogDeaths}
+            countries={activeData.countries}
+            maxLogDeaths={activeMaxLog}
             selection={selection}
             activeHazard={activeHazard}
             onHover={onHover}
@@ -384,14 +440,14 @@ export function RiskFingerprints() {
               )}
             </h2>
             <p className="mt-0.5 text-[11px] text-faint">
-              one dot per country · size = {activeHazard ? `${HAZARD_LABELS[activeHazard].toLowerCase()} deaths` : 'events'} ·
-              dashed line = expected (OLS) · sticks = residual
+              dot = country · size = {activeHazard ? `${HAZARD_LABELS[activeHazard].toLowerCase()} deaths` : 'events'} ·
+              dashed = OLS expectation · shaded = ±1σ / 2σ · stick = residual
             </p>
             <div className="mt-2">
               <Scatter
-                countries={file.countries}
-                regression={file.regression}
-                hazardRegression={file.hazardRegression}
+                countries={activeData.countries}
+                regression={activeData.regression}
+                hazardRegression={activeData.hazardRegression}
                 activeHazard={activeHazard}
                 selection={selection}
                 onHover={onHover}
@@ -401,7 +457,7 @@ export function RiskFingerprints() {
             </div>
             <div className="mt-2">
               <RegionResiduals
-                countries={file.countries}
+                countries={activeData.countries}
                 active={selection.regions}
                 onToggle={onToggleRegion}
               />
@@ -421,7 +477,7 @@ export function RiskFingerprints() {
               </p>
               <FingerprintDetail
                 country={selectedCountry}
-                maxLogDeaths={maxLogDeaths}
+                maxLogDeaths={activeMaxLog}
                 activeHazard={activeHazard}
                 isPinned={pinned.includes(selectedCountry.iso3)}
                 canPin={pinned.length < MAX_PINS}
@@ -462,10 +518,39 @@ export function RiskFingerprints() {
         </aside>
       </div>
 
+      {/* temporal panel: hazard streamgraph + brushable year window (focus+context) */}
+      {events && (
+        <div className="shrink-0 border-t border-rule bg-paper/95 px-5 py-2 backdrop-blur-sm">
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-xs font-semibold tracking-tight">
+              Deaths by hazard, 1995–2025
+              <span className="ml-2 font-normal text-faint">
+                {yearRange
+                  ? `· residuals recomputed for ${yearRange[0]}–${yearRange[1]}`
+                  : '· brush a range to focus the model error on an era'}
+              </span>
+            </h2>
+            <div className="flex items-center gap-3">
+              <StreamLegend />
+              {yearRange && (
+                <button
+                  type="button"
+                  onClick={() => setYearRange(null)}
+                  className="shrink-0 text-[11px] text-faint hover:text-ink"
+                >
+                  Reset years
+                </button>
+              )}
+            </div>
+          </div>
+          <Streamgraph events={events} yearRange={yearRange} activeHazard={activeHazard} onBrush={setYearRange} />
+        </div>
+      )}
+
       {/* pin-to-compare tray (docked, only when pins exist) */}
       <CompareBar
         countries={pinnedCountries}
-        maxLogDeaths={maxLogDeaths}
+        maxLogDeaths={activeMaxLog}
         activeHazard={activeHazard}
         selectedIso={selection.selected}
         onSelect={onSelect}

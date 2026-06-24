@@ -66,6 +66,19 @@ export function About() {
                 the scatter draw each country's residual: its vertical distance from the expected line.
               </p>
               <p>
+                The <strong className="text-ink">shaded band</strong> on the scatter is ±1σ and ±2σ of
+                the residuals around the OLS line. A country whose stick reaches past the band is a
+                <em> statistically real</em> model miss, not just noise — the caption counts how many
+                fall beyond ±2σ.
+              </p>
+              <p>
+                The <strong className="text-ink">streamgraph</strong> at the bottom is disaster deaths by
+                hazard per year (1995–2025). <strong className="text-ink">Brush a year range</strong> and
+                the entire grid + scatter recompute their residuals for just that era — so you can see
+                that a country is a model miss only because of one event (e.g. brush 2004 to surface the
+                tsunami nations).
+              </p>
+              <p>
                 <strong className="text-ink">Click the legends</strong> to filter: the region legend
                 isolates regions across the scatter and the grid; the timeline legend shows only the
                 selected hazard types. Both are multi-select toggles.
@@ -73,7 +86,9 @@ export function About() {
               <p>
                 <strong className="text-ink">Search</strong> a country by name or ISO code to locate it.
                 Selecting one shows its enlarged fingerprint with per-hazard numbers; <strong className="text-ink">Pin to compare</strong>{' '}
-                stacks several side by side in the tray below.
+                stacks several side by side in the tray below. The current view (hazard, selection,
+                filters, pins) is saved to the <strong className="text-ink">URL</strong>, so any state is
+                shareable as a link.
               </p>
               <p className="text-xs text-faint">
                 Coastal flood and tsunami are split out of EM-DAT&apos;s Flood and Earthquake types

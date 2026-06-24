@@ -22,10 +22,14 @@ sorted by.
    - *petal length* = that hazard's INFORM risk score (0–10)
    - *petal saturation* = log-scaled total deaths from that hazard (EM-DAT)
 2. **Scatter** — INFORM risk (x) vs. log deaths (y), one dot per country,
-   colored by **region**, sized by event count, with an explicit OLS line and
-   labeled outliers.
+   colored by **region**, sized by event count, with an explicit OLS line,
+   labeled outliers, **residual sticks**, and a **±1σ/2σ prediction band** (dots
+   beyond it are statistically real misses, not noise).
 3. **Event timeline** — when a country is selected, its individual EM-DAT
    disasters over time, colored by hazard type.
+4. **Hazard streamgraph** — deaths by hazard per year (1995–2025) across all
+   countries; **brush a year range** and the grid + scatter recompute their
+   residuals for that era (focus + context).
 
 The views are linked by hover / click / brush selection:
 
@@ -36,13 +40,22 @@ The views are linked by hover / click / brush selection:
 - **Focus a hazard** (chips beside the scatter) → re-sorts both the grid and the
   scatter by that *single* hazard's model error (a per-hazard OLS residual, the
   same residual logic applied per hazard — directly serves task T1).
-- **Esc** (or the *Clear ✕* button) → resets selection, brush, and hazard focus.
+- **Brush the streamgraph** → recomputes every residual for the chosen years
+  (same OLS math, windowed) and re-sorts the grid; e.g. brushing 2004 surfaces
+  the tsunami nations.
+- **Search** (name/ISO, `/` to focus), **region legend** click to isolate a
+  region, **pin** countries to compare fingerprints side by side.
+- **Esc** (or the *Clear ✕* button) → resets selection, brush, hazard focus,
+  region/search filters, and the year window.
 
-The scatter also draws **residual sticks** — each dot's vertical distance to the
-OLS line — so the quantity the grid is sorted by is shown explicitly, and the
-two views visibly encode the same thing.
+The scatter's **residual sticks** draw each dot's vertical distance to the OLS
+line — so the quantity the grid is sorted by is shown explicitly, and the two
+views visibly encode the same thing.
 
 Everything after the initial JSON load is client-side, so linking is instant.
+The current view (hazard, selection, filters, pins, year window) is mirrored to
+the **URL**, so any state is shareable as a deep link
+(e.g. `?years=2004-2005&hazard=tsunami`).
 
 > A standalone design page at **`/glyph-test`** renders a single country's
 > fingerprint at 60 / 90 / 120 / 200 px with the full encoding legend — handy
