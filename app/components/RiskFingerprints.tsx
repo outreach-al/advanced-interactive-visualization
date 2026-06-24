@@ -323,17 +323,17 @@ export function RiskFingerprints() {
   return (
     <div className="flex min-h-screen flex-col lg:h-screen">
       {/* header */}
-      <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-rule px-4 py-3 sm:px-6">
+      <header className="flex flex-col gap-2 border-b border-rule px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-4 sm:px-6">
         <div className="min-w-0">
           <h1 className="whitespace-nowrap text-lg font-semibold tracking-tight">
             Risk Fingerprints
             <span className="ml-3 hidden font-normal text-faint sm:inline">where the INFORM index misses</span>
           </h1>
         </div>
-        {/* On mobile the controls wrap below the title and the search goes
-            full-width; on desktop search is pinned rightmost so the dynamic
-            controls (match count, Clear) push the other buttons, never the box. */}
-        <div className="flex flex-1 flex-wrap items-center justify-end gap-2">
+        {/* On mobile: a left-aligned row of buttons with the search full-width
+            below. On desktop: search pinned rightmost so the dynamic controls
+            (match count, Clear) push the other buttons, never the box. */}
+        <div className="flex flex-wrap items-center gap-2 sm:flex-1 sm:justify-end">
           <Link
             href="/conflict"
             className="inline-flex h-9 items-center rounded-full px-2 text-xs text-faint transition-colors hover:text-ink"
@@ -398,9 +398,10 @@ export function RiskFingerprints() {
         </div>
       </header>
 
-      {/* body: grid (left) + draggable divider + sidebar (right) */}
+      {/* body: grid (left) + draggable divider + sidebar (right).
+          On mobile the sidebar (charts) is shown first, the grid second. */}
       <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
-        <section className="min-h-0 flex-1 border-b border-rule lg:border-b-0">
+        <section className="order-2 min-h-0 flex-1 border-b border-rule lg:order-none lg:border-b-0">
           <Grid
             countries={activeData.countries}
             maxLogDeaths={activeMaxLog}
@@ -434,7 +435,7 @@ export function RiskFingerprints() {
 
         <aside
           style={sidebar.isDesktop ? { width: sidebar.width } : undefined}
-          className="fp-scroll w-full shrink-0 px-5 py-4 lg:overflow-y-auto"
+          className="fp-scroll order-1 w-full shrink-0 border-b border-rule px-5 py-4 lg:order-none lg:border-b-0 lg:overflow-y-auto"
         >
           {/* hazard focus filter (T1) */}
           <div className="pb-4">

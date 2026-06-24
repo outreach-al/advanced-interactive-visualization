@@ -1,2 +1,10 @@
-app: https://aiv.krenarahmeti.com
-repo: https://github.com/outreach-al/advanced-interactive-visualization
+Risk Fingerprints - Submission Links
+
+Deployed visualization:
+https://aiv.krenarahmeti.com
+
+Source code (GitHub):
+https://github.com/outreach-al/advanced-interactive-visualization
+
+Presentation slides:
+Included in this archive as "AIV A3.pdf"
