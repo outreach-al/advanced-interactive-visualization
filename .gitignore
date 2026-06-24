@@ -19,8 +19,8 @@ npm-debug.log*
 .env*.local
 
 # A2 leftovers — large source spreadsheets and intermediate Power BI exports
-/raw
-/out
-*.xlsx
-*.zip
-disasters_project_starter.zip
+# /raw
+# /out
+# *.xlsx
+# *.zip
+# disasters_project_starter.zip
