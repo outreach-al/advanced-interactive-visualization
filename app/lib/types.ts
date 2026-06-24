@@ -59,4 +59,14 @@ export interface Selection {
   hovered: string | null; // iso3 under the cursor (transient)
   selected: string | null; // iso3 clicked open in the timeline (persists)
   brushed: Set<string> | null; // iso3 set from a scatter brush, or null
+  regions: Set<string>; // regions isolated via the scatter legend (empty = all)
+  search: Set<string> | null; // iso3 matching the search query, or null
+}
+
+// A country is dimmed if it fails ANY active filter (brush, region, or search).
+export function isDimmed(sel: Selection, iso3: string, region: string): boolean {
+  const brushMiss = !!sel.brushed && !sel.brushed.has(iso3);
+  const regionMiss = sel.regions.size > 0 && !sel.regions.has(region);
+  const searchMiss = !!sel.search && !sel.search.has(iso3);
+  return brushMiss || regionMiss || searchMiss;
 }

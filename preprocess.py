@@ -135,6 +135,7 @@ def load_emdat() -> pd.DataFrame:
         "Region":          "region",
         "Start Year":      "year",
         "Disaster Type":   "hazard_type",
+        "Disaster Subtype": "subtype",
         "Total Deaths":    "deaths",
         "Total Affected":  "affected",
         "Total Damage ('000 US$)":           "damages_kusd",
@@ -142,6 +143,15 @@ def load_emdat() -> pd.DataFrame:
     }
     cols_present = {k: v for k, v in keep_map.items() if k in df.columns}
     df = df[list(cols_present.keys())].rename(columns=cols_present)
+
+    # Split two finer subtypes out of their parent Disaster Type so the glyph's
+    # coastal-flood and tsunami petals carry real deaths (the tsunami petal would
+    # otherwise absorb ~253k deaths into the earthquake petal).
+    if "subtype" in df.columns:
+        sub = df["subtype"].astype(str)
+        df.loc[(df["hazard_type"] == "Flood") & (sub == "Coastal flood"), "hazard_type"] = "Coastal flood"
+        df.loc[(df["hazard_type"] == "Earthquake") & sub.str.contains("Tsunami", case=False, na=False), "hazard_type"] = "Tsunami"
+        df = df.drop(columns=["subtype"])
 
     df["year"] = pd.to_numeric(df["year"], errors="coerce")
     for c in ("deaths", "affected", "damages_kusd", "damages_adj_kusd"):

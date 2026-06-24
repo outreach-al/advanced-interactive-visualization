@@ -356,7 +356,7 @@ ESP,Spain,Europe,2021,Flood,2.0,150.0,124.752
 TUN,Tunisia,Africa,2018,Flood,6.0,30000.0,46.155
 IDN,Indonesia,Asia,2021,Flood,0.0,11839.0,0.0
 ESP,Spain,Europe,2018,Flood,13.0,200.0,192.314
-IDN,Indonesia,Asia,2018,Earthquake,4140.0,2000000.0,1859.04
+IDN,Indonesia,Asia,2018,Tsunami,4140.0,2000000.0,1859.04
 PHL,Philippines,Asia,2018,Storm,5.0,1709511.0,24.36
 HKG,"China, Hong Kong Special Administrative Region",Asia,2018,Storm,0.0,300.0,0.0
 GEO,Georgia,Asia,2018,Flood,0.0,1143.0,0.0
@@ -1190,7 +1190,7 @@ MDG,Madagascar,Africa,2025,Storm,0.0,365.0,0.0
 TZA,United Republic of Tanzania,Africa,2014,Flood,28.0,20000.0,0.0
 CHN,China,Asia,2014,Storm,1.0,10000.0,67.996
 AUS,Australia,Oceania,2024,Flood,2.0,6000.0,318.157
-MHL,Marshall Islands,Oceania,2014,Flood,0.0,360.0,0.0
+MHL,Marshall Islands,Oceania,2014,Coastal flood,0.0,360.0,0.0
 USA,United States of America,Americas,2014,Mass movement (wet),43.0,150.0,27.198
 SLB,Solomon Islands,Oceania,2014,Flood,47.0,52000.0,32.638
 SEN,Senegal,Africa,2014,Epidemic,0.0,1.0,0.0
@@ -1210,7 +1210,7 @@ USA,United States of America,Americas,2025,Storm,6.0,32.0,2350.0
 MDG,Madagascar,Africa,2025,Storm,1.0,15001.0,0.0
 IDN,Indonesia,Asia,2014,Volcanic activity,7.0,83158.0,140.072
 IDN,Indonesia,Asia,2014,Flood,11.0,4000.0,2.72
-GBR,United Kingdom of Great Britain and Northern Ireland,Europe,2014,Flood,2.0,1000.0,848.592
+GBR,United Kingdom of Great Britain and Northern Ireland,Europe,2014,Coastal flood,2.0,1000.0,848.592
 POL,Poland,Europe,2014,Extreme temperature,78.0,0.0,0.0
 PHL,Philippines,Asia,2014,Storm,79.0,1148707.0,17.123
 IDN,Indonesia,Asia,2014,Flood,20.0,128182.0,208.068
@@ -1294,7 +1294,7 @@ JPN,Japan,Asia,2013,Storm,0.0,3931.0,2.764
 MLI,Mali,Africa,2013,Flood,37.0,34700.0,0.0
 IND,India,Asia,2013,Flood,80.0,2000000.0,0.0
 SDN,Sudan,Africa,2013,Flood,76.0,500133.0,9.674
-JPN,Japan,Asia,2025,Earthquake,1.0,11.0,0.0
+JPN,Japan,Asia,2025,Tsunami,1.0,11.0,0.0
 CHN,China,Asia,2013,Flood,43.0,255000.0,631.567
 GTM,Guatemala,Americas,2025,Earthquake,9.0,14550.0,0.0
 NGA,Nigeria,Africa,2025,Flood,36.0,5580.0,0.0
@@ -1873,8 +1873,8 @@ USA,United States of America,Americas,2002,Drought,0.0,0.0,5906.39
 BOL,Bolivia (Plurinational State of),Americas,2003,Flood,1.0,6500.0,0.0
 IDN,Indonesia,Asia,2003,Flood,3.0,10000.0,0.0
 ETH,Ethiopia,Africa,2000,Flood,9.0,30000.0,0.0
-MOZ,Mozambique,Africa,2003,Flood,4.0,100003.0,0.0
-MWI,Malawi,Africa,2003,Flood,8.0,18500.0,0.0
+MOZ,Mozambique,Africa,2003,Coastal flood,4.0,100003.0,0.0
+MWI,Malawi,Africa,2003,Coastal flood,8.0,18500.0,0.0
 LVA,Latvia,Europe,2003,Extreme temperature,15.0,0.0,0.0
 FJI,Fiji,Oceania,2003,Storm,17.0,30000.0,52.503
 BFA,Burkina Faso,Africa,2003,Epidemic,1058.0,7146.0,0.0
@@ -1919,11 +1919,11 @@ GMB,Gambia,Africa,2003,Storm,3.0,8019.0,0.0
 JPN,Japan,Asia,2003,Storm,1.0,223.0,87.504
 KOR,Republic of Korea,Asia,2003,Storm,130.0,80000.0,7875.389
 MEX,Mexico,Americas,2003,Storm,2.0,6000.0,175.009
-MEX,Mexico,Americas,2003,Flood,2.0,50000.0,0.0
+MEX,Mexico,Americas,2003,Coastal flood,2.0,50000.0,0.0
 BEN,Benin,Africa,2003,Epidemic,3.0,265.0,0.0
 RUS,Russian Federation,Europe,2003,Earthquake,3.0,1805.0,18.551
 PHL,Philippines,Asia,2000,Flood,50.0,153885.0,7.628
-VNM,Viet Nam,Asia,2003,Flood,52.0,221774.0,56.003
+VNM,Viet Nam,Asia,2003,Coastal flood,52.0,221774.0,56.003
 CAN,Canada,Americas,2003,Flood,2.0,800.0,26.251
 MEX,Mexico,Americas,2003,Wildfire,0.0,0.0,0.0
 SAU,Saudi Arabia,Asia,2003,Flood,12.0,50.0,0.0
@@ -2053,8 +2053,8 @@ MEX,Mexico,Americas,2004,Extreme temperature,14.0,0.0,0.0
 IRN,Iran (Islamic Republic of),Asia,2004,Flood,34.0,4043.0,0.0
 PER,Peru,Americas,2004,Drought,0.0,0.0,0.0
 THA,Thailand,Asia,2004,Flood,2.0,5000.0,298.279
-IDN,Indonesia,Asia,2004,Earthquake,165708.0,532898.0,7587.548
-TZA,United Republic of Tanzania,Africa,2004,Earthquake,10.0,0.0,0.0
+IDN,Indonesia,Asia,2004,Tsunami,165708.0,532898.0,7587.548
+TZA,United Republic of Tanzania,Africa,2004,Tsunami,10.0,0.0,0.0
 IND,India,Asia,2002,Storm,9.0,5050.0,0.745
 DEU,Germany,Europe,2004,Earthquake,0.0,150.0,20.453
 SVN,Slovenia,Europe,2004,Earthquake,1.0,605.0,17.045
@@ -2225,7 +2225,7 @@ IND,India,Asia,2006,Flood,20.0,0.0,0.0
 AFG,Afghanistan,Asia,2006,Flood,19.0,5025.0,0.0
 PNG,Papua New Guinea,Oceania,2006,Mass movement (wet),1.0,300.0,0.0
 BDI,Burundi,Africa,2006,Flood,1.0,1200.0,0.0
-IDN,Indonesia,Asia,2006,Earthquake,3.0,1202.0,0.0
+IDN,Indonesia,Asia,2006,Tsunami,3.0,1202.0,0.0
 ARG,Argentina,Americas,2006,Flood,0.0,4500.0,0.0
 TZA,United Republic of Tanzania,Africa,2006,Flood,0.0,19000.0,0.0
 TJK,Tajikistan,Asia,2006,Mass movement (wet),1.0,13000.0,0.0
@@ -2245,7 +2245,7 @@ CHN,China,Asia,2006,Flood,42.0,10009.0,17.567
 NPL,Nepal,Asia,2006,Flood,0.0,0.0,0.0
 ROU,Romania,Europe,2006,Extreme temperature,26.0,200.0,0.0
 PAK,Pakistan,Asia,2006,Flood,13.0,300.0,0.0
-IDN,Indonesia,Asia,2006,Earthquake,802.0,35543.0,87.835
+IDN,Indonesia,Asia,2006,Tsunami,802.0,35543.0,87.835
 ECU,Ecuador,Americas,2006,Volcanic activity,5.0,300013.0,239.551
 CHN,China,Asia,2006,Storm,109.0,6531000.0,586.101
 TWN,Taiwan (Province of China),Asia,2006,Storm,0.0,800.0,0.0
@@ -2290,7 +2290,7 @@ PHL,Philippines,Asia,2006,Storm,6.0,21260.0,0.0
 SDN,Sudan,Africa,2006,Epidemic,16.0,231.0,0.0
 ESP,Spain,Europe,2006,Flood,2.0,289.0,0.0
 PRT,Portugal,Europe,2006,Flood,3.0,367.0,0.0
-PRK,Democratic People's Republic of Korea,Asia,2006,Flood,0.0,7324.0,0.0
+PRK,Democratic People's Republic of Korea,Asia,2006,Coastal flood,0.0,7324.0,0.0
 AGO,Angola,Africa,2006,Epidemic,68.0,0.0,0.0
 TCD,Chad,Africa,2006,Epidemic,20.0,216.0,0.0
 RWA,Rwanda,Africa,2006,Mass movement (wet),24.0,2000.0,0.0
@@ -2302,7 +2302,7 @@ UGA,Uganda,Africa,2006,Epidemic,43.0,403.0,0.0
 USA,United States of America,Americas,2006,Earthquake,0.0,3529.0,239.551
 IDN,Indonesia,Asia,2006,Earthquake,1.0,114.0,0.0
 SLV,El Salvador,Americas,2006,Extreme temperature,1.0,0.0,0.0
-HTI,Haiti,Americas,2006,Flood,0.0,4690.0,0.0
+HTI,Haiti,Americas,2006,Coastal flood,0.0,4690.0,0.0
 USA,United States of America,Americas,2006,Storm,0.0,0.0,574.922
 JAM,Jamaica,Americas,2006,Epidemic,3.0,280.0,0.0
 CHN,China,Asia,2006,Flood,16.0,7000.0,91.029
@@ -2399,7 +2399,7 @@ MEX,Mexico,Americas,2007,Mass movement (wet),16.0,0.0,0.0
 HND,Honduras,Americas,2007,Flood,1.0,500.0,0.0
 TUR,Türkiye,Asia,2007,Flood,1.0,2250.0,0.0
 UGA,Uganda,Africa,2007,Flood,4.0,3000.0,0.0
-VNM,Viet Nam,Asia,2007,Flood,55.0,150000.0,543.449
+VNM,Viet Nam,Asia,2007,Coastal flood,55.0,150000.0,543.449
 SOM,Somalia,Africa,2007,Flood,21.0,2012.0,0.0
 UGA,Uganda,Africa,2007,Epidemic,36.0,176.0,0.0
 SRB,Serbia,Europe,2007,Flood,0.0,12370.0,0.0
@@ -2511,7 +2511,7 @@ IDN,Indonesia,Asia,2008,Flood,33.0,84420.0,0.0
 VNM,Viet Nam,Asia,2008,Storm,17.0,8828.0,1.495
 NGA,Nigeria,Africa,2008,Epidemic,46.0,66.0,0.0
 ITA,Italy,Europe,2008,Flood,3.0,0.0,415.695
-MHL,Marshall Islands,Oceania,2008,Flood,0.0,600.0,0.0
+MHL,Marshall Islands,Oceania,2008,Coastal flood,0.0,600.0,0.0
 GUY,Guyana,Americas,2008,Flood,0.0,100000.0,0.0
 CHN,China,Asia,2008,Mass movement (wet),15.0,0.0,0.0
 VNM,Viet Nam,Asia,2008,Flood,9.0,20000.0,0.0
@@ -2586,7 +2586,7 @@ NER,Niger,Africa,2009,Flood,3.0,79129.0,0.0
 GEO,Georgia,Asia,2009,Earthquake,0.0,7306.0,0.0
 PHL,Philippines,Asia,2009,Earthquake,0.0,392.0,0.135
 USA,United States of America,Americas,2009,Flood,9.0,3000.0,750.32
-ASM,American Samoa,Oceania,2009,Earthquake,34.0,2500.0,0.0
+ASM,American Samoa,Oceania,2009,Tsunami,34.0,2500.0,0.0
 CHN,China,Asia,2009,Storm,3.0,0.0,52.522
 ITA,Italy,Europe,2009,Flood,35.0,5140.0,30.013
 NPL,Nepal,Asia,2009,Flood,87.0,257786.0,90.038
@@ -2770,7 +2770,7 @@ IND,India,Asia,2000,Epidemic,19.0,58.0,0.0
 MDG,Madagascar,Africa,2011,Storm,35.0,115215.0,0.0
 MOZ,Mozambique,Africa,2011,Flood,11.0,30000.0,0.0
 NER,Niger,Africa,2011,Flood,7.0,13000.0,0.0
-JPN,Japan,Asia,2011,Earthquake,19846.0,368820.0,300561.348
+JPN,Japan,Asia,2011,Tsunami,19846.0,368820.0,300561.348
 TCD,Chad,Africa,2000,Epidemic,607.0,5173.0,0.0
 GMB,Gambia,Africa,2000,Epidemic,21.0,116.0,0.0
 THA,Thailand,Asia,2011,Flood,64.0,716110.0,453.705
@@ -2926,7 +2926,7 @@ IND,India,Asia,2000,Flood,20.0,3000000.0,0.0
 MEX,Mexico,Americas,2000,Flood,120.0,0.0,0.0
 IND,India,Asia,2000,Flood,867.0,22000000.0,80.392
 NIC,Nicaragua,Americas,2000,Flood,0.0,5500.0,0.0
-RUS,Russian Federation,Europe,2000,Flood,0.0,6000.0,13.087
+RUS,Russian Federation,Europe,2000,Coastal flood,0.0,6000.0,13.087
 USA,United States of America,Americas,2000,Wildfire,0.0,1010.0,0.0
 LBR,Liberia,Africa,2000,Epidemic,10.0,0.0,0.0
 TUR,Türkiye,Asia,2000,Extreme temperature,11.0,300.0,1.87
@@ -2934,7 +2934,7 @@ SCG,Serbia Montenegro,Europe,2000,Extreme temperature,3.0,70.0,0.0
 PHL,Philippines,Asia,2000,Storm,75.0,1483321.0,48.166
 THA,Thailand,Asia,2000,Storm,2.0,41219.0,0.0
 NGA,Nigeria,Africa,2000,Flood,0.0,750.0,3.552
-RUS,Russian Federation,Europe,2000,Flood,0.0,1181.0,3.032
+RUS,Russian Federation,Europe,2000,Coastal flood,0.0,1181.0,3.032
 CHN,China,Asia,2000,Storm,4.0,37770.0,0.019
 LVA,Latvia,Europe,2000,Epidemic,0.0,102.0,0.0
 AGO,Angola,Africa,2000,Epidemic,18.0,117.0,0.0
@@ -2995,7 +2995,7 @@ IND,India,Asia,2001,Extreme temperature,125.0,0.0,0.0
 RUS,Russian Federation,Europe,2001,Extreme temperature,145.0,6120.0,0.182
 GTM,Guatemala,Americas,2001,Earthquake,6.0,152.0,0.091
 NPL,Nepal,Asia,2001,Epidemic,13.0,0.0,0.0
-MWI,Malawi,Africa,2001,Flood,59.0,500000.0,12.182
+MWI,Malawi,Africa,2001,Coastal flood,59.0,500000.0,12.182
 AFG,Afghanistan,Asia,2001,Extreme temperature,150.0,100000.0,0.018
 GRC,Greece,Europe,2001,Flood,11.0,450.0,0.0
 PRT,Portugal,Europe,2001,Flood,6.0,983.0,0.0
@@ -3016,7 +3016,7 @@ WSM,Samoa,Oceania,2001,Flood,0.0,0.0,2.727
 NGA,Nigeria,Africa,2001,Flood,0.0,2000.0,0.0
 PAN,Panama,Americas,2001,Flood,0.0,775.0,0.0
 TWN,Taiwan (Province of China),Asia,2001,Storm,9.0,116.0,9.091
-PER,Peru,Americas,2001,Earthquake,145.0,349978.0,545.461
+PER,Peru,Americas,2001,Tsunami,145.0,349978.0,545.461
 FRA,France,Europe,2001,Flood,0.0,721.0,0.0
 IND,India,Asia,2001,Flood,100.0,9670000.0,163.638
 COL,Colombia,Americas,2001,Storm,5.0,7700.0,0.0
@@ -3212,7 +3212,7 @@ NZL,New Zealand,Oceania,2000,Flood,0.0,0.0,1.87
 NER,Niger,Africa,2000,Epidemic,47.0,21.0,0.0
 NPL,Nepal,Asia,2000,Epidemic,69.0,592.0,0.0
 IND,India,Asia,2000,Epidemic,34.0,116.0,0.0
-JPN,Japan,Asia,2000,Flood,18.0,360110.0,13909.73
+JPN,Japan,Asia,2000,Coastal flood,18.0,360110.0,13909.73
 PRK,Democratic People's Republic of Korea,Asia,2000,Storm,46.0,627180.0,11217.525
 JPN,Japan,Asia,2000,Storm,9.0,180041.0,2617.422
 ESP,Spain,Europe,2000,Wildfire,0.0,0.0,0.0
@@ -3280,7 +3280,7 @@ VUT,Vanuatu,Oceania,2001,Storm,1.0,0.0,0.0
 UKR,Ukraine,Europe,2001,Flood,9.0,300000.0,27.273
 CAF,Central African Republic,Africa,2001,Storm,3.0,3000.0,0.0
 USA,United States of America,Americas,2001,Earthquake,1.0,400.0,3636.404
-AUS,Australia,Oceania,2001,Flood,0.0,670.0,23.637
+AUS,Australia,Oceania,2001,Coastal flood,0.0,670.0,23.637
 SYR,Syrian Arab Republic,Asia,2001,Storm,27.0,172.0,0.0
 URY,Uruguay,Americas,2001,Flood,0.0,5000.0,0.0
 PER,Peru,Americas,2001,Flood,0.0,46000.0,0.0
@@ -3310,7 +3310,7 @@ PNG,Papua New Guinea,Oceania,2001,Earthquake,0.0,201.0,0.0
 THA,Thailand,Asia,2001,Storm,0.0,150.0,0.0
 IRN,Iran (Islamic Republic of),Asia,2001,Flood,32.0,1034.0,45.455
 ARG,Argentina,Americas,2001,Extreme temperature,14.0,3000.0,0.0
-RUS,Russian Federation,Europe,2001,Flood,11.0,300000.0,60.001
+RUS,Russian Federation,Europe,2001,Coastal flood,11.0,300000.0,60.001
 BGD,Bangladesh,Asia,2001,Flood,9.0,500000.0,0.0
 KOR,Republic of Korea,Asia,2001,Flood,8.0,15000.0,0.0
 IND,India,Asia,2001,Epidemic,33.0,34078.0,0.0
@@ -3343,7 +3343,7 @@ VNM,Viet Nam,Asia,2001,Storm,20.0,73183.0,100.001
 SPI,Canary Islands,Africa,2001,Flood,7.0,300.0,0.0
 IDN,Indonesia,Asia,2001,Mass movement (wet),0.0,600.0,0.0
 SOM,Somalia,Africa,2001,Flood,0.0,6500.0,0.0
-VNM,Viet Nam,Asia,2001,Flood,0.0,3000.0,0.0
+VNM,Viet Nam,Asia,2001,Coastal flood,0.0,3000.0,0.0
 GAB,Gabon,Africa,2001,Epidemic,50.0,10.0,0.0
 IDN,Indonesia,Asia,2001,Earthquake,0.0,0.0,0.0
 AFG,Afghanistan,Asia,2002,Epidemic,2500.0,0.0,0.0
@@ -3422,7 +3422,7 @@ PHL,Philippines,Asia,2002,Storm,62.0,11000.0,10.138
 KOR,Republic of Korea,Asia,2002,Flood,21.0,4007.0,617.486
 GBR,United Kingdom of Great Britain and Northern Ireland,Europe,2002,Flood,0.0,250.0,0.0
 PRY,Paraguay,Americas,2002,Storm,0.0,12500.0,0.0
-PHL,Philippines,Asia,2002,Flood,26.0,3559.0,0.0
+PHL,Philippines,Asia,2002,Coastal flood,26.0,3559.0,0.0
 NPL,Nepal,Asia,2002,Mass movement (wet),472.0,265865.0,0.0
 ZAF,South Africa,Africa,2002,Storm,22.0,100000.0,8.949
 CHN,China,Asia,2002,Storm,25.0,200.0,0.0
@@ -3684,7 +3684,7 @@ MYS,Malaysia,Asia,2004,Storm,1.0,40000.0,0.0
 CRI,Costa Rica,Americas,2004,Earthquake,8.0,280.0,0.0
 IDN,Indonesia,Asia,2004,Earthquake,32.0,12833.0,93.745
 NGA,Nigeria,Africa,2004,Epidemic,50.0,300.0,0.0
-MMR,Myanmar,Asia,2004,Earthquake,71.0,15700.0,852.227
+MMR,Myanmar,Asia,2004,Tsunami,71.0,15700.0,852.227
 AGO,Angola,Africa,2004,Flood,1.0,2000.0,0.0
 AUS,Australia,Oceania,2004,Flood,3.0,120.0,25.567
 AUS,Australia,Oceania,2004,Storm,1.0,0.0,85.223
@@ -3932,7 +3932,7 @@ AGO,Angola,Africa,2007,Epidemic,515.0,17875.0,0.0
 ZMB,Zambia,Africa,2007,Epidemic,5.0,115.0,0.0
 BOL,Bolivia (Plurinational State of),Americas,2007,Epidemic,1.0,228.0,0.0
 DZA,Algeria,Africa,2007,Flood,15.0,0.0,0.0
-SLB,Solomon Islands,Oceania,2007,Earthquake,52.0,2384.0,0.0
+SLB,Solomon Islands,Oceania,2007,Tsunami,52.0,2384.0,0.0
 PAK,Pakistan,Asia,2007,Mass movement (wet),43.0,3.0,0.0
 NZL,New Zealand,Oceania,2007,Storm,0.0,300.0,0.0
 AFG,Afghanistan,Asia,2007,Flood,23.0,2950.0,0.0
@@ -4101,8 +4101,8 @@ USA,United States of America,Americas,2008,Storm,3.0,0.0,1644.836
 IND,India,Asia,2008,Flood,54.0,803740.0,0.0
 MYS,Malaysia,Asia,2008,Flood,0.0,2000.0,0.0
 PHL,Philippines,Asia,2008,Flood,29.0,50000.0,0.0
-FSM,Micronesia (Federated States of),Oceania,2008,Flood,0.0,0.0,0.0
-PNG,Papua New Guinea,Oceania,2008,Flood,0.0,0.0,0.0
+FSM,Micronesia (Federated States of),Oceania,2008,Coastal flood,0.0,0.0,0.0
+PNG,Papua New Guinea,Oceania,2008,Coastal flood,0.0,0.0,0.0
 CHN,China,Asia,2008,Earthquake,0.0,27169.0,0.0
 PAK,Pakistan,Asia,2008,Flood,37.0,90752.0,0.0
 USA,United States of America,Americas,2008,Storm,4.0,0.0,897.183
@@ -4168,7 +4168,7 @@ CHN,China,Asia,2009,Flood,90.0,39372000.0,1500.641
 CHN,China,Asia,2009,Storm,17.0,3.0,0.0
 BRA,Brazil,Americas,2009,Flood,11.0,10000.0,75.032
 PER,Peru,Americas,2009,Extreme temperature,274.0,24262.0,0.0
-JPN,Japan,Asia,2009,Earthquake,1.0,25319.0,600.256
+JPN,Japan,Asia,2009,Tsunami,1.0,25319.0,600.256
 PHL,Philippines,Asia,2009,Storm,26.0,94229.0,37.516
 SLE,Sierra Leone,Africa,2009,Flood,103.0,1470.0,0.0
 LKA,Sri Lanka,Asia,2009,Flood,0.0,20000.0,0.0
@@ -4188,7 +4188,7 @@ USA,United States of America,Americas,2009,Storm,7.0,0.0,1275.545
 PHL,Philippines,Asia,2009,Storm,14.0,221422.0,4.334
 VNM,Viet Nam,Asia,2009,Storm,182.0,2477315.0,1178.003
 COL,Colombia,Americas,2010,Flood,418.0,2791999.0,1476.427
-WSM,Samoa,Oceania,2009,Earthquake,148.0,5584.0,186.139
+WSM,Samoa,Oceania,2009,Tsunami,148.0,5584.0,186.139
 VNM,Viet Nam,Asia,2009,Storm,0.0,0.0,0.3
 AZE,Azerbaijan,Asia,2009,Flood,0.0,5000.0,0.0
 IND,India,Asia,2009,Flood,355.0,4100000.0,3226.378
@@ -4248,7 +4248,7 @@ ESP,Spain,Europe,2010,Storm,3.0,0.0,501.985
 FRA,France,Europe,2010,Storm,53.0,500079.0,6245.285
 POL,Poland,Europe,2010,Storm,0.0,1000.0,0.0
 PRT,Portugal,Europe,2010,Storm,3.0,0.0,398.635
-CHL,Chile,Americas,2010,Earthquake,562.0,2671556.0,44292.803
+CHL,Chile,Americas,2010,Tsunami,562.0,2671556.0,44292.803
 HTI,Haiti,Americas,2010,Flood,27.0,22085.0,0.0
 ETH,Ethiopia,Africa,2010,Flood,0.0,55700.0,0.0
 ZMB,Zambia,Africa,2010,Flood,0.0,1200.0,0.0
@@ -4511,7 +4511,7 @@ GHA,Ghana,Africa,2013,Epidemic,18.0,560.0,0.0
 MWI,Malawi,Africa,2013,Flood,3.0,33000.0,0.0
 ECU,Ecuador,Americas,2013,Mass movement (wet),10.0,0.0,0.0
 IDN,Indonesia,Asia,2013,Mass movement (wet),13.0,0.0,0.0
-SLB,Solomon Islands,Oceania,2013,Earthquake,10.0,3329.0,2.764
+SLB,Solomon Islands,Oceania,2013,Tsunami,10.0,3329.0,2.764
 BEN,Benin,Africa,2013,Epidemic,6.0,486.0,0.0
 LKA,Sri Lanka,Asia,2013,Flood,52.0,56747.0,0.0
 COL,Colombia,Americas,2013,Earthquake,0.0,10015.0,5.528
@@ -4833,7 +4833,7 @@ IND,India,Asia,2022,Storm,0.0,0.0,0.0
 MMR,Myanmar,Asia,2016,Earthquake,4.0,1152.0,13.414
 IND,India,Asia,2016,Flood,28.0,3000.0,790.078
 SLB,Solomon Islands,Oceania,2016,Epidemic,15.0,13242.0,0.0
-NZL,New Zealand,Oceania,2016,Earthquake,2.0,50.0,5231.416
+NZL,New Zealand,Oceania,2016,Tsunami,2.0,50.0,5231.416
 VNM,Viet Nam,Asia,2016,Flood,35.0,659615.0,139.88
 HTI,Haiti,Americas,2016,Flood,13.0,2782.0,0.0
 NIC,Nicaragua,Americas,2016,Storm,0.0,10570.0,0.0
@@ -5667,7 +5667,7 @@ VEN,Venezuela (Bolivarian Republic of),Americas,2025,Storm,0.0,24095.0,0.0
 COD,Democratic Republic of the Congo,Africa,2025,Epidemic,128.0,6353.0,0.0
 KOR,Republic of Korea,Asia,2025,Flood,28.0,14575.0,740.0
 PHL,Philippines,Asia,2025,Storm,38.0,11138205.0,195.0
-RUS,Russian Federation,Europe,2025,Earthquake,0.0,169.0,0.0
+RUS,Russian Federation,Europe,2025,Tsunami,0.0,169.0,0.0
 ROU,Romania,Europe,2025,Flood,3.0,2500.0,0.0
 CPV,Cabo Verde,Africa,2025,Flood,17.0,119000.0,0.0
 TUR,Türkiye,Asia,2025,Earthquake,1.0,1513.0,10.0
@@ -5809,7 +5809,7 @@ SOM,Somalia,Africa,2000,Epidemic,14.0,258.0,0.0
 IND,India,Asia,2000,Storm,0.0,30000.0,0.0
 IND,India,Asia,2000,Epidemic,13.0,287.0,0.0
 HTI,Haiti,Americas,2000,Flood,12.0,1200.0,0.0
-FRA,France,Europe,2000,Flood,0.0,600.0,0.0
+FRA,France,Europe,2000,Coastal flood,0.0,600.0,0.0
 NGA,Nigeria,Africa,2000,Mass movement (wet),15.0,0.0,0.0
 AZE,Azerbaijan,Asia,2000,Mass movement (wet),11.0,0.0,0.0
 GBR,United Kingdom of Great Britain and Northern Ireland,Europe,2000,Storm,4.0,600.0,0.0
@@ -6010,7 +6010,7 @@ CHN,China,Asia,2002,Flood,178.0,999311.0,7.517
 PAK,Pakistan,Asia,2002,Flood,14.0,0.0,0.0
 SVK,Slovakia,Europe,2002,Flood,0.0,0.0,5.369
 COD,Democratic Republic of the Congo,Africa,2002,Epidemic,24.0,4000.0,0.0
-PHL,Philippines,Asia,2002,Flood,18.0,7000.0,0.0
+PHL,Philippines,Asia,2002,Coastal flood,18.0,7000.0,0.0
 RUS,Russian Federation,Europe,2002,Wildfire,0.0,0.0,0.0
 DZA,Algeria,Africa,2002,Flood,29.0,2301.0,2.685
 EGY,Egypt,Africa,2002,Earthquake,0.0,250.0,0.0
@@ -6021,7 +6021,7 @@ THA,Thailand,Asia,2002,Mass movement (wet),35.0,33000.0,0.0
 CHN,China,Asia,2002,Storm,26.0,7000040.0,178.982
 TWN,Taiwan (Province of China),Asia,2002,Storm,1.0,0.0,0.089
 YEM,Yemen,Asia,2002,Flood,28.0,0.0,0.0
-HND,Honduras,Americas,2002,Flood,0.0,1720.0,0.0
+HND,Honduras,Americas,2002,Coastal flood,0.0,1720.0,0.0
 RUS,Russian Federation,Europe,2002,Mass movement (wet),122.0,0.0,0.0
 USA,United States of America,Americas,2002,Wildfire,0.0,2213.0,0.0
 DNK,Denmark,Europe,2002,Storm,1.0,0.0,0.0
@@ -6239,10 +6239,10 @@ PHL,Philippines,Asia,2004,Storm,8.0,70488.0,57.951
 MYS,Malaysia,Asia,2004,Flood,13.0,15000.0,17.045
 LKA,Sri Lanka,Asia,2004,Flood,6.0,200000.0,0.0
 EGY,Egypt,Africa,2004,Epidemic,0.0,120.0,0.0
-IND,India,Asia,2004,Earthquake,16389.0,654512.0,1743.316
-KEN,Kenya,Africa,2004,Earthquake,1.0,0.0,170.445
-SOM,Somalia,Africa,2004,Earthquake,298.0,105083.0,170.445
-SYC,Seychelles,Africa,2004,Earthquake,3.0,4830.0,51.134
+IND,India,Asia,2004,Tsunami,16389.0,654512.0,1743.316
+KEN,Kenya,Africa,2004,Tsunami,1.0,0.0,170.445
+SOM,Somalia,Africa,2004,Tsunami,298.0,105083.0,170.445
+SYC,Seychelles,Africa,2004,Tsunami,3.0,4830.0,51.134
 CHN,China,Asia,2004,Storm,6.0,562.0,6.818
 USA,United States of America,Americas,2004,Storm,9.0,14.0,0.0
 IND,India,Asia,2004,Flood,210.0,100000.0,470.429
@@ -6500,7 +6500,7 @@ ARG,Argentina,Americas,2007,Flood,5.0,65000.0,46.581
 KGZ,Kyrgyzstan,Asia,2007,Flood,0.0,845.0,0.311
 CAN,Canada,Americas,2007,Storm,2.0,0.0,0.0
 ROU,Romania,Europe,2007,Flood,0.0,500.0,0.0
-MDG,Madagascar,Africa,2007,Flood,7.0,33000.0,0.0
+MDG,Madagascar,Africa,2007,Coastal flood,7.0,33000.0,0.0
 NAM,Namibia,Africa,2007,Flood,7.0,15000.0,0.0
 MUS,Mauritius,Africa,2007,Storm,2.0,0.0,0.0
 IDN,Indonesia,Asia,2007,Flood,74.0,11556.0,0.0
@@ -6531,7 +6531,7 @@ TJK,Tajikistan,Asia,2007,Earthquake,11.0,7003.0,0.0
 ITA,Italy,Europe,2007,Wildfire,11.0,0.0,0.0
 ZAF,South Africa,Africa,2007,Flood,0.0,38000.0,0.0
 JPN,Japan,Asia,2007,Flood,2.0,10000.0,0.0
-VNM,Viet Nam,Asia,2007,Flood,74.0,416130.0,201.852
+VNM,Viet Nam,Asia,2007,Coastal flood,74.0,416130.0,201.852
 SDN,Sudan,Africa,2007,Epidemic,58.0,890.0,0.0
 SPI,Canary Islands,Africa,2007,Wildfire,0.0,405.0,0.0
 KEN,Kenya,Africa,2008,Epidemic,43.0,0.0,0.0
@@ -6566,7 +6566,7 @@ USA,United States of America,Americas,2007,Storm,17.0,1128.0,1552.712
 HTI,Haiti,Americas,2007,Flood,41.0,75947.0,0.0
 CUB,Cuba,Americas,2007,Flood,0.0,18000.0,0.0
 SOM,Somalia,Africa,2007,Epidemic,1133.0,35687.0,0.0
-PHL,Philippines,Asia,2007,Flood,11.0,16463.0,3.913
+PHL,Philippines,Asia,2007,Coastal flood,11.0,16463.0,3.913
 USA,United States of America,Americas,2007,Wildfire,8.0,640064.0,3881.779
 JAM,Jamaica,Americas,2007,Storm,1.0,0.0,0.0
 PHL,Philippines,Asia,2007,Flood,20.0,0.0,0.0
@@ -6576,7 +6576,7 @@ BDI,Burundi,Africa,2007,Flood,1.0,2701.0,0.0
 BGD,Bangladesh,Asia,2007,Storm,4234.0,8978541.0,3571.236
 IDN,Indonesia,Asia,2007,Earthquake,3.0,21800.0,0.0
 MTQ,Martinique,Americas,2007,Earthquake,1.0,100.0,0.0
-PHL,Philippines,Asia,2007,Flood,0.0,33571.0,0.0
+PHL,Philippines,Asia,2007,Coastal flood,0.0,33571.0,0.0
 PHL,Philippines,Asia,2007,Storm,20.0,35333.0,1.553
 CHL,Chile,Americas,2007,Earthquake,2.0,25155.0,155.271
 FJI,Fiji,Oceania,2007,Flood,5.0,0.0,10.869
@@ -6619,7 +6619,7 @@ MNG,Mongolia,Asia,2008,Storm,52.0,0.0,0.0
 FRA,France,Europe,2008,Storm,3.0,2100.0,119.624
 PHL,Philippines,Asia,2008,Storm,1.0,0.0,23.925
 IDN,Indonesia,Asia,2008,Volcanic activity,0.0,600.0,0.0
-KOR,Republic of Korea,Asia,2008,Flood,10.0,13.0,0.0
+KOR,Republic of Korea,Asia,2008,Coastal flood,10.0,13.0,0.0
 PHL,Philippines,Asia,2008,Storm,64.0,1496668.0,148.295
 USA,United States of America,Americas,2008,Storm,7.0,70.0,2392.489
 TWN,Taiwan (Province of China),Asia,2008,Storm,26.0,8.0,23.925
@@ -6677,8 +6677,8 @@ VNM,Viet Nam,Asia,2008,Storm,11.0,0.0,0.0
 MOZ,Mozambique,Africa,2008,Epidemic,155.0,19310.0,0.0
 CRI,Costa Rica,Americas,2008,Flood,1.0,53000.0,32.897
 LKA,Sri Lanka,Asia,2008,Flood,15.0,360000.0,0.0
-PNG,Papua New Guinea,Oceania,2008,Flood,0.0,75300.0,0.0
-KIR,Kiribati,Oceania,2008,Flood,0.0,85.0,0.0
+PNG,Papua New Guinea,Oceania,2008,Coastal flood,0.0,75300.0,0.0
+KIR,Kiribati,Oceania,2008,Coastal flood,0.0,85.0,0.0
 PHL,Philippines,Asia,2008,Flood,0.0,29184.0,0.667
 PHL,Philippines,Asia,2008,Flood,7.0,2391.0,0.259
 GHA,Ghana,Africa,2008,Flood,0.0,58000.0,0.0
@@ -6749,7 +6749,7 @@ DZA,Algeria,Africa,2009,Flood,15.0,0.0,0.0
 IND,India,Asia,2009,Flood,992.0,1886000.0,330.141
 TUN,Tunisia,Africa,2009,Flood,17.0,5008.0,0.0
 LAO,Lao People's Democratic Republic,Asia,2009,Storm,16.0,128887.0,150.064
-TON,Tonga,Oceania,2009,Earthquake,9.0,507.0,14.256
+TON,Tonga,Oceania,2009,Tsunami,9.0,507.0,14.256
 SOM,Somalia,Africa,2009,Flood,0.0,1750.0,0.0
 IDN,Indonesia,Asia,2009,Earthquake,1195.0,2501798.0,3301.41
 PHL,Philippines,Asia,2009,Storm,512.0,4478491.0,878.444
@@ -6859,13 +6859,13 @@ SVN,Slovenia,Europe,2010,Flood,3.0,2000.0,29.512
 NIC,Nicaragua,Americas,2010,Flood,66.0,71000.0,0.0
 CHE,Switzerland,Europe,2010,Extreme temperature,0.0,0.0,0.0
 IND,India,Asia,2010,Flood,200.0,3267183.0,2480.397
-IDN,Indonesia,Asia,2011,Earthquake,1.0,95.0,0.0
+IDN,Indonesia,Asia,2011,Tsunami,1.0,95.0,0.0
 JAM,Jamaica,Americas,2010,Storm,15.0,2506.0,221.464
 HND,Honduras,Americas,2010,Storm,4.0,0.0,0.0
 MEX,Mexico,Americas,2010,Storm,3.0,1075.0,0.0
 CZE,Czechia,Europe,2010,Extreme temperature,12.0,0.0,0.0
 SLV,El Salvador,Americas,2010,Storm,1.0,0.0,0.0
-IDN,Indonesia,Asia,2010,Earthquake,530.0,11864.0,0.0
+IDN,Indonesia,Asia,2010,Tsunami,530.0,11864.0,0.0
 NGA,Nigeria,Africa,2010,Flood,40.0,1500200.0,44.293
 BEN,Benin,Africa,2010,Flood,46.0,831000.0,0.0
 TWN,Taiwan (Province of China),Asia,2010,Storm,32.0,0.0,14.764
@@ -8687,7 +8687,7 @@ HKG,"China, Hong Kong Special Administrative Region",Asia,2025,Storm,0.0,26.0,25
 THA,Thailand,Asia,2025,Storm,0.0,5537.0,0.0
 ETH,Ethiopia,Africa,2025,Storm,1.0,38624.0,0.0
 TUR,Türkiye,Asia,2025,Wildfire,10.0,14.0,0.0
-USA,United States of America,Americas,2025,Earthquake,0.0,0.0,1.0
+USA,United States of America,Americas,2025,Tsunami,0.0,0.0,1.0
 CHN,China,Asia,2025,Flood,91.0,300000.0,5800.0
 GNQ,Equatorial Guinea,Africa,2025,Flood,0.0,23155.0,0.0
 PRT,Portugal,Europe,2025,Wildfire,3.0,246.0,0.0
@@ -8740,7 +8740,7 @@ TZA,United Republic of Tanzania,Africa,2000,Epidemic,16.0,254.0,0.0
 SOM,Somalia,Africa,2000,Epidemic,230.0,2232.0,0.0
 KEN,Kenya,Africa,2000,Epidemic,3.0,189.0,0.0
 IRN,Iran (Islamic Republic of),Asia,2000,Earthquake,0.0,1000.0,0.0
-PHL,Philippines,Asia,2000,Flood,0.0,5250.0,0.0
+PHL,Philippines,Asia,2000,Coastal flood,0.0,5250.0,0.0
 TZA,United Republic of Tanzania,Africa,2000,Epidemic,9.0,330.0,0.0
 IDN,Indonesia,Asia,2000,Mass movement (wet),34.0,0.0,21.687
 SOM,Somalia,Africa,2000,Epidemic,54.0,0.0,0.0
@@ -8797,10 +8797,10 @@ RWA,Rwanda,Africa,2000,Epidemic,10.0,164.0,0.0
 SVK,Slovakia,Europe,2000,Wildfire,6.0,0.0,0.0
 CHN,China,Asia,2000,Earthquake,1.0,177611.0,80.392
 KOR,Republic of Korea,Asia,2000,Storm,25.0,300.0,21.126
-BGD,Bangladesh,Asia,2000,Flood,1.0,12010.0,0.0
+BGD,Bangladesh,Asia,2000,Coastal flood,1.0,12010.0,0.0
 AFG,Afghanistan,Asia,2000,Epidemic,19.0,1604.0,0.0
 KEN,Kenya,Africa,2000,Epidemic,14.0,42.0,0.0
-PHL,Philippines,Asia,2000,Flood,5.0,6508.0,0.0
+PHL,Philippines,Asia,2000,Coastal flood,5.0,6508.0,0.0
 KOR,Republic of Korea,Asia,2000,Storm,8.0,411.0,132.741
 GTM,Guatemala,Americas,2000,Flood,20.0,462.0,0.0
 VEN,Venezuela (Bolivarian Republic of),Americas,2000,Flood,13.0,20004.0,0.0
@@ -8854,7 +8854,7 @@ BIH,Bosnia and Herzegovina,Europe,2000,Drought,0.0,0.0,295.395
 BOL,Bolivia (Plurinational State of),Americas,2000,Drought,0.0,20000.0,0.0
 TZA,United Republic of Tanzania,Africa,2001,Earthquake,0.0,700.0,0.0
 ARG,Argentina,Americas,2001,Storm,4.0,650.0,0.0
-MOZ,Mozambique,Africa,2001,Flood,79.0,549326.0,65.455
+MOZ,Mozambique,Africa,2001,Coastal flood,79.0,549326.0,65.455
 PAK,Pakistan,Asia,2001,Earthquake,12.0,914292.0,0.909
 SLV,El Salvador,Americas,2001,Earthquake,315.0,256021.0,633.643
 LKA,Sri Lanka,Asia,2001,Flood,0.0,160.0,0.0
@@ -9012,7 +9012,7 @@ DEU,Germany,Europe,2002,Flood,27.0,330108.0,20761.854
 NGA,Nigeria,Africa,2002,Epidemic,72.0,750.0,0.0
 PRK,Democratic People's Republic of Korea,Asia,2002,Flood,0.0,58443.0,0.0
 ZAF,South Africa,Africa,2002,Flood,16.0,2500.0,0.0
-CHN,China,Asia,2002,Flood,61.0,15.0,0.0
+CHN,China,Asia,2002,Coastal flood,61.0,15.0,0.0
 CHN,China,Asia,2002,Flood,165.0,6340000.0,966.5
 ARG,Argentina,Americas,2002,Extreme temperature,0.0,200.0,0.0
 NER,Niger,Africa,2002,Storm,4.0,1253.0,0.0
@@ -9034,7 +9034,7 @@ IDN,Indonesia,Asia,2002,Wildfire,0.0,200.0,0.0
 USA,United States of America,Americas,2002,Wildfire,0.0,0.0,0.0
 CUB,Cuba,Americas,2002,Storm,3.0,281470.0,41.166
 RUS,Russian Federation,Europe,2002,Extreme temperature,242.0,25062.0,0.0
-IDN,Indonesia,Asia,2002,Earthquake,8.0,9082.0,0.0
+IDN,Indonesia,Asia,2002,Tsunami,8.0,9082.0,0.0
 IND,India,Asia,2002,Flood,11.0,0.0,0.0
 JAM,Jamaica,Americas,2002,Storm,0.0,0.0,1.79
 HTI,Haiti,Americas,2002,Storm,4.0,250.0,0.0
@@ -9154,7 +9154,7 @@ GNB,Guinea-Bissau,Africa,2003,Flood,0.0,0.0,0.0
 MLI,Mali,Africa,2003,Epidemic,106.0,1216.0,0.0
 RWA,Rwanda,Africa,2003,Flood,0.0,7016.0,0.0
 COD,Democratic Republic of the Congo,Africa,2003,Flood,0.0,600.0,0.0
-DOM,Dominican Republic,Americas,2003,Flood,9.0,65003.0,74.589
+DOM,Dominican Republic,Americas,2003,Coastal flood,9.0,65003.0,74.589
 TJK,Tajikistan,Asia,2003,Epidemic,0.0,256.0,0.0
 AUS,Australia,Oceania,2003,Storm,0.0,300.0,0.0
 COL,Colombia,Americas,2003,Flood,42.0,35752.0,0.0
@@ -9263,11 +9263,11 @@ DZA,Algeria,Africa,2004,Earthquake,0.0,15.0,0.0
 ARG,Argentina,Americas,2004,Flood,0.0,5000.0,0.0
 ALB,Albania,Europe,2004,Flood,0.0,2500.0,0.295
 PHL,Philippines,Asia,2004,Mass movement (wet),8.0,6.0,0.0
-BGD,Bangladesh,Asia,2004,Earthquake,2.0,0.0,852.227
-LKA,Sri Lanka,Asia,2004,Earthquake,35399.0,1019306.0,2243.914
-MDV,Maldives,Asia,2004,Earthquake,102.0,27214.0,801.264
-MYS,Malaysia,Asia,2004,Earthquake,80.0,5063.0,852.227
-THA,Thailand,Asia,2004,Earthquake,8345.0,67007.0,1704.454
+BGD,Bangladesh,Asia,2004,Tsunami,2.0,0.0,852.227
+LKA,Sri Lanka,Asia,2004,Tsunami,35399.0,1019306.0,2243.914
+MDV,Maldives,Asia,2004,Tsunami,102.0,27214.0,801.264
+MYS,Malaysia,Asia,2004,Tsunami,80.0,5063.0,852.227
+THA,Thailand,Asia,2004,Tsunami,8345.0,67007.0,1704.454
 GAB,Gabon,Africa,2004,Epidemic,1.0,100.0,0.0
 BDI,Burundi,Africa,2004,Earthquake,3.0,120.0,0.0
 BGD,Bangladesh,Asia,2004,Storm,10.0,4050.0,0.0
@@ -9550,7 +9550,7 @@ MDG,Madagascar,Africa,2007,Storm,80.0,215198.0,372.651
 FJI,Fiji,Oceania,2007,Flood,1.0,900.0,46.581
 DZA,Algeria,Africa,2007,Flood,22.0,0.0,21.056
 USA,United States of America,Americas,2007,Storm,10.0,280.0,0.0
-CHL,Chile,Americas,2007,Earthquake,10.0,0.0,0.0
+CHL,Chile,Americas,2007,Tsunami,10.0,0.0,0.0
 COL,Colombia,Americas,2007,Flood,146.0,1504317.0,0.0
 CHN,China,Asia,2007,Flood,43.0,2300050.0,121.111
 LKA,Sri Lanka,Asia,2007,Flood,15.0,121000.0,0.078
@@ -9560,7 +9560,7 @@ IND,India,Asia,2007,Flood,15.0,200000.0,0.0
 ALB,Albania,Europe,2007,Extreme temperature,0.0,150.0,0.0
 HUN,Hungary,Europe,2007,Extreme temperature,500.0,0.0,0.0
 ROU,Romania,Europe,2007,Extreme temperature,30.0,0.0,0.0
-MDV,Maldives,Asia,2007,Flood,0.0,1649.0,0.0
+MDV,Maldives,Asia,2007,Coastal flood,0.0,1649.0,0.0
 AGO,Angola,Africa,2007,Epidemic,0.0,468.0,0.0
 SVK,Slovakia,Europe,2007,Extreme temperature,1.0,89.0,0.0
 IND,India,Asia,2007,Flood,62.0,10000.0,0.0
@@ -9577,7 +9577,7 @@ IDN,Indonesia,Asia,2007,Flood,88.0,3389.0,0.0
 CHN,China,Asia,2007,Flood,170.0,386000.0,62.108
 BGR,Bulgaria,Europe,2007,Flood,8.0,10.0,0.0
 ZAF,South Africa,Africa,2007,Wildfire,26.0,1600.0,0.0
-DZA,Algeria,Africa,2007,Flood,12.0,0.0,0.0
+DZA,Algeria,Africa,2007,Coastal flood,12.0,0.0,0.0
 USA,United States of America,Americas,2007,Wildfire,0.0,768.0,0.0
 PRK,Democratic People's Republic of Korea,Asia,2007,Flood,610.0,1170518.0,465.813
 JPN,Japan,Asia,2007,Extreme temperature,62.0,3000.0,0.0
@@ -9588,7 +9588,7 @@ CHN,China,Asia,2007,Storm,39.0,8000000.0,1382.775
 UGA,Uganda,Africa,2007,Flood,29.0,718045.0,0.11
 MMR,Myanmar,Asia,2007,Flood,0.0,61744.0,0.0
 GIN,Guinea,Africa,2007,Epidemic,90.0,2410.0,0.0
-MEX,Mexico,Americas,2007,Flood,0.0,55000.0,0.0
+MEX,Mexico,Americas,2007,Coastal flood,0.0,55000.0,0.0
 USA,United States of America,Americas,2007,Storm,5.0,0.0,465.813
 SLV,El Salvador,Americas,2007,Storm,0.0,2800.0,0.0
 IDN,Indonesia,Asia,2007,Earthquake,25.0,459567.0,776.356
@@ -9601,7 +9601,7 @@ USA,United States of America,Americas,2007,Storm,4.0,27.0,465.813
 SVN,Slovenia,Europe,2007,Storm,6.0,1050.0,453.392
 IDN,Indonesia,Asia,2008,Flood,14.0,7000.0,0.0
 CRI,Costa Rica,Americas,2007,Flood,0.0,12500.0,0.0
-IND,India,Asia,2007,Flood,80.0,7200000.0,426.996
+IND,India,Asia,2007,Coastal flood,80.0,7200000.0,426.996
 GTM,Guatemala,Americas,2007,Flood,11.0,656.0,0.0
 BEN,Benin,Africa,2007,Flood,10.0,10884.0,0.0
 GTM,Guatemala,Americas,2007,Flood,0.0,1440.0,0.0
@@ -10195,7 +10195,7 @@ AUS,Australia,Oceania,2014,Wildfire,2.0,168.0,33.998
 HND,Honduras,Americas,2014,Flood,0.0,20000.0,0.0
 CAN,Canada,Americas,2014,Extreme temperature,0.0,0.0,0.0
 USA,United States of America,Americas,2014,Extreme temperature,21.0,0.0,3399.807
-KIR,Kiribati,Oceania,2014,Flood,0.0,220.0,0.0
+KIR,Kiribati,Oceania,2014,Coastal flood,0.0,220.0,0.0
 BOL,Bolivia (Plurinational State of),Americas,2014,Mass movement (wet),74.0,11400.0,271.985
 IDN,Indonesia,Asia,2014,Volcanic activity,32.0,32002.0,112.874
 SVN,Slovenia,Europe,2014,Extreme temperature,1.0,50000.0,0.0
@@ -10340,7 +10340,7 @@ JPN,Japan,Asia,2015,Storm,2.0,845.0,281.171
 SLB,Solomon Islands,Oceania,2015,Storm,9.0,400.0,2.717
 PHL,Philippines,Asia,2015,Flood,4.0,3000.0,0.0
 MMR,Myanmar,Asia,2015,Flood,149.0,1621703.0,161.639
-GUY,Guyana,Americas,2015,Flood,0.0,199000.0,0.0
+GUY,Guyana,Americas,2015,Coastal flood,0.0,199000.0,0.0
 USA,United States of America,Americas,2015,Storm,4.0,0.0,950.818
 COD,Democratic Republic of the Congo,Africa,2015,Earthquake,3.0,390.0,0.0
 TWN,Taiwan (Province of China),Asia,2015,Storm,6.0,380.0,0.0
@@ -10351,7 +10351,7 @@ IND,India,Asia,2015,Flood,5.0,18000.0,0.0
 ISR,Israel,Asia,2015,Storm,0.0,200.0,0.0
 ETH,Ethiopia,Africa,2015,Drought,0.0,10200000.0,1901.636
 IDN,Indonesia,Asia,2015,Wildfire,19.0,409664.0,1358.312
-CHL,Chile,Americas,2015,Earthquake,19.0,681499.0,1086.649
+CHL,Chile,Americas,2015,Tsunami,19.0,681499.0,1086.649
 BLZ,Belize,Americas,2015,Flood,0.0,20000.0,0.0
 SLE,Sierra Leone,Africa,2015,Flood,10.0,24303.0,0.0
 GTM,Guatemala,Americas,2015,Flood,2.0,56845.0,0.0

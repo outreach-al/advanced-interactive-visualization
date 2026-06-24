@@ -65,10 +65,21 @@ export function About() {
                 residual analysis, run per hazard. The <strong className="text-ink">sticks</strong> on
                 the scatter draw each country's residual: its vertical distance from the expected line.
               </p>
+              <p>
+                <strong className="text-ink">Click the legends</strong> to filter: the region legend
+                isolates regions across the scatter and the grid; the timeline legend shows only the
+                selected hazard types. Both are multi-select toggles.
+              </p>
+              <p>
+                <strong className="text-ink">Search</strong> a country by name or ISO code to locate it.
+                Selecting one shows its enlarged fingerprint with per-hazard numbers; <strong className="text-ink">Pin to compare</strong>{' '}
+                stacks several side by side in the tray below.
+              </p>
               <p className="text-xs text-faint">
-                Coastal-flood and tsunami saturation are empty by construction: EM-DAT here has no
-                coastal- or tsunami-specific subtype, so all flood deaths go to the river-flood
-                petal. Unmapped hazard types appear in the timeline as “Other.”
+                Coastal flood and tsunami are split out of EM-DAT&apos;s Flood and Earthquake types
+                by subtype, so those petals carry real deaths (notably ~253k tsunami deaths that
+                would otherwise hide in the earthquake petal). Hazard types with no INFORM petal
+                appear in the timeline as “Other.”
               </p>
             </div>
           </div>

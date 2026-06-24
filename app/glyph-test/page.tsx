@@ -73,10 +73,11 @@ export default function GlyphTest() {
           <p className="mt-10 max-w-2xl text-sm leading-relaxed text-ink/70">
             Note the dual encoding in action: a <em>long, pale</em> petal means
             INFORM predicts high risk for that hazard but EM-DAT recorded few
-            deaths; a <em>short, deep</em> petal means the opposite. The coastal
-            flood and tsunami petals stay pale by construction — EM-DAT here has
-            no coastal- or tsunami-specific subtype, so their deaths channel is
-            empty while their predicted-risk length is still shown.
+            deaths; a <em>short, deep</em> petal means the opposite. Coastal flood
+            and tsunami are split out of EM-DAT&apos;s Flood and Earthquake types
+            by subtype, so for coastal nations those petals can light up — the
+            2004 Indian Ocean tsunami, for instance, surfaces on the tsunami
+            petal rather than hiding inside earthquake.
           </p>
         </>
       )}

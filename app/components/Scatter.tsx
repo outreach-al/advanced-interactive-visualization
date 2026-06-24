@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { scaleLinear, scaleSqrt, max as d3max, brush as d3brush, select } from 'd3';
 import type { Country, HazardReg, Selection } from '../lib/types';
+import { isDimmed } from '../lib/types';
 import { regionColor, HAZARD_LABELS } from '../lib/palette';
 
 const W = 430;
@@ -124,7 +125,7 @@ export function Scatter({
         {/* residual sticks — the vertical gap each dot has from the OLS line.
             This IS the quantity the grid is sorted by, drawn explicitly. */}
         {countries.map((c) => {
-          const isDim = !!selection.brushed && !selection.brushed.has(c.iso3);
+          const isDim = isDimmed(selection, c.iso3, c.region);
           if (isDim) return null;
           const xc = x(m.xVal(c));
           const yActual = y(m.yVal(c));
@@ -160,7 +161,7 @@ export function Scatter({
         {countries.map((c) => {
           const isH = selection.hovered === c.iso3;
           const isS = selection.selected === c.iso3;
-          const isDim = !!selection.brushed && !selection.brushed.has(c.iso3);
+          const isDim = isDimmed(selection, c.iso3, c.region);
           return (
             <circle
               key={c.iso3}
@@ -192,7 +193,7 @@ export function Scatter({
             fontSize={9}
             fontFamily="var(--font-mono)"
             fill="#14161b"
-            opacity={!!selection.brushed && !selection.brushed.has(c.iso3) ? 0.12 : 0.85}
+            opacity={isDimmed(selection, c.iso3, c.region) ? 0.12 : 0.85}
             style={{ pointerEvents: 'none' }}
           >
             {c.iso3}

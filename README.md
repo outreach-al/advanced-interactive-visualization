@@ -35,8 +35,7 @@ The views are linked by hover / click / brush selection:
 - **Drag a box** on the scatter → filters the grid to the brushed countries.
 - **Focus a hazard** (chips beside the scatter) → re-sorts both the grid and the
   scatter by that *single* hazard's model error (a per-hazard OLS residual, the
-  same residual logic applied per hazard — directly serves task T1). Coastal
-  flood and tsunami are disabled: EM-DAT here records no deaths for them.
+  same residual logic applied per hazard — directly serves task T1).
 - **Esc** (or the *Clear ✕* button) → resets selection, brush, and hazard focus.
 
 The scatter also draws **residual sticks** — each dot's vertical distance to the
@@ -59,25 +58,30 @@ drought · tsunami · epidemic.
 EM-DAT's hazard categories don't line up one-to-one with INFORM's seven petals,
 so the petal **saturation** (the deaths channel) is mapped as follows:
 
-| INFORM petal       | EM-DAT `hazard_type` summed into it          |
-| ------------------ | -------------------------------------------- |
-| `flood_river`      | `Flood`, `Glacial lake outburst flood`       |
-| `flood_coastal`    | — (no coastal-specific subtype in the data)  |
-| `earthquake`       | `Earthquake`                                 |
-| `tropical_cyclone` | `Storm`                                      |
-| `drought`          | `Drought`                                    |
-| `tsunami`          | — (no tsunami subtype in the data)           |
-| `epidemic`         | `Epidemic`                                   |
+| INFORM petal       | EM-DAT `hazard_type` summed into it                |
+| ------------------ | -------------------------------------------------- |
+| `flood_river`      | `Flood` (riverine/flash/general), `Glacial lake outburst flood` |
+| `flood_coastal`    | `Coastal flood`                                    |
+| `earthquake`       | `Earthquake` (excl. tsunami)                       |
+| `tropical_cyclone` | `Storm`                                            |
+| `drought`          | `Drought`                                          |
+| `tsunami`          | `Tsunami`                                          |
+| `epidemic`         | `Epidemic`                                         |
+
+EM-DAT classifies disasters as Group → Type → **Subtype**. Two subtypes are
+split out of their parent Type in preprocessing so the petals are accurate:
+**Coastal flood** (out of `Flood`) and **Tsunami** (out of `Earthquake`). This
+matters: ~253k tsunami deaths (2004 Indian Ocean, 2011 Tōhoku) would otherwise
+be misattributed to the earthquake petal.
 
 **Caveats (also noted on the slides):**
 
-- EM-DAT does not split river vs. coastal flood here, so **all** flood deaths go
-  to `flood_river`; the `flood_coastal` and `tsunami` saturation channels stay
-  at 0. Their *petal length* (INFORM risk) is still shown — only the deaths
-  channel is empty.
 - EM-DAT hazard types with no INFORM petal (extreme temperature, wildfire, mass
   movement, volcanic activity, …) are **excluded from petal saturation** but
   **kept in the timeline**, bucketed as "Other."
+- Re-attributing tsunami/coastal-flood deaths shifts only the *per-hazard*
+  numbers; each country's **total** deaths (and therefore the main residual sort)
+  is unchanged.
 
 ## Data pipeline
 

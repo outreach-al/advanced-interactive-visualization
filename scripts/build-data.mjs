@@ -83,13 +83,16 @@ const num = (v) => {
 //   length  ← INFORM risk score column (0..10)
 //   sat     ← log-scaled summed EM-DAT deaths from the mapped hazard types
 // ─────────────────────────────────────────────────────────────────────────────
+// EM-DAT hazard_type values feeding each petal's deaths channel. "Coastal flood"
+// and "Tsunami" are split out of their parent Disaster Type in the preprocessing
+// (see scripts/regen note / preprocess.py), so those petals now carry real deaths.
 const PETALS = [
   { key: 'flood_river', label: 'River flood', riskCol: 'risk_flood_river', emdat: ['Flood', 'Glacial lake outburst flood'] },
-  { key: 'flood_coastal', label: 'Coastal flood', riskCol: 'risk_flood_coastal', emdat: [] },
+  { key: 'flood_coastal', label: 'Coastal flood', riskCol: 'risk_flood_coastal', emdat: ['Coastal flood'] },
   { key: 'earthquake', label: 'Earthquake', riskCol: 'risk_earthquake', emdat: ['Earthquake'] },
   { key: 'tropical_cyclone', label: 'Tropical cyclone', riskCol: 'risk_tropical_cyclone', emdat: ['Storm'] },
   { key: 'drought', label: 'Drought', riskCol: 'risk_drought', emdat: ['Drought'] },
-  { key: 'tsunami', label: 'Tsunami', riskCol: 'risk_tsunami', emdat: [] },
+  { key: 'tsunami', label: 'Tsunami', riskCol: 'risk_tsunami', emdat: ['Tsunami'] },
   { key: 'epidemic', label: 'Epidemic', riskCol: 'risk_epidemic', emdat: ['Epidemic'] },
 ];
 

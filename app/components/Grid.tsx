@@ -2,10 +2,11 @@
 
 import { useMemo } from 'react';
 import type { Country, Selection } from '../lib/types';
+import { isDimmed } from '../lib/types';
 import { HAZARD_LABELS } from '../lib/palette';
 import { Glyph } from './Glyph';
 
-const GLYPH_SIZE = 86;
+const GLYPH_SIZE = 112;
 
 interface GridProps {
   countries: Country[]; // pre-sorted by residual, descending
@@ -26,15 +27,16 @@ interface CellProps {
   activeHazard: string | null;
   isHovered: boolean;
   isSelected: boolean;
-  isDimmed: boolean;
+  dimOpacity: number; // 1 = full, 0.35 = de-focused by selection, 0.12 = filtered out
   onHover: GridProps['onHover'];
   onSelect: GridProps['onSelect'];
 }
 
-function Cell({ c, maxLogDeaths, activeHazard, isHovered, isSelected, isDimmed, onHover, onSelect }: CellProps) {
+function Cell({ c, maxLogDeaths, activeHazard, isHovered, isSelected, dimOpacity, onHover, onSelect }: CellProps) {
   return (
     <button
       type="button"
+      data-iso={c.iso3}
       onMouseEnter={(e) => {
         const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
         onHover(c.iso3, { x: r.right - 8, y: r.top });
@@ -47,7 +49,7 @@ function Cell({ c, maxLogDeaths, activeHazard, isHovered, isSelected, isDimmed, 
       onBlur={() => onHover(null)}
       onClick={() => onSelect(c.iso3)}
       className="flex items-center justify-center rounded-lg p-1 outline-none transition-opacity duration-300 hover:bg-black/[0.03] focus-visible:ring-2 focus-visible:ring-[#b0463b]"
-      style={{ opacity: isDimmed ? 0.12 : 1 }}
+      style={{ opacity: dimOpacity }}
       aria-label={`${c.country}, residual ${c.residual.toFixed(2)}`}
     >
       <Glyph
@@ -79,7 +81,15 @@ function Section({
           activeHazard={rest.activeHazard}
           isHovered={rest.selection.hovered === c.iso3}
           isSelected={rest.selection.selected === c.iso3}
-          isDimmed={!!rest.selection.brushed && !rest.selection.brushed.has(c.iso3)}
+          dimOpacity={
+            // hard filters (brush/region/search) fade right back; a selection
+            // only de-focuses the rest of the grid (softer), keeping context.
+            isDimmed(rest.selection, c.iso3, c.region)
+              ? 0.12
+              : !!rest.selection.selected && rest.selection.selected !== c.iso3
+                ? 0.35
+                : 1
+          }
           onHover={rest.onHover}
           onSelect={rest.onSelect}
         />

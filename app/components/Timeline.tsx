@@ -18,10 +18,11 @@ const YEAR_MAX = 2025;
 interface TimelineProps {
   country: Country | null;
   events: DisasterEvent[] | null; // null = events file still loading
+  activeHazards: Set<string>; // empty = show all; else only these hazard types
   setTip: (t: TooltipData | null) => void;
 }
 
-export function Timeline({ country, events, setTip }: TimelineProps) {
+export function Timeline({ country, events, activeHazards, setTip }: TimelineProps) {
   const { x, y, yTicks } = useMemo(() => {
     const x = scaleLinear().domain([YEAR_MIN, YEAR_MAX]).range([0, IW]);
     const ymax = Math.ceil(d3max(events ?? [], (e) => Math.log10(e.deaths + 1)) ?? 4) || 4;
@@ -66,6 +67,7 @@ export function Timeline({ country, events, setTip }: TimelineProps) {
         {(events ?? []).map((e, i) => {
           const cx = x(Math.max(YEAR_MIN, Math.min(YEAR_MAX, e.year)));
           const cy = y(Math.log10(e.deaths + 1));
+          const dim = activeHazards.size > 0 && !activeHazards.has(e.petalKey ?? 'other');
           return (
             <circle
               key={i}
@@ -73,10 +75,11 @@ export function Timeline({ country, events, setTip }: TimelineProps) {
               cy={cy}
               r={4}
               fill={hazardColor(e.petalKey)}
-              fillOpacity={0.72}
+              fillOpacity={dim ? 0.06 : 0.72}
               stroke="white"
               strokeWidth={0.5}
-              className="cursor-pointer"
+              className="cursor-pointer transition-[fill-opacity] duration-200"
+              style={{ pointerEvents: dim ? 'none' : 'all' }}
               onMouseEnter={(ev) => {
                 const rect = (ev.target as SVGElement).getBoundingClientRect();
                 setTip({
