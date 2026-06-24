@@ -1,0 +1,22 @@
+# Coolify deployment (Docker Compose build pack).
+#
+# Builds the image from ./Dockerfile and runs it ON the Coolify server — no
+# registry push involved. Uses `expose` (container-internal) rather than `ports`
+# so Coolify's Traefik proxy can route your domain to it and manage SSL.
+#
+# In Coolify:
+#   1. App → Build Pack: Docker Compose
+#   2. Docker Compose Location: /docker-compose.coolify.yml
+#   3. Set the domain (aiv.krenarahmeti.com) → port 3000
+#   4. Deploy
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+    expose:
+      - '3000'
+    restart: unless-stopped
