@@ -5,10 +5,7 @@ import { regionColor } from '../lib/palette';
 import { conflictColor as color, type ConflictFile } from '../lib/conflict';
 import { Tooltip, type TooltipData } from './Tooltip';
 
-const LABEL_W = 220;
 const ROW_H = 20;
-const DELTA_W = 72;
-const MIN_CELL = 40;
 
 export function ConflictHeatmap({
   data,
@@ -42,6 +39,12 @@ export function ConflictHeatmap({
 
   // Cells stretch to fill the container width (min cell keeps it readable).
   const w = Math.floor(width);
+  // Compact dimensions on narrow screens so the grid fits without a side-scroll.
+  const compact = w < 640;
+  const LABEL_W = compact ? 92 : 220;
+  const DELTA_W = compact ? 40 : 72;
+  const MIN_CELL = compact ? 18 : 40;
+  const showName = !compact;
   const CELL_W = Math.max(MIN_CELL, (w - LABEL_W - DELTA_W) / data.years.length);
   const gridW = Math.max(w, LABEL_W + data.years.length * MIN_CELL + DELTA_W);
   const bodyH = rows.length * ROW_H;
@@ -49,7 +52,7 @@ export function ConflictHeatmap({
   return (
     <div ref={wrapRef}>
       {/* controls */}
-      <div className="mb-3 flex items-center gap-2">
+      <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-2">
         <span className="text-xs text-faint">Sort by</span>
         {(
           [
@@ -136,9 +139,11 @@ export function ConflictHeatmap({
                 <text x={15} y={ROW_H / 2} dominantBaseline="central" fontSize={10} fontFamily="var(--font-mono)" fontWeight={600} fill="#14161b">
                   {c.iso3}
                 </text>
-                <text x={48} y={ROW_H / 2} dominantBaseline="central" fontSize={10} fill="#14161b">
-                  {name}
-                </text>
+                {showName && (
+                  <text x={48} y={ROW_H / 2} dominantBaseline="central" fontSize={10} fill="#14161b">
+                    {name}
+                  </text>
+                )}
                 {data.years.map((yr, j) => {
                   const s = c.scores[yr] ?? 0;
                   return (

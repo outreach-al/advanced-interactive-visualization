@@ -1,0 +1,2 @@
+app: https://aiv.krenarahmeti.com
+repo: https://github.com/outreach-al/advanced-interactive-visualization

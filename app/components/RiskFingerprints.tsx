@@ -323,16 +323,17 @@ export function RiskFingerprints() {
   return (
     <div className="flex min-h-screen flex-col lg:h-screen">
       {/* header */}
-      <header className="flex items-center justify-between gap-4 border-b border-rule px-6 py-3">
+      <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-rule px-4 py-3 sm:px-6">
         <div className="min-w-0">
-          <h1 className="text-lg font-semibold tracking-tight">
+          <h1 className="whitespace-nowrap text-lg font-semibold tracking-tight">
             Risk Fingerprints
             <span className="ml-3 hidden font-normal text-faint sm:inline">where the INFORM index misses</span>
           </h1>
         </div>
-        {/* Search is pinned rightmost so the dynamic controls (match count, Clear)
-            push the other buttons, never the box you're typing in. */}
-        <div className="flex shrink-0 items-center gap-2">
+        {/* On mobile the controls wrap below the title and the search goes
+            full-width; on desktop search is pinned rightmost so the dynamic
+            controls (match count, Clear) push the other buttons, never the box. */}
+        <div className="flex flex-1 flex-wrap items-center justify-end gap-2">
           <Link
             href="/conflict"
             className="inline-flex h-9 items-center rounded-full px-2 text-xs text-faint transition-colors hover:text-ink"
@@ -356,7 +357,7 @@ export function RiskFingerprints() {
             </span>
           )}
           {/* country search */}
-          <div className="relative">
+          <div className="relative w-full sm:w-auto">
             <svg
               className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/50"
               viewBox="0 0 24 24"
@@ -374,7 +375,7 @@ export function RiskFingerprints() {
               onChange={(e) => onSearch(e.target.value)}
               placeholder="Search a country..."
               aria-label="Search countries"
-              className="h-9 w-64 rounded-full border border-ink/20 bg-white pl-9 pr-12 text-sm shadow-sm outline-none transition-colors placeholder:text-faint focus:border-ink/50 focus:ring-2 focus:ring-ink/10"
+              className="h-9 w-full rounded-full border border-ink/20 bg-white pl-9 pr-12 text-sm shadow-sm outline-none transition-colors placeholder:text-faint focus:border-ink/50 focus:ring-2 focus:ring-ink/10 sm:w-64"
             />
             {query ? (
               <button
