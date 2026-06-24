@@ -27,10 +27,11 @@ interface StreamgraphProps {
   events: EventsFile;
   yearRange: [number, number] | null;
   activeHazard: string | null;
+  hidden: Set<string>; // hazard keys hidden via the legend
   onBrush: (range: [number, number] | null) => void;
 }
 
-export function Streamgraph({ events, yearRange, activeHazard, onBrush }: StreamgraphProps) {
+export function Streamgraph({ events, yearRange, activeHazard, hidden, onBrush }: StreamgraphProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const brushRef = useRef<SVGGElement>(null);
   const programmaticRef = useRef(false); // true while we move the brush in code
@@ -64,8 +65,9 @@ export function Streamgraph({ events, yearRange, activeHazard, onBrush }: Stream
   }, [events]);
 
   const { x, paths } = useMemo(() => {
+    const keys = KEYS.filter((k) => !hidden.has(k));
     const series = stack<Record<string, number>>()
-      .keys(KEYS)
+      .keys(keys.length ? keys : KEYS)
       .offset(stackOffsetWiggle)
       .order(stackOrderInsideOut)(yearly);
 
@@ -82,7 +84,7 @@ export function Streamgraph({ events, yearRange, activeHazard, onBrush }: Stream
 
     const paths = series.map((s) => ({ key: s.key as string, d: gen(s) ?? '' }));
     return { x, paths };
-  }, [yearly, iw]);
+  }, [yearly, iw, hidden]);
 
   // brushX → year window. Snaps to whole years; full-range clears the window.
   useEffect(() => {
@@ -150,16 +152,31 @@ export function Streamgraph({ events, yearRange, activeHazard, onBrush }: Stream
   );
 }
 
-// Compact hazard key for the streamgraph, sharing the petal palette.
-export function StreamLegend() {
+// Compact hazard key for the streamgraph — click a hazard to show/hide its band.
+export function StreamLegend({ hidden, onToggle }: { hidden: Set<string>; onToggle: (k: string) => void }) {
   return (
-    <div className="flex flex-wrap gap-x-3 gap-y-1">
-      {KEYS.map((k) => (
-        <span key={k} className="flex items-center gap-1 text-[10px] text-faint">
-          <span className="inline-block h-2 w-2 rounded-full" style={{ background: HAZARD_COLORS[k] }} />
-          {HAZARD_LABELS[k]}
-        </span>
-      ))}
+    <div className="flex flex-wrap gap-x-2 gap-y-1">
+      {KEYS.map((k) => {
+        const off = hidden.has(k);
+        return (
+          <button
+            key={k}
+            type="button"
+            onClick={() => onToggle(k)}
+            aria-pressed={!off}
+            title={off ? `Show ${HAZARD_LABELS[k]}` : `Hide ${HAZARD_LABELS[k]}`}
+            className={`flex items-center gap-1 rounded px-1 text-[10px] transition-opacity hover:bg-black/[0.04] ${
+              off ? 'opacity-35' : 'opacity-100'
+            }`}
+          >
+            <span
+              className="inline-block h-2 w-2 rounded-full"
+              style={{ background: HAZARD_COLORS[k], outline: off ? '1px solid #c9c4ba' : 'none', outlineOffset: 1 }}
+            />
+            {HAZARD_LABELS[k]}
+          </button>
+        );
+      })}
     </div>
   );
 }

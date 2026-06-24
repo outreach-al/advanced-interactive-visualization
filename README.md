@@ -61,6 +61,13 @@ the **URL**, so any state is shareable as a deep link
 > fingerprint at 60 / 90 / 120 / 200 px with the full encoding legend — handy
 > for inspecting the glyph in isolation.
 
+> **Bonus (not part of the one-page brief):** `/conflict` is a standalone,
+> unlinked-from-the-main-app heatmap of INFORM's Violent Conflict Probability
+> score per country, 2017–2026 (`HA.HUM.CON.GCRI`, extracted to
+> `data/inform_conflict.csv`). It's *prediction only* — EM-DAT has no conflict
+> outcome to measure against — so there's no residual; it just shows whether the
+> model's conflict risk rose ahead of known escalations (Haiti, Ecuador, Ukraine).
+
 ## Encoding, honestly
 
 The seven petals sit in a **fixed angular order** so the same hazard appears at

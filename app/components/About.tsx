@@ -11,7 +11,7 @@ export function About() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="rounded-full border border-rule px-3 py-1 text-xs font-medium text-ink/80 transition-colors hover:bg-black/[0.04]"
+        className="inline-flex h-9 items-center rounded-full border border-rule px-3 text-xs font-medium text-ink/80 transition-colors hover:bg-black/[0.04]"
         aria-expanded={open}
       >
         {open ? 'Close' : 'How to read this'}
@@ -76,7 +76,7 @@ export function About() {
                 hazard per year (1995–2025). <strong className="text-ink">Brush a year range</strong> and
                 the entire grid + scatter recompute their residuals for just that era — so you can see
                 that a country is a model miss only because of one event (e.g. brush 2004 to surface the
-                tsunami nations).
+                tsunami nations). Click its legend to show/hide individual hazard bands.
               </p>
               <p>
                 <strong className="text-ink">Click the legends</strong> to filter: the region legend

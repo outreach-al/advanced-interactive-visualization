@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
 import type { Country, Selection } from '../lib/types';
 import { useCountries, useEvents } from '../lib/useData';
 import { useResizableSidebar } from '../lib/useResizable';
@@ -88,6 +89,7 @@ export function RiskFingerprints() {
   const [query, setQuery] = useState('');
   const [pinned, setPinned] = useState<string[]>([]);
   const [yearRange, setYearRange] = useState<[number, number] | null>(null);
+  const [hiddenStreams, setHiddenStreams] = useState<Set<string>>(new Set());
   const [tip, setTip] = useState<TooltipData | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const restoredRef = useRef(false);
@@ -184,12 +186,22 @@ export function RiskFingerprints() {
   }, []);
   const onClearPins = useCallback(() => setPinned([]), []);
 
+  const onToggleStream = useCallback((key: string) => {
+    setHiddenStreams((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }, []);
+
   const clearAll = useCallback(() => {
     setSelection({ hovered: null, selected: null, brushed: null, regions: new Set(), search: null });
     setActiveHazard(null);
     setTimelineHazards(new Set());
     setQuery('');
     setYearRange(null);
+    setHiddenStreams(new Set());
     setTip(null);
   }, []);
 
@@ -320,12 +332,18 @@ export function RiskFingerprints() {
         {/* Search is pinned rightmost so the dynamic controls (match count, Clear)
             push the other buttons, never the box you're typing in. */}
         <div className="flex shrink-0 items-center gap-2">
+          <Link
+            href="/conflict"
+            className="inline-flex h-9 items-center rounded-full px-2 text-xs text-faint transition-colors hover:text-ink"
+          >
+            Conflict ↗
+          </Link>
           <About />
           {hasFocus && (
             <button
               type="button"
               onClick={clearAll}
-              className="rounded-full border border-rule px-3 py-1 text-xs font-medium text-ink/80 transition-colors hover:bg-black/[0.04]"
+              className="inline-flex h-9 items-center rounded-full border border-rule px-3 text-xs font-medium text-ink/80 transition-colors hover:bg-black/[0.04]"
             >
               Clear ✕
             </button>
@@ -354,7 +372,7 @@ export function RiskFingerprints() {
               onChange={(e) => onSearch(e.target.value)}
               placeholder="Search a country…"
               aria-label="Search countries"
-              className="w-64 rounded-full border border-ink/20 bg-white py-1.5 pl-9 pr-12 text-sm shadow-sm outline-none transition-colors placeholder:text-faint focus:border-ink/50 focus:ring-2 focus:ring-ink/10"
+              className="h-9 w-64 rounded-full border border-ink/20 bg-white pl-9 pr-12 text-sm shadow-sm outline-none transition-colors placeholder:text-faint focus:border-ink/50 focus:ring-2 focus:ring-ink/10"
             />
             {query ? (
               <button
@@ -531,7 +549,7 @@ export function RiskFingerprints() {
               </span>
             </h2>
             <div className="flex items-center gap-3">
-              <StreamLegend />
+              <StreamLegend hidden={hiddenStreams} onToggle={onToggleStream} />
               {yearRange && (
                 <button
                   type="button"
@@ -543,7 +561,13 @@ export function RiskFingerprints() {
               )}
             </div>
           </div>
-          <Streamgraph events={events} yearRange={yearRange} activeHazard={activeHazard} onBrush={setYearRange} />
+          <Streamgraph
+            events={events}
+            yearRange={yearRange}
+            activeHazard={activeHazard}
+            hidden={hiddenStreams}
+            onBrush={setYearRange}
+          />
         </div>
       )}
 

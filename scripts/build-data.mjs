@@ -242,6 +242,32 @@ for (const iso3 of Object.keys(eventsByIso)) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Conflict (bonus, separate /conflict page): INFORM's Violent Conflict
+// Probability Score (HA.HUM.CON.GCRI) per country-year 2017–2026. Prediction
+// only — there is no conflict OUTCOME data here (EM-DAT is natural-only).
+// ─────────────────────────────────────────────────────────────────────────────
+const conflictRows = parseCSV(readFileSync(p('data/inform_conflict.csv'), 'utf8'));
+const conflictByIso = {};
+for (const r of conflictRows) {
+  (conflictByIso[r.iso3] ||= {})[num(r.year)] = num(r.conflict_score);
+}
+const conflictYears = [...new Set(conflictRows.map((r) => num(r.year)))].sort((a, b) => a - b);
+const yFirst = conflictYears[0];
+const yLast = conflictYears[conflictYears.length - 1];
+const conflictCountries = Object.entries(conflictByIso).map(([iso3, scores]) => {
+  const m = meta[iso3] || FALLBACK_META[iso3] || { country: iso3, region: 'Other' };
+  return {
+    iso3,
+    country: m.country,
+    region: m.region,
+    scores, // { year: score }
+    latest: scores[yLast] ?? 0,
+    delta: (scores[yLast] ?? 0) - (scores[yFirst] ?? 0),
+  };
+});
+const conflict = { years: conflictYears, countries: conflictCountries };
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Emit + report
 // ─────────────────────────────────────────────────────────────────────────────
 const out = {
@@ -262,6 +288,7 @@ const out = {
 mkdirSync(p('public/data'), { recursive: true });
 writeFileSync(p('public/data/countries.json'), JSON.stringify(out));
 writeFileSync(p('public/data/events.json'), JSON.stringify(eventsByIso));
+writeFileSync(p('public/data/conflict.json'), JSON.stringify(conflict));
 
 console.log('Risk Fingerprints — data build');
 console.log(`  countries:        ${countries.length}`);
@@ -269,4 +296,5 @@ console.log(`  events:           ${events.length}  (${Object.keys(eventsByIso).l
 console.log(`  OLS:              log10(deaths+1) = ${intercept.toFixed(3)} + ${slope.toFixed(3)}·inform_risk   (n=${n})`);
 console.log(`  most under-pred:  ${countries[0].iso3} (${countries[0].country})  residual +${countries[0].residual.toFixed(2)}`);
 console.log(`  most over-pred:   ${countries[countries.length - 1].iso3} (${countries[countries.length - 1].country})  residual ${countries[countries.length - 1].residual.toFixed(2)}`);
-console.log('  wrote public/data/countries.json + public/data/events.json');
+console.log(`  conflict:         ${conflictCountries.length} countries × ${conflictYears.length}y (${yFirst}–${yLast})`);
+console.log('  wrote public/data/countries.json + events.json + conflict.json');
