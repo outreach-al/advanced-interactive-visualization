@@ -18,14 +18,14 @@ export function ProjectAbout() {
 
       {open && (
         <div
-          className="fixed inset-0 z-40 flex items-start justify-center overflow-y-auto bg-ink/30 p-4 backdrop-blur-sm sm:p-10"
+          className="fixed inset-0 z-40 flex items-start justify-center bg-ink/30 p-4 backdrop-blur-sm sm:items-center sm:p-10"
           onClick={() => setOpen(false)}
         >
           <div
-            className="mt-6 max-w-2xl rounded-xl border border-rule bg-paper p-7 shadow-2xl"
+            className="flex max-h-[calc(100dvh-2rem)] w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-rule bg-paper shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-start justify-between gap-6">
+            <div className="flex shrink-0 items-start justify-between gap-6 border-b border-rule px-7 pb-4 pt-6">
               <h2 className="text-xl font-semibold tracking-tight">About this project</h2>
               <button
                 type="button"
@@ -36,7 +36,7 @@ export function ProjectAbout() {
               </button>
             </div>
 
-            <div className="mt-5 space-y-5 text-sm leading-relaxed text-ink/80">
+            <div className="space-y-5 overflow-y-auto px-7 py-6 text-sm leading-relaxed text-ink/80">
               <section>
                 <h3 className="mb-1 font-semibold text-ink">What it is</h3>
                 <p>

@@ -19,14 +19,14 @@ export function About() {
 
       {open && (
         <div
-          className="fixed inset-0 z-40 flex items-start justify-center bg-ink/30 p-4 backdrop-blur-sm sm:p-10"
+          className="fixed inset-0 z-40 flex items-start justify-center bg-ink/30 p-4 backdrop-blur-sm sm:items-center sm:p-10"
           onClick={() => setOpen(false)}
         >
           <div
-            className="mt-6 max-w-2xl rounded-xl border border-rule bg-paper p-7 shadow-2xl"
+            className="flex max-h-[calc(100dvh-2rem)] w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-rule bg-paper shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-start justify-between gap-6">
+            <div className="flex shrink-0 items-start justify-between gap-6 border-b border-rule px-7 pb-4 pt-6">
               <div>
                 <h2 className="text-xl font-semibold tracking-tight">How to read this</h2>
                 <p className="mt-1 text-sm text-ink/70">
@@ -37,15 +37,16 @@ export function About() {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="rounded-full border border-rule px-3 py-1 text-xs"
+                className="shrink-0 rounded-full border border-rule px-3 py-1 text-xs"
               >
                 Close
               </button>
             </div>
 
-            <div className="mt-6">
-              <GlyphLegend />
-            </div>
+            <div className="overflow-y-auto px-7 py-6">
+              <div>
+                <GlyphLegend />
+              </div>
 
             <div className="mt-6 space-y-2 border-t border-rule pt-5 text-sm text-ink/70">
               <p>
@@ -96,6 +97,7 @@ export function About() {
                 would otherwise hide in the earthquake petal). Hazard types with no INFORM petal
                 appear in the timeline as "Other."
               </p>
+            </div>
             </div>
           </div>
         </div>
