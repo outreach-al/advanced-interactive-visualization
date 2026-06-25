@@ -293,6 +293,12 @@ export function RiskFingerprints() {
 
   const selectedCountry = selection.selected ? byIso.get(selection.selected) ?? null : null;
   const pinnedCountries = pinned.map((iso) => byIso.get(iso)).filter((c): c is Country => !!c);
+  // The sidebar fingerprint panel lists the selected country (if not already
+  // pinned) followed by all pinned ones. (Timeline stays on selection.)
+  const detailList = [
+    ...(selectedCountry && !pinned.includes(selectedCountry.iso3) ? [selectedCountry] : []),
+    ...pinnedCountries,
+  ];
   const hasFocus =
     !!selection.selected ||
     !!selection.brushed ||
@@ -486,25 +492,49 @@ export function RiskFingerprints() {
             </div>
           </div>
 
-          {/* selected fingerprint (enlarged + labeled) */}
-          {selectedCountry && (
+          {/* fingerprint + stats: a list of all pinned countries (or the selected
+              one if none are pinned). petal length = risk, saturation = deaths. */}
+          {detailList.length > 0 && (
             <div className="mt-7 border-t border-rule pt-5">
               <h2 className="text-sm font-semibold tracking-tight">
-                <span className="font-mono">{selectedCountry.iso3}</span>{' '}
-                <span className="font-normal text-ink/70">{selectedCountry.country}</span>
-                <span className="ml-2 font-normal text-faint">· {selectedCountry.region}</span>
+                {detailList.length > 1 ? (
+                  <>
+                    Fingerprints <span className="font-mono text-faint">({detailList.length})</span>
+                  </>
+                ) : (
+                  'Fingerprint'
+                )}
               </h2>
               <p className="mt-0.5 mb-3 text-[11px] text-faint">
-                fingerprint · petal length = predicted risk · saturation = observed deaths
+                petal length = predicted risk · saturation = observed deaths
               </p>
-              <FingerprintDetail
-                country={selectedCountry}
-                maxLogDeaths={activeMaxLog}
-                activeHazard={activeHazard}
-                isPinned={pinned.includes(selectedCountry.iso3)}
-                canPin={pinned.length < MAX_PINS}
-                onTogglePin={onTogglePin}
-              />
+              <div className="space-y-4">
+                {detailList.map((c) => (
+                  <div key={c.iso3} className="border-t border-rule/60 pt-3 first:border-t-0 first:pt-0">
+                    <div className="mb-1.5 flex items-baseline gap-2">
+                      <span className="font-mono text-[11px]">{c.iso3}</span>
+                      <span className="text-sm font-semibold">{c.country}</span>
+                      <span className="font-mono text-[11px] text-faint">· {c.region}</span>
+                      <span
+                        className="ml-auto font-mono text-[11px] font-semibold"
+                        style={{ color: c.residual >= 0 ? '#b0463b' : '#5566b5' }}
+                      >
+                        {c.residual >= 0 ? '+' : ''}
+                        {c.residual.toFixed(2)}
+                      </span>
+                    </div>
+                    <FingerprintDetail
+                      country={c}
+                      size={132}
+                      maxLogDeaths={activeMaxLog}
+                      activeHazard={activeHazard}
+                      isPinned={pinned.includes(c.iso3)}
+                      canPin={pinned.length < MAX_PINS}
+                      onTogglePin={onTogglePin}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -578,8 +608,6 @@ export function RiskFingerprints() {
       {/* pin-to-compare tray (docked, only when pins exist) */}
       <CompareBar
         countries={pinnedCountries}
-        maxLogDeaths={activeMaxLog}
-        activeHazard={activeHazard}
         selectedIso={selection.selected}
         onSelect={onSelect}
         onUnpin={onTogglePin}

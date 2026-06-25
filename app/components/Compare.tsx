@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import type { Country } from '../lib/types';
 import { Glyph } from './Glyph';
+import { OverlayModal, overlayColor } from './OverlayCompare';
 import { HAZARD_COLORS, HAZARD_LABELS } from '../lib/palette';
 
 const POS = '#b0463b';
@@ -16,6 +18,7 @@ export function FingerprintDetail({
   isPinned,
   canPin,
   onTogglePin,
+  size = 184,
 }: {
   country: Country;
   maxLogDeaths: number;
@@ -23,11 +26,12 @@ export function FingerprintDetail({
   isPinned: boolean;
   canPin: boolean;
   onTogglePin: (iso: string) => void;
+  size?: number;
 }) {
   return (
     <div className="flex flex-wrap items-start gap-4">
       <div className="shrink-0">
-        <Glyph country={country} size={184} maxLogDeaths={maxLogDeaths} activeHazard={activeHazard} showLabel={false} />
+        <Glyph country={country} size={size} maxLogDeaths={maxLogDeaths} activeHazard={activeHazard} showLabel={false} />
       </div>
 
       <div className="min-w-[220px] flex-1">
@@ -91,62 +95,80 @@ export function FingerprintDetail({
   );
 }
 
-// Bottom-docked tray of pinned fingerprints, side by side for T2 comparison.
+// Bottom-docked tray: a legend of the pinned countries + an "Overlay" button
+// that opens the large overlay comparison modal. Click a pin to select it
+// (drives the timeline); ✕ to unpin. Per-country stats live in the sidebar.
 export function CompareBar({
   countries,
-  maxLogDeaths,
-  activeHazard,
   selectedIso,
   onSelect,
   onUnpin,
   onClear,
 }: {
   countries: Country[];
-  maxLogDeaths: number;
-  activeHazard: string | null;
   selectedIso: string | null;
   onSelect: (iso: string) => void;
   onUnpin: (iso: string) => void;
   onClear: () => void;
 }) {
+  const [overlayOpen, setOverlayOpen] = useState(false);
   if (countries.length === 0) return null;
   return (
     <div className="shrink-0 border-t border-rule bg-paper/95 px-5 py-3 backdrop-blur-sm">
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between gap-3">
         <h2 className="text-sm font-semibold tracking-tight">
           Compare <span className="font-mono text-faint">({countries.length})</span>
+          <span className="ml-2 hidden font-normal text-faint sm:inline">stats in the panel</span>
         </h2>
-        <button type="button" onClick={onClear} className="text-[11px] text-faint hover:text-ink">
-          Clear pins
-        </button>
+        <div className="flex items-center gap-3">
+          {countries.length >= 2 && (
+            <button
+              type="button"
+              onClick={() => setOverlayOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-paper shadow-sm transition-colors hover:bg-ink/90"
+            >
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="9" cy="9" r="6" />
+                <circle cx="15" cy="15" r="6" />
+              </svg>
+              Overlay compare
+            </button>
+          )}
+          <button type="button" onClick={onClear} className="text-[11px] text-faint hover:text-ink">
+            Clear pins
+          </button>
+        </div>
       </div>
-      <div className="fp-scroll flex gap-3 overflow-x-auto pb-1">
+
+      <div className="flex flex-wrap gap-1.5">
         {countries.map((c) => (
-          <div
+          <span
             key={c.iso3}
-            className={`relative flex shrink-0 flex-col items-center rounded-lg border p-2 ${
+            className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-1 text-xs ${
               selectedIso === c.iso3 ? 'border-ink/50 bg-black/[0.03]' : 'border-rule'
             }`}
           >
+            <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: overlayColor(countries, c.iso3) }} />
+            <button type="button" onClick={() => onSelect(c.iso3)} title={`Select ${c.country}`} className="font-medium hover:underline">
+              {c.country}
+            </button>
+            <span className="font-mono text-[10px]" style={{ color: c.residual >= 0 ? POS : NEG }}>
+              {c.residual >= 0 ? '+' : ''}
+              {c.residual.toFixed(2)}
+            </span>
             <button
               type="button"
               onClick={() => onUnpin(c.iso3)}
               aria-label={`Unpin ${c.country}`}
-              className="absolute right-1 top-1 z-10 flex h-4 w-4 items-center justify-center rounded-full text-[10px] text-faint hover:bg-black/10 hover:text-ink"
+              className="ml-0.5 text-faint hover:text-ink"
             >
               ✕
             </button>
-            <button type="button" onClick={() => onSelect(c.iso3)} title={`Select ${c.country}`} className="flex flex-col items-center">
-              <Glyph country={c} size={92} maxLogDeaths={maxLogDeaths} activeHazard={activeHazard} />
-              <span className="mt-0.5 max-w-[100px] truncate text-[11px] font-medium">{c.country}</span>
-              <span className="font-mono text-[10px]" style={{ color: c.residual >= 0 ? POS : NEG }}>
-                {c.residual >= 0 ? '+' : ''}
-                {c.residual.toFixed(2)}
-              </span>
-            </button>
-          </div>
+          </span>
         ))}
       </div>
+
+      {overlayOpen && <OverlayModal countries={countries} onClose={() => setOverlayOpen(false)} />}
     </div>
   );
 }
