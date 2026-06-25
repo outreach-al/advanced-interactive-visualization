@@ -50,6 +50,17 @@ export interface DisasterEvent {
   deaths: number;
   affected: number;
   damages_musd: number;
+  // Richer EM-DAT detail, present only when the source has it.
+  name?: string;
+  subtype?: string;
+  location?: string;
+  month?: number;
+  day?: number;
+  magnitude?: number;
+  magScale?: string;
+  injured?: number;
+  homeless?: number;
+  glide?: string;
 }
 
 export type EventsFile = Record<string, DisasterEvent[]>;

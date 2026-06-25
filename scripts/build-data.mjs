@@ -228,14 +228,29 @@ countries.sort((a, b) => b.residual - a.residual);
 const eventsByIso = {};
 for (const e of events) {
   if (!e.iso3) continue;
-  (eventsByIso[e.iso3] ||= []).push({
+  // Core fields always present; richer EM-DAT detail added only when non-empty
+  // (keeps events.json lean: most minor events have no name/magnitude/etc.).
+  const ev = {
     year: num(e.year),
     hazard_type: e.hazard_type,
     petalKey: HAZARD_TO_PETAL[e.hazard_type] || null,
     deaths: num(e.deaths),
     affected: num(e.affected),
     damages_musd: num(e.damages_musd),
-  });
+  };
+  if (e.name) ev.name = e.name;
+  if (e.subtype && e.subtype !== e.hazard_type) ev.subtype = e.subtype;
+  if (e.location) ev.location = e.location;
+  if (e.month && num(e.month) > 0) ev.month = num(e.month);
+  if (e.day && num(e.day) > 0) ev.day = num(e.day);
+  if (e.magnitude) {
+    ev.magnitude = num(e.magnitude);
+    if (e.mag_scale) ev.magScale = e.mag_scale;
+  }
+  if (e.injured && num(e.injured) > 0) ev.injured = num(e.injured);
+  if (e.homeless && num(e.homeless) > 0) ev.homeless = num(e.homeless);
+  if (e.glide) ev.glide = e.glide;
+  (eventsByIso[e.iso3] ||= []).push(ev);
 }
 for (const iso3 of Object.keys(eventsByIso)) {
   eventsByIso[iso3].sort((a, b) => a.year - b.year);

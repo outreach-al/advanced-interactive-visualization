@@ -1,10 +1,11 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { scaleLinear, max as d3max } from 'd3';
 import type { Country, DisasterEvent } from '../lib/types';
 import { hazardColor, HAZARD_LABELS } from '../lib/palette';
 import type { TooltipData } from './Tooltip';
+import { EventDetail } from './EventDetail';
 
 const W = 430;
 const H = 232;
@@ -23,6 +24,10 @@ interface TimelineProps {
 }
 
 export function Timeline({ country, events, activeHazards, setTip }: TimelineProps) {
+  const [openEvent, setOpenEvent] = useState<DisasterEvent | null>(null);
+  // Reset the open event when the selected country changes.
+  useEffect(() => setOpenEvent(null), [country?.iso3]);
+
   const { x, y, yTicks } = useMemo(() => {
     const x = scaleLinear().domain([YEAR_MIN, YEAR_MAX]).range([0, IW]);
     const ymax = Math.ceil(d3max(events ?? [], (e) => Math.log10(e.deaths + 1)) ?? 4) || 4;
@@ -45,6 +50,7 @@ export function Timeline({ country, events, activeHazards, setTip }: TimelinePro
   const xTicks = [1995, 2000, 2005, 2010, 2015, 2020, 2025];
 
   return (
+    <>
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={`${country.country} events over time`}>
       <g transform={`translate(${M.left},${M.top})`}>
         {yTicks.map((t) => (
@@ -68,18 +74,20 @@ export function Timeline({ country, events, activeHazards, setTip }: TimelinePro
           const cx = x(Math.max(YEAR_MIN, Math.min(YEAR_MAX, e.year)));
           const cy = y(Math.log10(e.deaths + 1));
           const dim = activeHazards.size > 0 && !activeHazards.has(e.petalKey ?? 'other');
+          const isOpen = openEvent === e;
           return (
             <circle
               key={i}
               cx={cx}
               cy={cy}
-              r={4}
+              r={isOpen ? 5.5 : 4}
               fill={hazardColor(e.petalKey)}
               fillOpacity={dim ? 0.06 : 0.72}
-              stroke="white"
-              strokeWidth={0.5}
+              stroke={isOpen ? '#14161b' : 'white'}
+              strokeWidth={isOpen ? 1.5 : 0.5}
               className="cursor-pointer transition-[fill-opacity] duration-200"
               style={{ pointerEvents: dim ? 'none' : 'all' }}
+              onClick={() => setOpenEvent(e)}
               onMouseEnter={(ev) => {
                 const rect = (ev.target as SVGElement).getBoundingClientRect();
                 setTip({
@@ -89,12 +97,14 @@ export function Timeline({ country, events, activeHazards, setTip }: TimelinePro
                     <div>
                       <div className="font-mono text-[11px] text-faint">{e.year}</div>
                       <div className="font-semibold">
-                        {HAZARD_LABELS[e.petalKey ?? 'other'] ?? e.hazard_type}
+                        {e.name ? e.name : HAZARD_LABELS[e.petalKey ?? 'other'] ?? e.hazard_type}
                       </div>
                       <div className="mt-0.5 text-ink/70">
                         {e.deaths.toLocaleString()} deaths
                         {e.affected > 0 && <> · {e.affected.toLocaleString()} affected</>}
                       </div>
+                      {e.location && <div className="mt-0.5 max-w-[220px] text-[11px] text-faint">{e.location}</div>}
+                      <div className="mt-0.5 text-[11px] text-faint">click for detail</div>
                     </div>
                   ),
                 });
@@ -109,5 +119,9 @@ export function Timeline({ country, events, activeHazards, setTip }: TimelinePro
         </text>
       </g>
     </svg>
+    {openEvent && country && (
+      <EventDetail event={openEvent} country={country.country} onClose={() => setOpenEvent(null)} />
+    )}
+    </>
   );
 }
