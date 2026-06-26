@@ -7,10 +7,28 @@
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
+/* Theme palette as RGB channels, so Tailwind's `/opacity` modifiers keep working.
+   Light is the default; `.theme-dark` overrides; `.theme-light` re-asserts light
+   for subtrees (the visualizations force light until their SVG colors are themed). */
+:root,
+.theme-light {
+  --paper: 247 245 240;
+  --ink: 20 22 27;
+  --faint: 138 135 128;
+  --rule: 217 213 204;
+}
+
+.theme-dark {
+  --paper: 21 23 27;
+  --ink: 236 232 224;
+  --faint: 143 138 129;
+  --rule: 52 54 60;
+}
+
 html,
 body {
-  background: theme('colors.paper');
-  color: theme('colors.ink');
+  background: rgb(var(--paper));
+  color: rgb(var(--ink));
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -20,6 +38,6 @@ body {
   width: 8px;
 }
 .fp-scroll::-webkit-scrollbar-thumb {
-  background: theme('colors.rule');
+  background: rgb(var(--rule));
   border-radius: 4px;
 }

@@ -128,7 +128,7 @@ export function OverlayModal({ countries, onClose }: { countries: Country[]; onC
   if (typeof document === 'undefined') return null;
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-ink/30 p-4 backdrop-blur-sm sm:items-center sm:p-10"
+      className="theme-light fixed inset-0 z-50 flex items-start justify-center bg-ink/30 p-4 backdrop-blur-sm sm:items-center sm:p-10"
       onClick={onClose}
     >
       <div

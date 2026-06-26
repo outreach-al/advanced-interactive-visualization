@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ThemeToggle } from './ThemeToggle';
 
 // Shared chrome for the content pages (landing, lab gallery, blog). The
 // full-screen visualizations opt out of this and render bare.
@@ -18,6 +19,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             <Link href="/blog" className="text-ink/80 transition-colors hover:text-ink">
               Blog
             </Link>
+            <ThemeToggle />
           </nav>
         </div>
       </header>

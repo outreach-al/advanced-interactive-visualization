@@ -310,7 +310,7 @@ export function RiskFingerprints() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="theme-light flex h-screen items-center justify-center bg-paper">
         <div className="text-center">
           <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-rule border-t-ink" />
           <p className="mt-4 font-mono text-xs uppercase tracking-[0.2em] text-faint">Loading fingerprints...</p>
@@ -320,14 +320,14 @@ export function RiskFingerprints() {
   }
   if (error || !file || !activeData) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="theme-light flex h-screen items-center justify-center bg-paper">
         <p className="text-[#b0463b]">Failed to load data: {error ?? 'unknown error'}</p>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen flex-col lg:h-screen">
+    <div className="theme-light flex min-h-screen flex-col bg-paper lg:h-screen">
       {/* header */}
       <header className="flex flex-col gap-2 border-b border-rule px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-4 sm:px-6">
         <div className="min-w-0">

@@ -29,6 +29,7 @@ export default function ConflictPage() {
   }, []);
 
   return (
+    <div className="theme-light min-h-screen bg-paper">
     <main className="mx-auto max-w-5xl px-6 py-10">
       <Link href="/lab/risk-fingerprints" className="font-mono text-xs text-faint hover:text-ink">
         ← Risk Fingerprints
@@ -63,5 +64,6 @@ export default function ConflictPage() {
         </div>
       )}
     </main>
+    </div>
   );
 }
