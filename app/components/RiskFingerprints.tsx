@@ -331,6 +331,9 @@ export function RiskFingerprints() {
       {/* header */}
       <header className="flex flex-col gap-2 border-b border-rule px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-4 sm:px-6">
         <div className="min-w-0">
+          <Link href="/lab" className="font-mono text-[11px] text-faint transition-colors hover:text-ink">
+            ← Lab
+          </Link>
           <h1 className="whitespace-nowrap text-lg font-semibold tracking-tight">
             Risk Fingerprints
             <span className="ml-3 hidden font-normal text-faint sm:inline">where the INFORM index misses</span>
@@ -341,7 +344,7 @@ export function RiskFingerprints() {
             (match count, Clear) push the other buttons, never the box. */}
         <div className="flex flex-wrap items-center gap-2 sm:flex-1 sm:justify-end">
           <Link
-            href="/conflict"
+            href="/lab/risk-fingerprints/conflict"
             className="inline-flex h-9 items-center rounded-full px-2 text-xs text-faint transition-colors hover:text-ink"
           >
             Conflict ↗

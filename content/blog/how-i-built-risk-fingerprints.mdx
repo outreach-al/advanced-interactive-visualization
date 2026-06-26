@@ -1,0 +1,52 @@
+---
+title: How I built Risk Fingerprints
+date: 2026-06-26
+summary: A model predicts disaster risk, the world records what actually happened, and the gap between them is the whole story. Here is how I turned that gap into a visualization.
+tags: [disasters, d3, svg, residuals]
+viz: risk-fingerprints
+---
+
+The world's main disaster-risk index rates China a 2.9 out of 10. Since 1995, China has recorded more than 115,000 disaster deaths. That gap is what this project is about.
+
+I wanted to put a model's prediction and the world's observed reality on the same screen, and let the difference between them be the finding rather than a footnote.
+
+## The two datasets
+
+There are two sides to the story, and they come from two places.
+
+- The **INFORM Risk Index** is the prediction. It scores every country from 0 to 10 on disaster risk, broken down into hazards like flood, earthquake, drought and so on.
+- **EM-DAT** is the reality. It records individual disasters going back decades, with deaths, people affected and damages.
+
+So for each of 191 countries I have a predicted risk and three decades of what actually happened. The interesting question is not "which countries are risky" but "where was the model wrong, and in which direction."
+
+## The residual is the visualization
+
+To make "wrong" concrete I fit a simple regression: log-scaled deaths against the INFORM risk score. That line is the expected relationship. A country's **residual** is how far its real death toll sits above or below that line.
+
+Then the whole grid is sorted by that residual. Countries where reality was worse than predicted rise to the top. Countries where it was milder sink to the bottom. There is an "expected" divider in the middle where the model and reality agree.
+
+That sort is not a feature of the visualization. It *is* the visualization. The goal was that within five seconds you understand you are looking at model error, ranked.
+
+## Why petals
+
+Each country is drawn as a small radial glyph with seven petals, one per hazard. I went back and forth on this, and the petal shape won for a few reasons.
+
+- **Shape recognition beats reading.** With 191 small multiples, a recognizable silhouette is far easier to scan than 191 tiny bar charts.
+- **Fixed angles make them comparable.** The same hazard always sits at the same angle, so the same shape means the same thing on every country.
+- **Two channels on one mark.** Petal length encodes the predicted risk. Petal saturation encodes the observed deaths. So a long pale petal means the model expected danger that never showed up in the death toll, and a short dark petal means the opposite.
+
+That last point is the trick. Prediction and reality live on the same petal, which is exactly the comparison the project is about.
+
+## The bug that became a finding
+
+While wiring up the per-hazard deaths I noticed the tsunami and coastal-flood petals were always empty. EM-DAT classifies disasters as a Type and a Subtype, and the preprocessing I inherited only kept the Type. Tsunami is a subtype of Earthquake, and Coastal flood a subtype of Flood.
+
+So roughly 253,000 tsunami deaths, almost all of them from the 2004 Indian Ocean event and the 2011 Tohoku event, were quietly being counted as earthquake deaths.
+
+Splitting the subtypes back out did two things. It gave the tsunami petal real data, and it made the earthquake petal honest. A visualization about a model's mistakes should not be making its own.
+
+## What I took away
+
+The thing I keep coming back to is that a model being wrong is not noise to hide. It is often the most interesting signal in the data. Europe is systematically under-predicted, small island states over-predicted, and which countries look like the biggest misses changes depending on which decade you measure. None of that shows up if you only plot the prediction.
+
+If you want to poke at it yourself, the live version is linked above. The rest of this blog will be more of this: experiments, the encodings I tried, and the parts that did not work the first time.

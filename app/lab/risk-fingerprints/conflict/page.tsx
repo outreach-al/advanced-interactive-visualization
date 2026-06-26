@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { FeatureCollection } from 'geojson';
-import { ConflictHeatmap } from '../components/ConflictHeatmap';
-import { ConflictMap } from '../components/ConflictMap';
-import type { ConflictFile } from '../lib/conflict';
+import { ConflictHeatmap } from '@/app/components/ConflictHeatmap';
+import { ConflictMap } from '@/app/components/ConflictMap';
+import type { ConflictFile } from '@/app/lib/conflict';
 
 export default function ConflictPage() {
   const [data, setData] = useState<ConflictFile | null>(null);
@@ -30,7 +30,7 @@ export default function ConflictPage() {
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-10">
-      <Link href="/" className="font-mono text-xs text-faint hover:text-ink">
+      <Link href="/lab/risk-fingerprints" className="font-mono text-xs text-faint hover:text-ink">
         ← Risk Fingerprints
       </Link>
 

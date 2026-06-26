@@ -15,9 +15,8 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Risk Fingerprints: where the model misses',
-  description:
-    'A residual-sorted grid of country disaster fingerprints, comparing INFORM predicted risk against three decades of observed EM-DAT losses.',
+  title: { default: 'Kurtoza · a data-visualization lab', template: '%s' },
+  description: 'Custom data visualizations and write-ups about how they are made. Hand-built with D3 and SVG.',
 };
 
 export default function RootLayout({

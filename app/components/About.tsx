@@ -87,9 +87,11 @@ export function About() {
               <p>
                 <strong className="text-ink">Search</strong> a country by name or ISO code to locate it.
                 Selecting one shows its enlarged fingerprint with per-hazard numbers; <strong className="text-ink">Pin to compare</strong>{' '}
-                stacks several side by side in the tray below. The current view (hazard, selection,
-                filters, pins) is saved to the <strong className="text-ink">URL</strong>, so any state is
-                shareable as a link.
+                collects countries in the tray below, where their stats list in the panel and{' '}
+                <strong className="text-ink">Overlay compare</strong> superimposes their fingerprints
+                (colored by country, with each petal labeled by hazard). The current view (hazard,
+                selection, filters, pins) is saved to the <strong className="text-ink">URL</strong>, so any
+                state is shareable as a link.
               </p>
               <p className="text-xs text-faint">
                 Coastal flood and tsunami are split out of EM-DAT&apos;s Flood and Earthquake types
