@@ -33,7 +33,7 @@ export function Tooltip({ data }: { data: TooltipData | null }) {
     <div
       ref={ref}
       role="tooltip"
-      className="pointer-events-none fixed z-50 max-w-[260px] rounded-lg border border-rule bg-white/95 px-3 py-2 text-xs shadow-lg backdrop-blur-sm"
+      className="pointer-events-none fixed z-50 max-w-[260px] rounded-lg border border-rule bg-paper/95 px-3 py-2 text-xs shadow-lg backdrop-blur-sm"
       style={{
         left: pos?.left ?? data.x,
         top: pos?.top ?? data.y,

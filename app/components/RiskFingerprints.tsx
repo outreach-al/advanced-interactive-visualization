@@ -310,7 +310,7 @@ export function RiskFingerprints() {
 
   if (loading) {
     return (
-      <div className="theme-light flex h-screen items-center justify-center bg-paper">
+      <div className="flex h-screen items-center justify-center bg-paper">
         <div className="text-center">
           <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-rule border-t-ink" />
           <p className="mt-4 font-mono text-xs uppercase tracking-[0.2em] text-faint">Loading fingerprints...</p>
@@ -320,14 +320,14 @@ export function RiskFingerprints() {
   }
   if (error || !file || !activeData) {
     return (
-      <div className="theme-light flex h-screen items-center justify-center bg-paper">
+      <div className="flex h-screen items-center justify-center bg-paper">
         <p className="text-[#b0463b]">Failed to load data: {error ?? 'unknown error'}</p>
       </div>
     );
   }
 
   return (
-    <div className="theme-light flex min-h-screen flex-col bg-paper lg:h-screen">
+    <div className="flex min-h-screen flex-col bg-paper lg:h-screen">
       {/* header */}
       <header className="flex flex-col gap-2 border-b border-rule px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-4 sm:px-6">
         <div className="min-w-0">
@@ -355,7 +355,7 @@ export function RiskFingerprints() {
             <button
               type="button"
               onClick={clearAll}
-              className="inline-flex h-9 items-center rounded-full border border-rule px-3 text-xs font-medium text-ink/80 transition-colors hover:bg-black/[0.04]"
+              className="inline-flex h-9 items-center rounded-full border border-rule px-3 text-xs font-medium text-ink/80 transition-colors hover:bg-ink/[0.06]"
             >
               Clear ✕
             </button>
@@ -384,7 +384,7 @@ export function RiskFingerprints() {
               onChange={(e) => onSearch(e.target.value)}
               placeholder="Search a country..."
               aria-label="Search countries"
-              className="h-9 w-full rounded-full border border-ink/20 bg-white pl-9 pr-12 text-sm shadow-sm outline-none transition-colors placeholder:text-faint focus:border-ink/50 focus:ring-2 focus:ring-ink/10 sm:w-64"
+              className="h-9 w-full rounded-full border border-ink/20 bg-paper pl-9 pr-12 text-sm shadow-sm outline-none transition-colors placeholder:text-faint focus:border-ink/50 focus:ring-2 focus:ring-ink/10 sm:w-64"
             />
             {query ? (
               <button

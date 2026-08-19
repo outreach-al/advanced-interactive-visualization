@@ -45,6 +45,7 @@ export function buildGlyph(
   country: Country,
   size: number,
   maxLogDeaths: number,
+  pale: string = PALE, // zero-death base; pass the theme surface for dark mode
 ): GlyphRender {
   const cx = size / 2;
   const cy = size / 2;
@@ -67,7 +68,7 @@ export function buildGlyph(
 
     const base = HAZARD_COLORS[key];
     const t = maxLogDeaths > 0 ? Math.min(1, logD / maxLogDeaths) : 0;
-    const fill = interpolateLab(PALE, base)(t);
+    const fill = interpolateLab(pale, base)(t);
 
     // Symmetric leaf, drawn pointing up (−y) from the central disc.
     const tip = cy - (innerR + L);

@@ -15,6 +15,8 @@ import {
 } from 'd3';
 import type { EventsFile } from '../lib/types';
 import { PETAL_ORDER, HAZARD_COLORS, HAZARD_LABELS, hazardColor } from '../lib/palette';
+import { useTheme } from '../lib/useTheme';
+import { svgColors } from '../lib/vizTheme';
 
 const KEYS = [...PETAL_ORDER, 'other'];
 const YEAR_MIN = 1995;
@@ -32,6 +34,7 @@ interface StreamgraphProps {
 }
 
 export function Streamgraph({ events, yearRange, activeHazard, hidden, onBrush }: StreamgraphProps) {
+  const col = svgColors(useTheme());
   const wrapRef = useRef<HTMLDivElement>(null);
   const brushRef = useRef<SVGGElement>(null);
   const programmaticRef = useRef(false); // true while we move the brush in code
@@ -141,7 +144,7 @@ export function Streamgraph({ events, yearRange, activeHazard, hidden, onBrush }
               textAnchor="middle"
               fontSize={10}
               fontFamily="var(--font-mono)"
-              fill="#8a8780"
+              fill={col.faint}
             >
               {t}
             </text>
@@ -165,7 +168,7 @@ export function StreamLegend({ hidden, onToggle }: { hidden: Set<string>; onTogg
             onClick={() => onToggle(k)}
             aria-pressed={!off}
             title={off ? `Show ${HAZARD_LABELS[k]}` : `Hide ${HAZARD_LABELS[k]}`}
-            className={`flex items-center gap-1 rounded px-1 text-[10px] transition-opacity hover:bg-black/[0.04] ${
+            className={`flex items-center gap-1 rounded px-1 text-[10px] transition-opacity hover:bg-ink/[0.06] ${
               off ? 'opacity-35' : 'opacity-100'
             }`}
           >

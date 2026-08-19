@@ -3,6 +3,9 @@
 import { memo } from 'react';
 import type { Country } from '../lib/types';
 import { buildGlyph } from '../lib/glyph';
+import { svgColors, type SvgColors } from '../lib/vizTheme';
+
+const LIGHT = svgColors('light');
 
 interface GlyphProps {
   country: Country;
@@ -12,6 +15,7 @@ interface GlyphProps {
   isHovered?: boolean;
   isSelected?: boolean;
   activeHazard?: string | null; // when set, the other six petals fade back
+  colors?: SvgColors; // theme colors; passed from the grid so it resolves once
 }
 
 function GlyphImpl({
@@ -22,8 +26,9 @@ function GlyphImpl({
   isHovered = false,
   isSelected = false,
   activeHazard = null,
+  colors = LIGHT,
 }: GlyphProps) {
-  const g = buildGlyph(country, size, maxLogDeaths);
+  const g = buildGlyph(country, size, maxLogDeaths, colors.pale);
   const labelSize = Math.max(8, size * 0.13);
   const strokeW = Math.max(0.5, size * 0.006);
 
@@ -42,7 +47,7 @@ function GlyphImpl({
           cy={g.cy}
           r={size * 0.47}
           fill="none"
-          stroke={isSelected ? '#14161b' : '#b0463b'}
+          stroke={isSelected ? colors.ink : '#b0463b'}
           strokeWidth={isSelected ? size * 0.02 : size * 0.014}
           opacity={isSelected ? 0.9 : 0.7}
         />
@@ -67,7 +72,7 @@ function GlyphImpl({
       })}
 
       {/* central disc keeps the label legible over petal roots */}
-      <circle cx={g.cx} cy={g.cy} r={g.innerR * 0.98} fill="#f7f5f0" />
+      <circle cx={g.cx} cy={g.cy} r={g.innerR * 0.98} fill={colors.surface} />
 
       {showLabel && (
         <text
@@ -78,7 +83,7 @@ function GlyphImpl({
           fontFamily="var(--font-mono)"
           fontSize={labelSize}
           fontWeight={600}
-          fill="#14161b"
+          fill={colors.ink}
           style={{ pointerEvents: 'none' }}
         >
           {country.iso3}

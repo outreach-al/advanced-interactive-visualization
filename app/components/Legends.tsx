@@ -3,6 +3,8 @@
 import { useMemo } from 'react';
 import type { Country, HazardReg } from '../lib/types';
 import { REGION_ORDER, REGION_COLORS, PETAL_ORDER, HAZARD_COLORS, HAZARD_LABELS } from '../lib/palette';
+import { useTheme } from '../lib/useTheme';
+import { svgColors } from '../lib/vizTheme';
 
 const POS = '#b0463b'; // under-predicted (worse than model)
 const NEG = '#5566b5'; // over-predicted (better than model)
@@ -12,7 +14,7 @@ const NEG = '#5566b5'; // over-predicted (better than model)
 function legendChipClass(active: boolean, anyActive: boolean) {
   return [
     'flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs transition-all',
-    'hover:bg-black/[0.04]',
+    'hover:bg-ink/[0.06]',
     anyActive && !active ? 'opacity-40' : 'opacity-100',
     active ? 'ring-1 ring-ink/40' : '',
   ].join(' ');
@@ -47,6 +49,7 @@ export function RegionResiduals({
     return { rows, D };
   }, [countries]);
 
+  const col = svgColors(useTheme());
   const any = active.size > 0;
   const HALF = 46; // half the bar track width, in viewBox units
 
@@ -69,7 +72,7 @@ export function RegionResiduals({
               aria-pressed={isActive}
               title={`${region}: median residual ${median >= 0 ? '+' : ''}${median.toFixed(2)} (n=${n}) · click to isolate`}
               className={[
-                'flex items-center gap-2 rounded-md px-1.5 py-0.5 text-left transition-all hover:bg-black/[0.04]',
+                'flex items-center gap-2 rounded-md px-1.5 py-0.5 text-left transition-all hover:bg-ink/[0.06]',
                 any && !isActive ? 'opacity-40' : 'opacity-100',
                 isActive ? 'ring-1 ring-ink/40' : '',
               ].join(' ')}
@@ -79,7 +82,7 @@ export function RegionResiduals({
                 {region}
               </span>
               <svg viewBox="0 0 100 14" className="h-3.5 flex-1" preserveAspectRatio="none">
-                <line x1={50} y1={0} x2={50} y2={14} stroke="#c9c4ba" strokeWidth={0.6} />
+                <line x1={50} y1={0} x2={50} y2={14} stroke={col.rule} strokeWidth={0.6} />
                 <rect
                   x={median >= 0 ? 50 : 50 + w}
                   y={3}
@@ -161,7 +164,7 @@ export function HazardFilter({
               active
                 ? 'border-ink bg-ink text-paper'
                 : enabled
-                  ? 'border-rule hover:bg-black/[0.04]'
+                  ? 'border-rule hover:bg-ink/[0.06]'
                   : 'cursor-not-allowed border-rule/60 text-faint/60',
             ].join(' ')}
           >

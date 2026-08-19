@@ -4,6 +4,8 @@ import { useMemo } from 'react';
 import type { Country, Selection } from '../lib/types';
 import { isDimmed } from '../lib/types';
 import { HAZARD_LABELS } from '../lib/palette';
+import { useTheme } from '../lib/useTheme';
+import { svgColors, type SvgColors } from '../lib/vizTheme';
 import { Glyph } from './Glyph';
 
 const GLYPH_SIZE = 112;
@@ -28,11 +30,12 @@ interface CellProps {
   isHovered: boolean;
   isSelected: boolean;
   dimOpacity: number; // 1 = full, 0.35 = de-focused by selection, 0.12 = filtered out
+  colors: SvgColors;
   onHover: GridProps['onHover'];
   onSelect: GridProps['onSelect'];
 }
 
-function Cell({ c, maxLogDeaths, activeHazard, isHovered, isSelected, dimOpacity, onHover, onSelect }: CellProps) {
+function Cell({ c, maxLogDeaths, activeHazard, isHovered, isSelected, dimOpacity, colors, onHover, onSelect }: CellProps) {
   return (
     <button
       type="button"
@@ -48,7 +51,7 @@ function Cell({ c, maxLogDeaths, activeHazard, isHovered, isSelected, dimOpacity
       }}
       onBlur={() => onHover(null)}
       onClick={() => onSelect(c.iso3)}
-      className="flex items-center justify-center rounded-lg p-1 outline-none transition-opacity duration-300 hover:bg-black/[0.03] focus-visible:ring-2 focus-visible:ring-[#b0463b]"
+      className="flex items-center justify-center rounded-lg p-1 outline-none transition-opacity duration-300 hover:bg-ink/[0.05] focus-visible:ring-2 focus-visible:ring-[#b0463b]"
       style={{ opacity: dimOpacity }}
       aria-label={`${c.country}, residual ${c.residual.toFixed(2)}`}
     >
@@ -59,6 +62,7 @@ function Cell({ c, maxLogDeaths, activeHazard, isHovered, isSelected, dimOpacity
         isHovered={isHovered}
         isSelected={isSelected}
         activeHazard={activeHazard}
+        colors={colors}
       />
     </button>
   );
@@ -67,7 +71,7 @@ function Cell({ c, maxLogDeaths, activeHazard, isHovered, isSelected, dimOpacity
 function Section({
   items,
   ...rest
-}: { items: Country[] } & Omit<GridProps, 'countries'>) {
+}: { items: Country[]; colors: SvgColors } & Omit<GridProps, 'countries'>) {
   return (
     <div
       className="grid gap-1 px-4"
@@ -90,6 +94,7 @@ function Section({
                 ? 0.35
                 : 1
           }
+          colors={rest.colors}
           onHover={rest.onHover}
           onSelect={rest.onSelect}
         />
@@ -101,6 +106,7 @@ function Section({
 export function Grid(props: GridProps) {
   const { countries, activeHazard } = props;
   const hazardLabel = activeHazard ? HAZARD_LABELS[activeHazard] : null;
+  const colors = svgColors(useTheme());
 
   const { worse, better } = useMemo(() => {
     const sorted = activeHazard
@@ -138,7 +144,7 @@ export function Grid(props: GridProps) {
       </div>
 
       <div className="pt-3">
-        <Section items={worse} {...props} />
+        <Section items={worse} {...props} colors={colors} />
       </div>
 
       {/* the "expected" divider — where model and reality agree */}
@@ -160,7 +166,7 @@ export function Grid(props: GridProps) {
       </div>
 
       <div className="pt-2">
-        <Section items={better} {...props} />
+        <Section items={better} {...props} colors={colors} />
       </div>
     </div>
   );

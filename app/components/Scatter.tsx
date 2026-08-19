@@ -5,6 +5,8 @@ import { scaleLinear, scaleSqrt, max as d3max, brush as d3brush, select } from '
 import type { Country, HazardReg, Selection } from '../lib/types';
 import { isDimmed } from '../lib/types';
 import { regionColor, HAZARD_LABELS } from '../lib/palette';
+import { useTheme } from '../lib/useTheme';
+import { svgColors } from '../lib/vizTheme';
 
 const W = 430;
 const H = 330;
@@ -37,6 +39,7 @@ export function Scatter({
   onBrush,
 }: ScatterProps) {
   const brushRef = useRef<SVGGElement>(null);
+  const col = svgColors(useTheme());
 
   // Mode-aware accessors: total deaths vs. inform_risk, OR one hazard's
   // deaths vs. that hazard's risk score. The residual story is identical.
@@ -111,16 +114,16 @@ export function Scatter({
       <g transform={`translate(${M.left},${M.top})`}>
         {yTicks.map((t) => (
           <g key={`y${t}`} transform={`translate(0,${y(t)})`}>
-            <line x1={0} x2={IW} stroke="#e7e3da" />
-            <text x={-8} y={3} textAnchor="end" fontSize={10} fill="#8a8780" fontFamily="var(--font-mono)">
+            <line x1={0} x2={IW} stroke={col.grid} />
+            <text x={-8} y={3} textAnchor="end" fontSize={10} fill={col.faint} fontFamily="var(--font-mono)">
               {t}
             </text>
           </g>
         ))}
         {xTicks.map((t) => (
           <g key={`x${t}`} transform={`translate(${x(t)},${IH})`}>
-            <line y1={0} y2={4} stroke="#c9c4ba" />
-            <text y={16} textAnchor="middle" fontSize={10} fill="#8a8780" fontFamily="var(--font-mono)">
+            <line y1={0} y2={4} stroke={col.rule} />
+            <text y={16} textAnchor="middle" fontSize={10} fill={col.faint} fontFamily="var(--font-mono)">
               {t}
             </text>
           </g>
@@ -141,7 +144,7 @@ export function Scatter({
               ]
                 .map((p) => p.join(','))
                 .join(' ');
-              return <polygon key={k} points={pts} fill="#14161b" fillOpacity={k === 2 ? 0.04 : 0.05} />;
+              return <polygon key={k} points={pts} fill={col.ink} fillOpacity={k === 2 ? 0.05 : 0.07} />;
             })}
           </g>
         )}
@@ -183,7 +186,7 @@ export function Scatter({
           y1={m.linePts[0].y}
           x2={m.linePts[1].x}
           y2={m.linePts[1].y}
-          stroke="#14161b"
+          stroke={col.ink}
           strokeWidth={1.5}
           strokeDasharray="5 4"
           opacity={0.7}
@@ -202,7 +205,7 @@ export function Scatter({
               r={r(m.sizeVal(c))}
               fill={regionColor(c.region)}
               fillOpacity={isDim ? 0.12 : isH || isS ? 0.95 : 0.62}
-              stroke={isS || isH ? '#14161b' : 'white'}
+              stroke={isS || isH ? col.ink : col.surface}
               strokeWidth={isS ? 2 : isH ? 1.5 : 0.5}
               className="cursor-pointer transition-[fill-opacity] duration-200"
               style={{ pointerEvents: isDim ? 'none' : 'all' }}
@@ -224,7 +227,7 @@ export function Scatter({
             y={y(m.yVal(c)) + 3}
             fontSize={9}
             fontFamily="var(--font-mono)"
-            fill="#14161b"
+            fill={col.ink}
             opacity={isDimmed(selection, c.iso3, c.region) ? 0.12 : 0.85}
             style={{ pointerEvents: 'none' }}
           >
@@ -234,16 +237,16 @@ export function Scatter({
 
         {/* anomaly count — how many sit beyond the normal residual scatter */}
         {m.sigma > 0 && (
-          <text x={2} y={2} dominantBaseline="hanging" fontSize={9} fontFamily="var(--font-mono)" fill="#8a8780">
+          <text x={2} y={2} dominantBaseline="hanging" fontSize={9} fontFamily="var(--font-mono)" fill={col.faint}>
             {m.beyond2} {m.beyond2 === 1 ? 'country' : 'countries'} beyond ±2σ
           </text>
         )}
 
         {/* axis titles */}
-        <text x={IW / 2} y={IH + 32} textAnchor="middle" fontSize={11} fill="#14161b">
+        <text x={IW / 2} y={IH + 32} textAnchor="middle" fontSize={11} fill={col.ink}>
           {activeHazard ? `${HAZARD_LABELS[activeHazard]} risk score →` : 'INFORM risk score →'}
         </text>
-        <text transform={`translate(-32,${IH / 2}) rotate(-90)`} textAnchor="middle" fontSize={11} fill="#14161b">
+        <text transform={`translate(-32,${IH / 2}) rotate(-90)`} textAnchor="middle" fontSize={11} fill={col.ink}>
           deaths (log₁₀) →
         </text>
       </g>

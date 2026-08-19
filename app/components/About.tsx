@@ -11,7 +11,7 @@ export function About() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex h-9 items-center rounded-full border border-rule px-3 text-xs font-medium text-ink/80 transition-colors hover:bg-black/[0.04]"
+        className="inline-flex h-9 items-center rounded-full border border-rule px-3 text-xs font-medium text-ink/80 transition-colors hover:bg-ink/[0.06]"
         aria-expanded={open}
       >
         {open ? 'Close' : 'How to read this'}

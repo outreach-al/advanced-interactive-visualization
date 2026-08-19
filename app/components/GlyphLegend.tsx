@@ -2,12 +2,13 @@
 
 import { interpolateLab } from 'd3';
 import { PETAL_ORDER, HAZARD_COLORS, HAZARD_LABELS } from '../lib/palette';
-
-const PALE = '#efece4';
+import { useTheme } from '../lib/useTheme';
+import { svgColors } from '../lib/vizTheme';
 
 // A standalone explainer for the dual encoding — used on /glyph-test and folded
 // into the About panel. Renders a schematic glyph plus the two channels.
 export function GlyphLegend() {
+  const col = svgColors(useTheme());
   const size = 150;
   const cx = size / 2;
   const cy = size / 2;
@@ -34,14 +35,14 @@ export function GlyphLegend() {
                 key={key}
                 d={d}
                 transform={`rotate(${(360 / PETAL_ORDER.length) * i},${cx},${cy})`}
-                fill={interpolateLab(PALE, HAZARD_COLORS[key])(t)}
+                fill={interpolateLab(col.pale, HAZARD_COLORS[key])(t)}
                 stroke={HAZARD_COLORS[key]}
                 strokeWidth={0.8}
                 strokeOpacity={0.55}
               />
             );
           })}
-          <circle cx={cx} cy={cy} r={innerR * 0.98} fill="#f7f5f0" />
+          <circle cx={cx} cy={cy} r={innerR * 0.98} fill={col.surface} />
           <text
             x={cx}
             y={cy}
@@ -50,7 +51,7 @@ export function GlyphLegend() {
             fontFamily="var(--font-mono)"
             fontSize={size * 0.13}
             fontWeight={600}
-            fill="#14161b"
+            fill={col.ink}
           >
             ISO
           </text>

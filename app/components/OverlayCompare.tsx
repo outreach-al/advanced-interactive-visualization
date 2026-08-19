@@ -5,6 +5,8 @@ import { createPortal } from 'react-dom';
 import type { Country } from '../lib/types';
 import { buildGlyph } from '../lib/glyph';
 import { PETAL_ORDER, HAZARD_LABELS, HAZARD_COLORS } from '../lib/palette';
+import { useTheme } from '../lib/useTheme';
+import { svgColors } from '../lib/vizTheme';
 
 // Distinct per-country colours for the overlay (pins capped at 8).
 export const OVERLAY_PALETTE = ['#4e79a7', '#f28e2b', '#59a14f', '#e15759', '#b07aa1', '#76b7b2', '#9c7c38', '#ff9da7'];
@@ -55,6 +57,7 @@ function OverlayPetals({
 // Since colour encodes country here (not hazard), each petal angle is labelled
 // with its hazard name on a short leader line. Highlighted country on top.
 export function OverlayGlyph({ countries, highlightIso }: { countries: Country[]; highlightIso: string | null }) {
+  const col = svgColors(useTheme());
   if (countries.length === 0) return null;
   const GS = 232; // inner glyph box
   const W = 540;
@@ -90,7 +93,7 @@ export function OverlayGlyph({ countries, highlightIso }: { countries: Country[]
           />
         );
       })}
-      <circle cx={cx} cy={cy} r={GS * 0.12} fill="#f7f5f0" />
+      <circle cx={cx} cy={cy} r={GS * 0.12} fill={col.surface} />
 
       {/* hazard labels on leader lines (colour = country, so name the angles) */}
       {PETAL_ORDER.map((key, i) => {
@@ -102,8 +105,8 @@ export function OverlayGlyph({ countries, highlightIso }: { countries: Country[]
         const anchor = s > 0.25 ? 'start' : s < -0.25 ? 'end' : 'middle';
         return (
           <g key={key}>
-            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#c9c4ba" strokeWidth={1} />
-            <text x={tx} y={ty} textAnchor={anchor} dominantBaseline="middle" fontSize={11} fill="#14161b">
+            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={col.rule} strokeWidth={1} />
+            <text x={tx} y={ty} textAnchor={anchor} dominantBaseline="middle" fontSize={11} fill={col.ink}>
               {HAZARD_LABELS[key]}
             </text>
           </g>
@@ -118,6 +121,7 @@ export function OverlayGlyph({ countries, highlightIso }: { countries: Country[]
 export function OverlayModal({ countries, onClose }: { countries: Country[]; onClose: () => void }) {
   const [hi, setHi] = useState<string | null>(null);
   const [metric, setMetric] = useState<'risk' | 'deaths'>('risk');
+  const col = svgColors(useTheme());
   const val = (c: Country, key: string) => {
     const h = c.hazards.find((x) => x.key === key);
     return metric === 'risk' ? h?.risk ?? 0 : h?.deaths ?? 0;
@@ -128,7 +132,7 @@ export function OverlayModal({ countries, onClose }: { countries: Country[]; onC
   if (typeof document === 'undefined') return null;
   return createPortal(
     <div
-      className="theme-light fixed inset-0 z-50 flex items-start justify-center bg-ink/30 p-4 backdrop-blur-sm sm:items-center sm:p-10"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-ink/30 p-4 backdrop-blur-sm sm:items-center sm:p-10"
       onClick={onClose}
     >
       <div
@@ -158,7 +162,7 @@ export function OverlayModal({ countries, onClose }: { countries: Country[]; onC
                 key={c.iso3}
                 onMouseEnter={() => setHi(c.iso3)}
                 onMouseLeave={() => setHi(null)}
-                className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs ${hi === c.iso3 ? 'border-ink/50 bg-black/[0.04]' : 'border-rule'}`}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs ${hi === c.iso3 ? 'border-ink/50 bg-ink/[0.06]' : 'border-rule'}`}
               >
                 <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: overlayColor(countries, c.iso3) }} />
                 {c.country}
@@ -212,7 +216,7 @@ export function OverlayModal({ countries, onClose }: { countries: Country[]; onC
                           <td
                             key={c.iso3}
                             className="py-0.5 pl-3 text-right tabular-nums"
-                            style={{ fontWeight: v > 0 && v === max ? 700 : 400, color: v > 0 && v === max ? '#14161b' : '#8a8780' }}
+                            style={{ fontWeight: v > 0 && v === max ? 700 : 400, color: v > 0 && v === max ? col.ink : col.faint }}
                           >
                             {metric === 'risk' ? v.toFixed(1) : Math.round(v).toLocaleString()}
                           </td>

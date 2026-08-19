@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { scaleLinear, lineRadial, curveCardinalClosed, curveCardinal } from 'd3';
 import { useClimate, reportedMean, type ClimateYear } from '../lib/climate';
-import { RAMP_DOMAIN, RAMP_RANGE, tempColor, fmtAnomaly as fmt } from '../lib/climateScale';
+import { RAMP_DOMAIN, rampRange, makeTempColor, chrome, fmtAnomaly as fmt } from '../lib/climateScale';
+import { useTheme } from '../lib/useTheme';
 
 // ── Geometry ────────────────────────────────────────────────────────────────
 const SIZE = 640; // svg viewBox (square)
@@ -22,6 +23,9 @@ const RINGS = [
 
 export function ClimateSpiral() {
   const { data, loading, error } = useClimate();
+  const theme = useTheme();
+  const tempColor = useMemo(() => makeTempColor(theme), [theme]);
+  const c = chrome(theme);
 
   const minYear = data?.years[0].year ?? 1880;
   const maxYear = data ? data.years[data.years.length - 1].year : 2026;
@@ -69,7 +73,7 @@ export function ClimateSpiral() {
         color: tempColor(value),
       };
     });
-  }, [data, rScale]);
+  }, [data, rScale, tempColor]);
 
   // Animate the focus year forward, roughly one decade per second.
   useEffect(() => {
@@ -128,7 +132,7 @@ export function ClimateSpiral() {
                 cy={CY}
                 r={rScale(ring.value)}
                 fill="none"
-                stroke={ring.value === 0 ? 'rgba(24,26,32,0.35)' : 'rgba(24,26,32,0.16)'}
+                stroke={ring.value === 0 ? c.ink(0.35) : c.ink(0.16)}
                 strokeWidth={ring.value === 0 ? 1.25 : 1}
                 strokeDasharray={ring.value === 0 ? 'none' : '2 4'}
               />
@@ -137,8 +141,8 @@ export function ClimateSpiral() {
                 y={CY - rScale(ring.value) - 3}
                 fontSize={10}
                 fontFamily="var(--font-mono)"
-                fill="rgba(24,26,32,0.55)"
-                stroke="rgb(247,245,240)"
+                fill={c.ink(0.55)}
+                stroke={c.surface}
                 strokeWidth={3}
                 paintOrder="stroke"
               >
@@ -180,7 +184,7 @@ export function ClimateSpiral() {
                 textAnchor="middle"
                 fontSize={11}
                 fontFamily="var(--font-mono)"
-                fill="rgba(24,26,32,0.55)"
+                fill={c.ink(0.55)}
               >
                 {m}
               </text>
@@ -188,7 +192,7 @@ export function ClimateSpiral() {
           })}
 
           {/* center readout */}
-          <text x={CX} y={CY - 8} textAnchor="middle" fontSize={38} fontWeight={600} fill="rgb(24,26,32)">
+          <text x={CX} y={CY - 8} textAnchor="middle" fontSize={38} fontWeight={600} fill={c.ink(1)}>
             {shownYear}
           </text>
           <text
@@ -198,12 +202,12 @@ export function ClimateSpiral() {
             fontSize={20}
             fontFamily="var(--font-mono)"
             fontWeight={600}
-            fill={focusValue !== null ? tempColor(focusValue) : 'rgba(24,26,32,0.5)'}
+            fill={focusValue !== null ? tempColor(focusValue) : c.ink(0.5)}
           >
             {focusValue !== null ? `${fmt(focusValue)} C` : 'n/a'}
           </text>
           {focusPartial && (
-            <text x={CX} y={CY + 40} textAnchor="middle" fontSize={9.5} fontFamily="var(--font-mono)" fill="rgba(24,26,32,0.45)">
+            <text x={CX} y={CY + 40} textAnchor="middle" fontSize={9.5} fontFamily="var(--font-mono)" fill={c.ink(0.45)}>
               partial year
             </text>
           )}
@@ -215,7 +219,7 @@ export function ClimateSpiral() {
         <button
           type="button"
           onClick={() => setPlaying((p) => !p)}
-          className="flex h-9 w-20 shrink-0 items-center justify-center gap-1.5 rounded-full border border-rule text-sm font-medium text-ink/80 transition-colors hover:bg-black/[0.04]"
+          className="flex h-9 w-20 shrink-0 items-center justify-center gap-1.5 rounded-full border border-rule text-sm font-medium text-ink/80 transition-colors hover:bg-ink/[0.06]"
           aria-label={playing ? 'Pause' : 'Play the animation from the current year'}
         >
           {playing ? (
@@ -258,7 +262,7 @@ export function ClimateSpiral() {
                 <stop
                   key={d}
                   offset={`${((d - RAMP_DOMAIN[0]) / (RAMP_DOMAIN[RAMP_DOMAIN.length - 1] - RAMP_DOMAIN[0])) * 100}%`}
-                  stopColor={RAMP_RANGE[i]}
+                  stopColor={rampRange(theme)[i]}
                 />
               ))}
             </linearGradient>
@@ -272,8 +276,8 @@ export function ClimateSpiral() {
                 <rect x={LM} y={4} width={BW} height={12} rx={6} fill="url(#clim-grad)" />
                 {[-0.5, 0, 0.5, 1.0, 1.5].map((t) => (
                   <g key={t}>
-                    <line x1={pos(t)} x2={pos(t)} y1={16} y2={21} stroke="rgba(24,26,32,0.4)" strokeWidth={1} />
-                    <text x={pos(t)} y={32} textAnchor="middle" fontSize={10} fontFamily="var(--font-mono)" fill="rgba(24,26,32,0.6)">
+                    <line x1={pos(t)} x2={pos(t)} y1={16} y2={21} stroke={c.ink(0.4)} strokeWidth={1} />
+                    <text x={pos(t)} y={32} textAnchor="middle" fontSize={10} fontFamily="var(--font-mono)" fill={c.ink(0.6)}>
                       {fmt(t)}
                     </text>
                   </g>

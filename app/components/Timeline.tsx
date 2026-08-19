@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { scaleLinear, max as d3max } from 'd3';
 import type { Country, DisasterEvent } from '../lib/types';
 import { hazardColor, HAZARD_LABELS } from '../lib/palette';
+import { useTheme } from '../lib/useTheme';
+import { svgColors } from '../lib/vizTheme';
 import type { TooltipData } from './Tooltip';
 import { EventDetail } from './EventDetail';
 
@@ -24,6 +26,7 @@ interface TimelineProps {
 }
 
 export function Timeline({ country, events, activeHazards, setTip }: TimelineProps) {
+  const col = svgColors(useTheme());
   const [openEvent, setOpenEvent] = useState<DisasterEvent | null>(null);
   // Reset the open event when the selected country changes.
   useEffect(() => setOpenEvent(null), [country?.iso3]);
@@ -55,16 +58,16 @@ export function Timeline({ country, events, activeHazards, setTip }: TimelinePro
       <g transform={`translate(${M.left},${M.top})`}>
         {yTicks.map((t) => (
           <g key={`y${t}`} transform={`translate(0,${y(t)})`}>
-            <line x1={0} x2={IW} stroke="#e7e3da" />
-            <text x={-8} y={3} textAnchor="end" fontSize={10} fill="#8a8780" fontFamily="var(--font-mono)">
+            <line x1={0} x2={IW} stroke={col.grid} />
+            <text x={-8} y={3} textAnchor="end" fontSize={10} fill={col.faint} fontFamily="var(--font-mono)">
               {t}
             </text>
           </g>
         ))}
         {xTicks.map((t) => (
           <g key={`x${t}`} transform={`translate(${x(t)},${IH})`}>
-            <line y1={0} y2={4} stroke="#c9c4ba" />
-            <text y={16} textAnchor="middle" fontSize={10} fill="#8a8780" fontFamily="var(--font-mono)">
+            <line y1={0} y2={4} stroke={col.rule} />
+            <text y={16} textAnchor="middle" fontSize={10} fill={col.faint} fontFamily="var(--font-mono)">
               {t}
             </text>
           </g>
@@ -83,7 +86,7 @@ export function Timeline({ country, events, activeHazards, setTip }: TimelinePro
               r={isOpen ? 5.5 : 4}
               fill={hazardColor(e.petalKey)}
               fillOpacity={dim ? 0.06 : 0.72}
-              stroke={isOpen ? '#14161b' : 'white'}
+              stroke={isOpen ? col.ink : col.surface}
               strokeWidth={isOpen ? 1.5 : 0.5}
               className="cursor-pointer transition-[fill-opacity] duration-200"
               style={{ pointerEvents: dim ? 'none' : 'all' }}
@@ -114,7 +117,7 @@ export function Timeline({ country, events, activeHazards, setTip }: TimelinePro
           );
         })}
 
-        <text transform={`translate(-32,${IH / 2}) rotate(-90)`} textAnchor="middle" fontSize={11} fill="#14161b">
+        <text transform={`translate(-32,${IH / 2}) rotate(-90)`} textAnchor="middle" fontSize={11} fill={col.ink}>
           deaths (log₁₀) →
         </text>
       </g>

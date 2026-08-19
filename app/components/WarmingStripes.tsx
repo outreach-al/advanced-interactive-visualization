@@ -2,13 +2,17 @@
 
 import { useMemo, useState } from 'react';
 import { useClimate, reportedMean } from '../lib/climate';
-import { tempColor, fmtAnomaly } from '../lib/climateScale';
+import { makeTempColor, chrome, fmtAnomaly } from '../lib/climateScale';
+import { useTheme } from '../lib/useTheme';
 
 const W = 920;
 const H = 128;
 
 export function WarmingStripes() {
   const { data, loading, error } = useClimate();
+  const theme = useTheme();
+  const tempColor = useMemo(() => makeTempColor(theme), [theme]);
+  const c = chrome(theme);
   const [hover, setHover] = useState<number | null>(null); // index into stripes
 
   const stripes = useMemo(() => {
@@ -54,7 +58,7 @@ export function WarmingStripes() {
             <rect key={s.year} x={i * sw} y={0} width={sw + 0.6} height={H} fill={tempColor(s.value)} />
           ))}
           {hover !== null && (
-            <rect x={hover * sw} y={0} width={sw + 0.6} height={H} fill="none" stroke="rgb(247,245,240)" strokeWidth={1.5} />
+            <rect x={hover * sw} y={0} width={sw + 0.6} height={H} fill="none" stroke={c.surface} strokeWidth={1.5} />
           )}
         </svg>
       </div>

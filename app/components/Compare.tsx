@@ -5,6 +5,8 @@ import type { Country } from '../lib/types';
 import { Glyph } from './Glyph';
 import { OverlayModal, overlayColor } from './OverlayCompare';
 import { HAZARD_COLORS, HAZARD_LABELS } from '../lib/palette';
+import { useTheme } from '../lib/useTheme';
+import { svgColors } from '../lib/vizTheme';
 
 const POS = '#b0463b';
 const NEG = '#5566b5';
@@ -28,10 +30,11 @@ export function FingerprintDetail({
   onTogglePin: (iso: string) => void;
   size?: number;
 }) {
+  const colors = svgColors(useTheme());
   return (
     <div className="flex flex-wrap items-start gap-4">
       <div className="shrink-0">
-        <Glyph country={country} size={size} maxLogDeaths={maxLogDeaths} activeHazard={activeHazard} showLabel={false} />
+        <Glyph country={country} size={size} maxLogDeaths={maxLogDeaths} activeHazard={activeHazard} showLabel={false} colors={colors} />
       </div>
 
       <div className="min-w-[220px] flex-1">
@@ -50,7 +53,7 @@ export function FingerprintDetail({
               return (
                 <tr
                   key={h.key}
-                  className={isActive ? 'bg-black/[0.04]' : ''}
+                  className={isActive ? 'bg-ink/[0.06]' : ''}
                   style={{ opacity: activeHazard && !isActive ? 0.45 : 1 }}
                 >
                   <td className="py-0.5 pr-2">
@@ -83,7 +86,7 @@ export function FingerprintDetail({
             isPinned
               ? 'border-ink bg-ink text-paper'
               : canPin
-                ? 'border-rule hover:bg-black/[0.04]'
+                ? 'border-rule hover:bg-ink/[0.06]'
                 : 'cursor-not-allowed border-rule/60 text-faint/60',
           ].join(' ')}
           title={isPinned ? 'Remove from compare' : canPin ? 'Pin to compare' : 'Compare tray is full'}
@@ -145,7 +148,7 @@ export function CompareBar({
           <span
             key={c.iso3}
             className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-1 text-xs ${
-              selectedIso === c.iso3 ? 'border-ink/50 bg-black/[0.03]' : 'border-rule'
+              selectedIso === c.iso3 ? 'border-ink/50 bg-ink/[0.05]' : 'border-rule'
             }`}
           >
             <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: overlayColor(countries, c.iso3) }} />

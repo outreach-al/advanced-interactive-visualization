@@ -5,6 +5,8 @@ import { geoNaturalEarth1, geoPath, zoom as d3zoom, select, zoomIdentity, type Z
 import type { FeatureCollection } from 'geojson';
 import { conflictColor, NO_DATA, type ConflictFile } from '../lib/conflict';
 import { Tooltip, type TooltipData } from './Tooltip';
+import { useTheme } from '../lib/useTheme';
+import { svgColors } from '../lib/vizTheme';
 
 const W = 980;
 const H = 460;
@@ -17,6 +19,9 @@ interface ConflictMapProps {
 }
 
 export function ConflictMap({ data, geo, hovered, onHover }: ConflictMapProps) {
+  const theme = useTheme();
+  const col = svgColors(theme);
+  const nodata = theme === 'dark' ? '#2a2d34' : NO_DATA; // no-data landmass
   const last = data.years[data.years.length - 1];
   const first = data.years[0];
   const [year, setYear] = useState(last);
@@ -84,7 +89,7 @@ export function ConflictMap({ data, geo, hovered, onHover }: ConflictMapProps) {
           type="button"
           onClick={() => setPlaying((p) => !p)}
           aria-label={playing ? 'Pause' : 'Play'}
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-ink/20 text-xs hover:bg-black/[0.04]"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-ink/20 text-xs hover:bg-ink/[0.06]"
         >
           {playing ? '❚❚' : '▶'}
         </button>
@@ -107,14 +112,14 @@ export function ConflictMap({ data, geo, hovered, onHover }: ConflictMapProps) {
       <div className="relative">
         {/* zoom controls */}
         <div className="absolute right-2 top-2 z-10 flex flex-col gap-1">
-          <button type="button" onClick={() => zoomBy(1.6)} aria-label="Zoom in" className="flex h-7 w-7 items-center justify-center rounded-md border border-ink/15 bg-white/90 text-sm shadow-sm hover:bg-white">
+          <button type="button" onClick={() => zoomBy(1.6)} aria-label="Zoom in" className="flex h-7 w-7 items-center justify-center rounded-md border border-ink/15 bg-paper/90 text-sm shadow-sm hover:bg-paper">
             +
           </button>
-          <button type="button" onClick={() => zoomBy(1 / 1.6)} aria-label="Zoom out" className="flex h-7 w-7 items-center justify-center rounded-md border border-ink/15 bg-white/90 text-sm shadow-sm hover:bg-white">
+          <button type="button" onClick={() => zoomBy(1 / 1.6)} aria-label="Zoom out" className="flex h-7 w-7 items-center justify-center rounded-md border border-ink/15 bg-paper/90 text-sm shadow-sm hover:bg-paper">
             −
           </button>
           {zoomed && (
-            <button type="button" onClick={resetZoom} aria-label="Reset view" title="Reset view" className="flex h-7 w-7 items-center justify-center rounded-md border border-ink/15 bg-white/90 text-[10px] shadow-sm hover:bg-white">
+            <button type="button" onClick={resetZoom} aria-label="Reset view" title="Reset view" className="flex h-7 w-7 items-center justify-center rounded-md border border-ink/15 bg-paper/90 text-[10px] shadow-sm hover:bg-paper">
               ⤢
             </button>
           )}
@@ -137,8 +142,8 @@ export function ConflictMap({ data, geo, hovered, onHover }: ConflictMapProps) {
                 <path
                   key={i}
                   d={path(f as never) ?? undefined}
-              fill={score != null ? conflictColor(score) : NO_DATA}
-              stroke={isH ? '#14161b' : '#f7f5f0'}
+              fill={score != null ? conflictColor(score) : nodata}
+              stroke={isH ? col.ink : col.surface}
               strokeWidth={isH ? 1.1 : 0.4}
               style={{ cursor: c ? 'pointer' : 'default' }}
               onMouseEnter={(e) => {

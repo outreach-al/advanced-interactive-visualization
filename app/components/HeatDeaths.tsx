@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { scaleLinear } from 'd3';
+import { chrome } from '../lib/climateScale';
+import { useTheme } from '../lib/useTheme';
 
 interface HeatYear {
   year: number;
@@ -21,7 +23,6 @@ const M = { top: 30, right: 52, bottom: 28, left: 42 };
 const IW = VBW - M.left - M.right;
 const IH = VBH - M.top - M.bottom;
 
-const BAR = '#b0463b'; // single warm hue; bar height carries the magnitude
 const Y_MAX = 80000;
 const Y_TICKS = [0, 20000, 40000, 60000, 80000];
 
@@ -34,6 +35,10 @@ export function HeatDeaths() {
   const [data, setData] = useState<HeatFile | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [hover, setHover] = useState<number | null>(null); // year
+  const theme = useTheme();
+  const c = chrome(theme);
+  // single warm hue; bar height carries the magnitude (brighter on dark)
+  const bar = theme === 'dark' ? '#d76a52' : '#b0463b';
 
   useEffect(() => {
     let alive = true;
@@ -73,7 +78,7 @@ export function HeatDeaths() {
         {active && (
           <p className="font-mono text-sm tabular-nums text-ink/80">
             <span className="text-ink">{active.year}</span>{' '}
-            <span style={{ color: BAR }}>{active.deaths.toLocaleString()}</span>
+            <span style={{ color: bar }}>{active.deaths.toLocaleString()}</span>
             <span className="text-faint"> deaths / {active.events} events</span>
           </p>
         )}
@@ -97,8 +102,8 @@ export function HeatDeaths() {
         {/* y gridlines + labels */}
         {Y_TICKS.map((t) => (
           <g key={t}>
-            <line x1={M.left} x2={M.left + IW} y1={y(t)} y2={y(t)} stroke="rgba(24,26,32,0.10)" strokeWidth={1} />
-            <text x={M.left - 8} y={y(t)} dy="0.32em" textAnchor="end" fontSize={11} fontFamily="var(--font-mono)" fill="rgba(24,26,32,0.5)">
+            <line x1={M.left} x2={M.left + IW} y1={y(t)} y2={y(t)} stroke={c.ink(0.1)} strokeWidth={1} />
+            <text x={M.left - 8} y={y(t)} dy="0.32em" textAnchor="end" fontSize={11} fontFamily="var(--font-mono)" fill={c.ink(0.5)}>
               {fmtK(t)}
             </text>
           </g>
@@ -117,7 +122,7 @@ export function HeatDeaths() {
               width={barW}
               height={h}
               rx={3}
-              fill={BAR}
+              fill={bar}
               fillOpacity={hover === null || isHover ? 1 : 0.5}
             />
           );
@@ -129,7 +134,7 @@ export function HeatDeaths() {
           if (!note) return null;
           const x = M.left + i * band + barW / 2 + 1.5;
           return (
-            <text key={`n-${d.year}`} x={x} y={y(d.deaths) - 8} textAnchor="middle" fontSize={11} fontFamily="var(--font-mono)" fill="rgba(24,26,32,0.6)">
+            <text key={`n-${d.year}`} x={x} y={y(d.deaths) - 8} textAnchor="middle" fontSize={11} fontFamily="var(--font-mono)" fill={c.ink(0.6)}>
               {note}
             </text>
           );
@@ -140,7 +145,7 @@ export function HeatDeaths() {
           if (d.year % 5 !== 0 && i !== years.length - 1) return null;
           const x = M.left + i * band + barW / 2 + 1.5;
           return (
-            <text key={`x-${d.year}`} x={x} y={VBH - 9} textAnchor="middle" fontSize={11} fontFamily="var(--font-mono)" fill="rgba(24,26,32,0.5)">
+            <text key={`x-${d.year}`} x={x} y={VBH - 9} textAnchor="middle" fontSize={11} fontFamily="var(--font-mono)" fill={c.ink(0.5)}>
               {d.year}
             </text>
           );

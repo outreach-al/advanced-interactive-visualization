@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { regionColor } from '../lib/palette';
 import { conflictColor as color, type ConflictFile } from '../lib/conflict';
 import { Tooltip, type TooltipData } from './Tooltip';
+import { useTheme } from '../lib/useTheme';
+import { svgColors } from '../lib/vizTheme';
 
 const ROW_H = 20;
 
@@ -16,6 +18,7 @@ export function ConflictHeatmap({
   hovered?: string | null;
   onHover?: (iso: string | null) => void;
 }) {
+  const col = svgColors(useTheme());
   const [sortBy, setSortBy] = useState<'delta' | 'latest'>('delta');
   const [query, setQuery] = useState('');
   const [tip, setTip] = useState<TooltipData | null>(null);
@@ -65,7 +68,7 @@ export function ConflictHeatmap({
             type="button"
             onClick={() => setSortBy(k)}
             className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-              sortBy === k ? 'border-ink bg-ink text-paper' : 'border-rule hover:bg-black/[0.04]'
+              sortBy === k ? 'border-ink bg-ink text-paper' : 'border-rule hover:bg-ink/[0.06]'
             }`}
           >
             {label}
@@ -78,7 +81,7 @@ export function ConflictHeatmap({
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search country..."
             aria-label="Search countries"
-            className="h-8 w-44 rounded-full border border-ink/20 bg-white pl-3 pr-7 text-xs shadow-sm outline-none placeholder:text-faint focus:border-ink/50"
+            className="h-8 w-44 rounded-full border border-ink/20 bg-paper pl-3 pr-7 text-xs shadow-sm outline-none placeholder:text-faint focus:border-ink/50"
           />
           {query && (
             <button
@@ -110,12 +113,12 @@ export function ConflictHeatmap({
             textAnchor="middle"
             fontSize={10}
             fontFamily="var(--font-mono)"
-            fill="#8a8780"
+            fill={col.faint}
           >
             {`'${String(y).slice(2)}`}
           </text>
         ))}
-        <text x={LABEL_W + data.years.length * CELL_W + DELTA_W / 2} y={14} textAnchor="middle" fontSize={10} fill="#8a8780">
+        <text x={LABEL_W + data.years.length * CELL_W + DELTA_W / 2} y={14} textAnchor="middle" fontSize={10} fill={col.faint}>
           Δ
         </text>
       </svg>
@@ -134,13 +137,13 @@ export function ConflictHeatmap({
                 onMouseEnter={() => onHover?.(c.iso3)}
                 onMouseLeave={() => onHover?.(null)}
               >
-                {hovered === c.iso3 && <rect x={0} y={0} width={gridW} height={ROW_H} fill="#14161b" opacity={0.06} />}
+                {hovered === c.iso3 && <rect x={0} y={0} width={gridW} height={ROW_H} fill={col.ink} opacity={0.06} />}
                 <circle cx={6} cy={ROW_H / 2} r={3} fill={regionColor(c.region)} />
-                <text x={15} y={ROW_H / 2} dominantBaseline="central" fontSize={10} fontFamily="var(--font-mono)" fontWeight={600} fill="#14161b">
+                <text x={15} y={ROW_H / 2} dominantBaseline="central" fontSize={10} fontFamily="var(--font-mono)" fontWeight={600} fill={col.ink}>
                   {c.iso3}
                 </text>
                 {showName && (
-                  <text x={48} y={ROW_H / 2} dominantBaseline="central" fontSize={10} fill="#14161b">
+                  <text x={48} y={ROW_H / 2} dominantBaseline="central" fontSize={10} fill={col.ink}>
                     {name}
                   </text>
                 )}
