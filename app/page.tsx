@@ -16,8 +16,8 @@ export default function Home() {
           Experiments in making data legible.
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-ink/80">
-          Custom, hand-built visualizations and write-ups about how they are made. No chart libraries,
-          just D3 and SVG, and an interest in the gap between what models predict and what actually happens.
+          Custom visualizations and write-ups about how they are made, and an interest in the gap
+          between what models predict and what actually happens.
         </p>
         <div className="mt-6 flex gap-4 text-sm">
           <Link href="/lab" className="rounded-full bg-ink px-4 py-2 font-medium text-paper transition-colors hover:bg-ink/90">

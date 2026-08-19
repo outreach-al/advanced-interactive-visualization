@@ -14,7 +14,7 @@ export default function LabPage() {
       <header className="max-w-2xl">
         <h1 className="text-3xl font-semibold tracking-tight">Lab</h1>
         <p className="mt-3 text-ink/80">
-          Custom visualizations, each hand-built with D3 and SVG. More on the way.
+          Custom visualizations, each built to make one dataset legible. More on the way.
         </p>
       </header>
 

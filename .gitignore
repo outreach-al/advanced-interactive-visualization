@@ -6,6 +6,7 @@
 # next.js
 /.next/
 next-env.d.ts
+/tsconfig.tsbuildinfo
 
 # generated at build time by scripts/build-data.mjs (data/*.csv ARE committed)
 /public/data/

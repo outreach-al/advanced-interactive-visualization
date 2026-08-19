@@ -100,8 +100,8 @@ export function ProjectAbout() {
                     Tohoku) would otherwise hide inside the earthquake petal.
                   </li>
                   <li>
-                    Everything is precomputed into static JSON at build time and drawn by hand with
-                    SVG and D3. No chart libraries.
+                    Everything you see is computed straight from the source data and drawn mark by
+                    mark, so every shape on the screen means something.
                   </li>
                 </ul>
               </section>

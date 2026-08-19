@@ -14,13 +14,23 @@ export interface VizEntry {
 
 export const VIZ: VizEntry[] = [
   {
+    slug: 'climate-spiral',
+    title: 'Climate Spiral',
+    blurb:
+      'A century and a half of global temperature, wound into a spiral. Every year is a ring; the planet warms as it winds outward from the 1951 to 1980 baseline.',
+    href: '/lab/climate-spiral',
+    year: 2026,
+    tags: ['climate', 'temperature', 'radial'],
+    post: 'the-planet-in-a-spiral',
+  },
+  {
     slug: 'risk-fingerprints',
     title: 'Risk Fingerprints',
     blurb:
       'Where the INFORM Risk Index misses. 191 country disaster fingerprints sorted by the gap between predicted risk and three decades of observed deaths.',
     href: '/lab/risk-fingerprints',
     year: 2026,
-    tags: ['disasters', 'd3', 'svg', 'residuals'],
+    tags: ['disasters', 'risk', 'residuals'],
     post: 'how-i-built-risk-fingerprints',
   },
 ];

@@ -283,6 +283,31 @@ const conflictCountries = Object.entries(conflictByIso).map(([iso3, scores]) => 
 const conflict = { years: conflictYears, countries: conflictCountries };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Heat-wave deaths per year (feeds the climate page's human-cost chart).
+// EM-DAT files "Heat wave" as a subtype of "Extreme temperature"; we pull just
+// that subtype so cold waves and severe winters are excluded.
+// ─────────────────────────────────────────────────────────────────────────────
+const heatByYear = {};
+for (const e of events) {
+  if (!/temperature/i.test(e.hazard_type || '')) continue;
+  if (!/heat/i.test(e.subtype || '')) continue;
+  const y = num(e.year);
+  if (!y) continue;
+  (heatByYear[y] ||= { deaths: 0, events: 0 });
+  heatByYear[y].deaths += num(e.deaths);
+  heatByYear[y].events += 1;
+}
+const heatYears = Object.keys(heatByYear)
+  .map(Number)
+  .sort((a, b) => a - b)
+  .map((y) => ({ year: y, deaths: Math.round(heatByYear[y].deaths), events: heatByYear[y].events }));
+const heat = {
+  source: 'EM-DAT, heat-wave subtype of extreme temperature',
+  total: heatYears.reduce((s, d) => s + d.deaths, 0),
+  years: heatYears,
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Emit + report
 // ─────────────────────────────────────────────────────────────────────────────
 const out = {
@@ -304,6 +329,7 @@ mkdirSync(p('public/data'), { recursive: true });
 writeFileSync(p('public/data/countries.json'), JSON.stringify(out));
 writeFileSync(p('public/data/events.json'), JSON.stringify(eventsByIso));
 writeFileSync(p('public/data/conflict.json'), JSON.stringify(conflict));
+writeFileSync(p('public/data/heat.json'), JSON.stringify(heat));
 
 console.log('Risk Fingerprints — data build');
 console.log(`  countries:        ${countries.length}`);
@@ -312,4 +338,5 @@ console.log(`  OLS:              log10(deaths+1) = ${intercept.toFixed(3)} + ${s
 console.log(`  most under-pred:  ${countries[0].iso3} (${countries[0].country})  residual +${countries[0].residual.toFixed(2)}`);
 console.log(`  most over-pred:   ${countries[countries.length - 1].iso3} (${countries[countries.length - 1].country})  residual ${countries[countries.length - 1].residual.toFixed(2)}`);
 console.log(`  conflict:         ${conflictCountries.length} countries × ${conflictYears.length}y (${yFirst}–${yLast})`);
-console.log('  wrote public/data/countries.json + events.json + conflict.json');
+console.log(`  heat waves:       ${heat.total.toLocaleString()} deaths across ${heatYears.length} years`);
+console.log('  wrote public/data/countries.json + events.json + conflict.json + heat.json');
